@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken'
 
-const cekToken = (req, res, next) => {
+const CekToken = (req, res, next) => {
     const authHeader = req.headers['authorization']
     const token = authHeader && authHeader.split(' ')[1]
 
@@ -24,4 +24,4 @@ const cekToken = (req, res, next) => {
     }
 }
 
-export default cekToken
+export default CekToken
