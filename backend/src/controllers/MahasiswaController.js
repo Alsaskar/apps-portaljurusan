@@ -21,7 +21,7 @@ export const add = async (req, res) => {
     const kota = req.body.kota;
     const kodePos = req.body.kodePos;
     const angkatan = req.body.angkatan;
-    const noTesMasuk = req.body.noTesMasuk;
+    const noTestMasuk = req.body.noTestMasuk;
     const tglTerdaftar = req.body.tglTerdaftar;
     const statusMasukPt = req.body.statusMasukPt;
     const jurusan = req.body.jurusan;
@@ -46,7 +46,7 @@ export const add = async (req, res) => {
     }else if(tglTerdaftar === ''){
         return res.status(500).json({message: 'Tanggal Terdaftar tidak boleh kosong', success: false})
     }else if(jurusan === ''){
-        return res.status(500).json({message: 'Juusan tidak boleh kosong', success: false})
+        return res.status(500).json({message: 'Jurusan tidak boleh kosong', success: false})
     }else if(prodi === ''){
         return res.status(500).json({message: 'Prodi tidak boleh kosong', success: false})
     }else{
@@ -91,7 +91,7 @@ export const add = async (req, res) => {
                                 kota: kota,
                                 kodePos: kodePos,
                                 angkatan: angkatan,
-                                noTesMasuk: noTesMasuk,
+                                noTesMasuk: noTestMasuk,
                                 tglTerdaftar: tglTerdaftar,
                                 statusMasukPt: statusMasukPt,
                                 jurusan: jurusan,

@@ -91,7 +91,75 @@ export const add = async (req, res) => {
             idDosen: idDosen
         })
 
-        return res.status(200).json({ message: 'Berhasil menambahkan Bimbingan Mahasiswa', success: true })
+        return res.status(200).json({ message: 'Berhasil menambahkan Dospem', success: true })
+    }catch(err){
+        return res.status(500).json({ message: err.message })
+    }
+}
+
+export const list = async (req, res) => {
+    const page = parseInt(req.query.page) || 0;
+    const limit = parseInt(req.query.limit) || 10;
+    const search = req.query.search;
+    const offset = limit * page;
+    const adminProdi = req.query.adminProdi;
+
+    const totalBimbingan = await Bimbingan.count({
+        include: [
+            {
+                model: Mahasiswa,
+                where: {
+                    prodi: adminProdi,
+                    [Op.or]: [
+                        { fullname: { [Op.substring]: `${search}` } },
+                    ]
+                },
+            }
+        ]
+    })
+    const totalRows = totalBimbingan;
+    const totalPage = Math.ceil(totalRows/limit);
+
+    try{
+        const bimbingan = await Bimbingan.findAll({
+            include: [
+                {
+                    model: Mahasiswa,
+                    where: {
+                        prodi: adminProdi,
+                        [Op.or]: [
+                            { fullname: { [Op.substring]: `${search}` } },
+                        ]
+                    },
+                },
+                {
+                    model: Dosen
+                }
+            ],
+            order: [ ['id', 'desc'] ],
+            offset: offset,
+            limit: limit,
+        })
+
+        return res.status(200).json({
+            result: bimbingan,
+            page: page,
+            limit: limit,
+            totalRows: totalRows,
+            totalPage: totalPage
+        })
+    }catch(err){
+        return res.status(500).json({ message: err.message })
+    }
+}
+
+export const remove = async (req, res) => {
+    const id = req.params.id;
+
+    try{
+        await Bimbingan.destroy({ where: { id: id } })
+
+        return res.status(200).json({ message: 'Data berhasil dihapus', success: true })
     }catch(err){
         return res.status(500).json({ message: err.message })
     }

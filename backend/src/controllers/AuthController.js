@@ -1,6 +1,8 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import User from '../models/UserModel';
+import { DetailMahasiswa, Mahasiswa } from '../models/MahasiswaModel';
+import { DetailDosen, Dosen } from '../models/DosenModel';
 
 export const login = async (req, res) => {
     const {count, rows} = await User.findAndCountAll({ where: { username: req.body.username } })
@@ -48,6 +50,50 @@ export const loggedIn = async (req, res) => {
             role: result.role,
             loggedIn: true
         })
+    }catch(err){
+        return res.status(500).json({ message: err.message })
+    }
+}
+
+// menampilkan data mahasiswa yang sedang login
+export const loggedInMahasiswa = async (req, res) => {
+    const idUser = req.params.idUser;
+
+    try{
+        const result = await Mahasiswa.findOne({
+            where: {
+                userId: idUser
+            },
+            include: [
+                {
+                    model: DetailMahasiswa,
+                }
+            ]
+        })
+
+        return res.status(200).json({ result: result })
+    }catch(err){
+        return res.status(500).json({ message: err.message })
+    }
+}
+
+// menampilkan data dosen yang sedang login
+export const loggedInDosen = async (req, res) => {
+    const idUser = req.params.idUser;
+
+    try{
+        const result = await Dosen.findOne({
+            where: {
+                idUser: idUser
+            },
+            include: [
+                {
+                    model: DetailDosen,
+                }
+            ]
+        })
+
+        return res.status(200).json({ result: result })
     }catch(err){
         return res.status(500).json({ message: err.message })
     }

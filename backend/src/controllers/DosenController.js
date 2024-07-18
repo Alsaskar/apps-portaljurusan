@@ -23,6 +23,8 @@ export const add = async (req, res) => {
     const jurusan = req.body.jurusan;
     const prodi = req.body.prodi;
 
+    console.log(prodi)
+
     // detail dosen
     const pendidikanTerakhir = req.body.pendidikanTerakhir;
     const tahun = req.body.tahun;
