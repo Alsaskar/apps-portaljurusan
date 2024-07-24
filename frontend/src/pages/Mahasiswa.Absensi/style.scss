@@ -1,0 +1,47 @@
+.absensi {
+  .absensi-head {
+    background-color: #fff;
+    width: 100%;
+    border-radius: 10px;
+    font-size: 14px;
+    padding: 20px;
+    margin-bottom: 20px;
+
+    .text-head-absensi {
+        .text-title-absensi {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .text-desc-absensi {
+            font-size: 14px;
+            color: #909090;
+        }
+
+        .text-absensi-bold {
+            font-weight: 600;
+        }
+    }
+  }
+
+  .absensi-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: #696969;
+  }
+
+  .card-grid-absensi {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+
+    @media (max-width: 992px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (max-width: 576px) {
+      grid-template-columns: 100%;
+    }
+  }
+}

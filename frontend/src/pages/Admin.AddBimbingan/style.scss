@@ -1,0 +1,10 @@
+.bimbingan {
+    height: calc(100vh - 120px);
+    padding: 20px;
+    background-color: var(--secondary-color);
+    border-radius: 10px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

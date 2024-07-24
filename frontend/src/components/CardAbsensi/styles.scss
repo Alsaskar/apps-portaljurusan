@@ -1,0 +1,97 @@
+.area-card-absensi-info {
+  position: relative;
+  background-color: var(--secondary-color);
+  border-radius: 10px;
+  padding: 30px 20px;
+  box-shadow: var(--light-shadow1);
+  color: var(--text-color-inverted);
+  cursor: pointer;
+
+  .card-bg {
+    position: absolute;
+    right: 100px;
+    top: -14px;
+    z-index: 0;
+    transform: rotate(90deg);
+  }
+
+  .card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .info-title-absensi {
+      font-weight: 600;
+      font-size: 16px;
+    }
+
+    .info-time-absensi {
+      font-size: 12px;
+      font-weight: 600;
+      color: #909090;
+    }
+
+    .info-date {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      .info-month-absensi {
+        font-size: 12px;
+        font-weight: 600;
+      }
+
+      .info-date-absensi {
+        font-size: 20px;
+        font-weight: 600;
+        color: #FF9D00;
+      }
+    }
+  }
+
+  .card-bottom {
+    position: relative;
+    margin-top: 30px;
+    background: #FF9D00;
+    border-radius: 10px;
+    padding: 10px;
+    position: relative;
+    z-index: 1;
+
+    .effect {
+      width: 64px;
+      position: absolute;
+      right: 60px;
+      opacity: 60%;
+      transform: rotate(90deg);
+    }
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .card-lab {
+      .card-title-lab {
+        font-size: 12px;
+        font-weight: 600;
+        color: #fff;
+      }
+
+      .card-lab-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: #fff;
+      }
+    }
+  }
+
+  .card-bg-loc {
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+    border-radius: 10px;
+    color: #5b5b5b;
+  }
+}

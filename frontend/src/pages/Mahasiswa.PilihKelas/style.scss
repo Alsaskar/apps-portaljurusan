@@ -1,0 +1,58 @@
+.pilih-kelas {
+  .container {
+    .content {
+      background-color: var(--secondary-color);
+      border-radius: 10px;
+      padding: 20px;
+
+      .title {
+        font-size: 18px;
+        font-weight: 600;
+      }
+
+      .desc {
+        font-size: 13px;
+        color: #909090;
+      }
+
+      .row-kelas {
+        display: flex;
+        column-gap: 10px;
+
+        margin-top: 20px;
+
+        .select-kelas {
+          border: 2px solid #d9d9d9;
+          border-radius: 10px;
+          padding: 10px 25px;
+          cursor: pointer;
+          transition: all 0.3s ease-in-out;
+
+          text-align: center;
+
+          .name-kelas {
+            font-size: 13px;
+          }
+
+          &:hover {
+            transform: scale(1.06);
+          }
+        }
+
+        &.limaTI {
+          margin-top: 40px;
+        }
+
+        &.enamTI {
+          margin-top: 40px;
+        }
+
+        @media (max-width: 768px) {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+      }
+    }
+  }
+}

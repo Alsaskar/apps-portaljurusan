@@ -1,0 +1,297 @@
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 260px;
+  height: 100%;
+  background-color: var(--secondary-color);
+  padding: 20px 14px;
+  box-shadow: rgba(100, 100, 111, 0.1) 0px 7px 29px 0px;
+  display: flex;
+  flex-direction: column;
+  z-index: 999;
+  transition: var(--default-transition);
+  overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    width: 0px;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: var(--scroll-track-bg-color);
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 100vh !important;
+    background-color: var(--scroll-thumb-bg-color);
+    outline: 1px solid rgba(0, 0, 0, 0.02);
+    outline-offset: -1px;
+  }
+
+  // toggling this class helps to hide/unhide the sidebar
+  &.sidebar-show {
+    @media (max-width: 768px) {
+      transform: translateX(0);
+    }
+
+    @media (max-width: 1200px) {
+      transform: translateX(0);
+    }
+  }
+
+  // showing icons only on sidebar
+  @media (max-width: 1200px) {
+    width: 260px;
+    transform: translateX(-100%);
+  }
+
+  // hiding full on small screen
+  @media (max-width: 768px) {
+    width: 260px;
+    transform: translateX(-100%);
+  }
+
+  .sidebar-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 28px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-color-inverted);
+  }
+
+  .sidebar-brand {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    column-gap: 10px;
+
+    img {
+      width: 42px;
+    }
+  }
+
+  .sidebar-brand-text {
+    font-weight: 700;
+    font-size: 22px;
+    color: var(--logo-color);
+    // margin-bottom: 8px;
+
+    @media (max-width: 1200px) {
+      display: inline-block;
+    }
+
+    @media (max-width: 768px) {
+      display: inline-block;
+      font-size: 18px;
+    }
+  }
+
+  .sidebar-close-btn {
+    background-color: var(--blue-color);
+    width: 28px;
+    height: 28px;
+    box-shadow: 0px 0px 4px rgba(71, 91, 232, 0.04);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    border-radius: 5px;
+    transition: var(--default-transition);
+    display: none;
+    padding: 3px;
+
+    @media (max-width: 768px) {
+      width: 20px;
+      height: 20px;
+      display: inline-flex;
+    }
+
+    @media (max-width: 1200px) {
+      width: 20px;
+      height: 20px;
+      display: inline-flex;
+    }
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+
+  .menu-item {
+    margin-bottom: 8px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    .submenu {
+      width: 100%;
+      background-color: var(--background-color);
+      margin-top: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      border-radius: 12px;
+      line-height: 25px;
+      max-height: 0; /* Mengatur ketinggian maksimum submenu awalnya menjadi 0 */
+      overflow: hidden; /* Menyembunyikan konten di luar ketinggian maksimum */
+      opacity: 0; /* Atur opasitas awal menjadi 0 */
+      animation: fadeInOutSubMenu 2s ease forwards;
+
+      @keyframes fadeInOutSubMenu {
+        0% {
+          max-height: 0; /* Awal animasi, tinggi maksimum adalah 0 */
+          opacity: 0; /* Awal animasi, opasitas adalah 0 */
+        }
+        100% {
+          max-height: 900px; /* Akhir animasi, tinggi maksimum adalah 900px */
+          opacity: 1; /* Akhir animasi, opasitas adalah 1 */
+        }
+      }
+
+      li {
+        .submenu-link {
+          width: 100%;
+          height: 44px;
+          display: flex;
+          align-items: center;
+          justify-content: flex-start;
+          column-gap: 11px !important;
+          padding: 12px;
+          border-radius: 12px;
+          color: var(--text-menu);
+          font-size: 14px;
+          transition: var(--default-transition) !important;
+          cursor: pointer;
+
+          @media (max-width: 768px) {
+            border-bottom: 12px;
+            width: 100%;
+            height: 42px;
+            justify-content: flex-start;
+          }
+
+          &:hover {
+            background-color: var(--side-link-hover-color);
+          }
+
+          &.active {
+            background-color: var(--primary-color);
+            color: var(--light-color);
+            box-shadow: 0px 0px 4px rgba(71, 91, 232, 0.04);
+          }
+
+          .submenu-link-text {
+            color: var(--text-menu);
+            font-weight: 500;
+
+            @media (max-width: 1200px) {
+              display: inline-block;
+            }
+            @media (max-width: 768px) {
+              display: inline-block;
+            }
+          }
+        }
+      }
+
+      &.open {
+        max-height: 900px;
+        opacity: 1;
+      }
+    }
+
+    @media (max-width: 768px) {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .submenu-arrow {
+      position: absolute;
+      right: 0;
+      margin-top: 4px;
+      margin-right: 24px;
+    }
+
+    .theme-toggle-btn {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .theme-icon {
+        width: 18px;
+        display: flex;
+        align-items: center;
+        color: var(--text-menu);
+      }
+    }
+  }
+
+  .logout {
+    cursor: pointer;
+
+    .submenu-link-text {
+      font-size: 14px;
+      font-weight: 500;
+    }
+  }
+
+  .menu-link {
+    width: 100%;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    column-gap: 11px !important;
+    padding: 12px;
+    border-radius: 12px;
+    color: var(--text-menu);
+    font-size: 14px;
+    transition: var(--default-transition) !important;
+    cursor: pointer;
+
+    @media (max-width: 768px) {
+      padding: 12px;
+      border-bottom: 12px;
+      width: 100%;
+      justify-content: flex-start;
+    }
+
+    &:hover {
+      background-color: var(--side-link-hover-color);
+    }
+
+    &.active {
+      background-color: var(--primary-color);
+      color: var(--light-color);
+      box-shadow: 0px 0px 4px rgba(71, 91, 232, 0.04);
+    }
+  }
+
+  .menu-link-icon {
+    display: flex;
+    align-items: center;
+  }
+
+  .menu-link-text {
+    font-weight: 500;
+
+    @media (max-width: 1200px) {
+      display: inline-block;
+    }
+    @media (max-width: 768px) {
+      display: inline-block;
+    }
+  }
+
+  .sidebar-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .sidebar-menu2 {
+    margin-top: 8px;
+  }
+}
