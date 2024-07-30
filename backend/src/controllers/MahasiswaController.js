@@ -372,3 +372,44 @@ export const addDetail = async (req, res) => {
         return res.status(500).json({ message: err.message })
     }
 }
+
+export const createKetuaHimaju = async (req, res) => {
+    const idMahasiswa = req.params.id;
+    const statusHimaju = req.body.statusHimaju;
+
+    try{
+        const cekKetua = await Mahasiswa.count({ where: { statusHimaju: 'ketua' } })
+
+        if(cekKetua > 0){ // jika ketua himaju telah ada
+            return res.status(500).json({ message: 'Ketua himaju telah ada', success: false })
+        }else{ // jika ketua himaju belum ada
+            await Mahasiswa.update({
+                statusHimaju: statusHimaju
+            }, {
+                where: { id: idMahasiswa }
+            })
+
+            return res.status(200).json({ message: 'Berhasil jadikan ketua himaju', success: true })
+        }
+    }catch(err){
+        return res.status(500).json({ message: err.message })
+    }
+}
+
+// ubah status ketua himaju jadi anggota pasif
+export const removeKetuaHimaju = async (req, res) => {
+    const idMahasiswa = req.params.id;
+    const statusHimaju = req.body.statusHimaju;
+
+    try{
+        await Mahasiswa.update({
+            statusHimaju: statusHimaju
+        }, {
+            where: { id: idMahasiswa }
+        })
+
+        return res.status(200).json({ message: 'Status sebagai ketua himaju telah digantikan', success: true })
+    }catch(err){
+        return res.status(500).json({ message: err.message })
+    }
+}
