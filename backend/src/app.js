@@ -11,6 +11,7 @@ import Auth from './routes/AuthRoute';
 import Mahasiswa from './routes/MahasiswaRoute';
 import Dosen from './routes/DosenRoute';
 import Bimbingan from './routes/BimbinganRoute';
+import Himaju from './routes/HimajuRoute';
 
 const app = express();
 const server = http.createServer(app);
@@ -32,5 +33,6 @@ app.use('/api/v1/auth', Auth);
 app.use('/api/v1/mahasiswa', Mahasiswa);
 app.use('/api/v1/dosen', Dosen);
 app.use('/api/v1/bimbingan', Bimbingan);
+app.use('/api/v1/himaju', Himaju);
 
 server.listen(process.env.PORT_APP);

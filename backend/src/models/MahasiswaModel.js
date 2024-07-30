@@ -25,6 +25,7 @@ const Mahasiswa = db.define('mahasiswa', {
     jurusan: { type: DataTypes.STRING },
     prodi: { type: DataTypes.STRING },
     foto: { type: DataTypes.STRING },
+    statusHimaju: { type: DataTypes.STRING },
 }, {
     freezeTableName: true,
     timestamps: false,
@@ -54,6 +55,8 @@ const DetailMahasiswa = db.define('detailmahasiswa', {
     timestamps: false,
 })
 
+
+
 // Join table - mahasiswa to user
 User.hasMany(Mahasiswa);
 Mahasiswa.belongsTo(User)
@@ -64,5 +67,5 @@ DetailMahasiswa.belongsTo(Mahasiswa)
 
 export {
     Mahasiswa,
-    DetailMahasiswa
+    DetailMahasiswa,
 };
