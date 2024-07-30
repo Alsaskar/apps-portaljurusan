@@ -1,0 +1,37 @@
+.button-keputusan {
+  width: 0px;
+  display: flex;
+  gap: 10px;
+
+  .button-tolak {
+    background-color: var(--red-color);
+    border-radius: 10px;
+    padding: 5px 20px;
+    color: #fff;
+    transition: all 0.3s ease-in-out;
+
+    display: flex;
+    align-items: center;
+    column-gap: 5px;
+
+    &:hover {
+      background-color: #ff5c5c;
+    }
+  }
+
+  .button-terima {
+    background-color: var(--green-color);
+    border-radius: 10px;
+    padding: 5px 20px;
+    color: #fff;
+    transition: all 0.3s ease-in-out;
+
+    display: flex;
+    align-items: center;
+    column-gap: 5px;
+
+    &:hover {
+      background-color: #34ee91;
+    }
+  }
+}

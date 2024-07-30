@@ -1,0 +1,59 @@
+.about {
+  width: 100%;
+
+  .container {
+    .quick-link {
+      display: flex;
+      align-items: center;
+      column-gap: 5px;
+
+      .text-home-portal {
+        font-size: 14px;
+        color: #808191;
+
+        display: flex;
+        align-items: center;
+        column-gap: 5px;
+      }
+
+      .garing {
+        font-size: 13px;
+        color: #808191;
+      }
+
+      .text-profile-himaju {
+        font-size: 14px;
+        font-weight: 600;
+        color: #292929;
+      }
+    }
+    .content {
+      .logo {
+        display: flex;
+        justify-content: center;
+
+        margin-top: 60px;
+        margin-bottom: 60px;
+
+        .logo-img {
+          width: 300px;
+        }
+      }
+
+      .title {
+        font-size: 20px;
+        font-weight: 600;
+        color: #292929;
+      }
+
+      .body {
+        margin-top: 20px;
+
+        .desc {
+          color: #808191;
+          font-size: 14px;
+        }
+      }
+    }
+  }
+}

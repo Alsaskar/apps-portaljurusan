@@ -1,0 +1,94 @@
+.section-dashboard {
+  .dashboard {
+    position: relative;
+    z-index: 1;
+    background-color: #fff;
+    width: 100%;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+
+    .text-welcome {
+      display: flex;
+      flex-direction: column;
+
+      .text-hallo {
+        font-weight: 600;
+      }
+
+      .text-desc {
+        .text-bold {
+          font-weight: 600;
+        }
+      }
+    }
+
+    @media (max-width: 768px) {
+      width: 100%;
+    }
+
+    .hello {
+      -webkit-user-drag: none;
+      -khtml-user-drag: none;
+      -moz-user-drag: none;
+      -o-user-drag: none;
+      width: 85px;
+
+      @media (max-width: 768px) {
+        width: 80px;
+      }
+    }
+
+    .sidebar-close-btn {
+      background-color: var(--toggle-btn-bg-color);
+      width: 28px;
+      height: 28px;
+      box-shadow: 0px 0px 4px rgba(71, 91, 232, 0.04);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--toggle-btn-icon-color);
+      border-radius: 2px;
+      transition: var(--default-transition);
+      // display: none;
+
+      @media (max-width: 768px) {
+        width: 20px;
+        height: 20px;
+        display: inline-flex;
+      }
+
+      @media (max-width: 1200px) {
+        width: 20px;
+        height: 20px;
+        display: inline-flex;
+      }
+
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+
+    .close-menu {
+      cursor: pointer;
+    }
+  }
+
+  .card-satu {
+    display: flex;
+
+    .card-achiev {
+      margin-left: 20px;
+      align-self: flex-start;
+
+      @media (max-width: 768px) {
+        margin-left: 0;
+      }
+    }
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+    }
+  }
+}

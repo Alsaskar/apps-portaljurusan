@@ -1,0 +1,46 @@
+.action-buttons-admin {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  column-gap: 8px;
+
+  .action-button {
+    padding: 4px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    text-decoration: none;
+    color: #fff;
+
+    &.blue {
+        background-color: var(--blue-color);
+        transition: all 0.3s ease;
+
+        &:hover {
+            background-color: #4c7cff;
+        }
+    }
+
+    &.orange {
+        background-color: #ffa500;
+        transition: all 0.3s ease;
+
+        &:hover {
+            background-color: #ffc71f;
+        }
+    }
+
+    &.red {
+        background-color: #ff0000;
+        transition: all 0.3s ease;
+
+        &:hover {
+            background-color: #ff3d3d;
+        }
+    }
+  }
+}

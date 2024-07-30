@@ -1,0 +1,92 @@
+.detail-dosen {
+  width: 100%;
+  display: flex;
+  column-gap: 20px;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .profile-dosen {
+    width: 50%;
+    padding: 40px;
+    border-radius: 10px;
+    background-color: var(--secondary-color);
+    align-self: flex-start;
+
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+
+    .img-dosen {
+      margin: 0 auto;
+      border-radius: 50%;
+      width: 140px;
+    }
+
+    .profile-content {
+      margin-top: 20px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      column-gap: 10px;
+
+      .profile-detail {
+        .label-name {
+          margin-top: 10px;
+          font-size: 14px;
+          color: var(--text-color-secondary);
+        }
+
+        .content-name {
+          margin-top: 5px;
+          border: 2px solid var(--border-color);
+          border-radius: 10px;
+          padding: 10px;
+          font-size: 14px;
+          color: var(--text-color-inverted);
+        }
+      }
+    }
+
+    @media (max-width: 768px) {
+      width: 100%;
+    }
+  }
+
+  .details-dosen {
+    width: 50%;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: var(--secondary-color);
+
+    .form-add {
+      .form-add-container {
+        .form-add-dosen {
+          .button-edit-detail {
+            cursor: pointer;
+            padding: 6px;
+            color: #fff;
+            border-radius: 10px;
+            width: 100px;
+            background-color: orange;
+            transition: all .3s ease-in-out;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            column-gap: 5px;
+            
+            &:hover {
+              background-color: #f3ab26;
+            }
+          }
+        }
+      }
+    }
+
+    @media (max-width: 768px) {
+      width: 100%;
+    }
+  }
+}

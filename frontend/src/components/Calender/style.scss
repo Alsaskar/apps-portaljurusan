@@ -1,0 +1,113 @@
+.calendar {
+  margin-top: 20px;
+  width: 100%;
+  max-width: 280px;
+  padding: 20px;
+  background: var(--secondary-color);
+  border-radius: 10px;
+  position: relative;
+
+  @media (max-width: 768px) {
+    max-width: 100%;
+  }
+
+  .header-calender {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .month-title-calender {
+      color: var(--text-color-inverted);
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .nav-calender {
+      display: flex;
+      align-items: center;
+      column-gap: 8px;
+
+      #prev,
+      #next {
+        width: 10px;
+        height: 10px;
+        position: relative;
+        border: none;
+        background: transparent;
+        cursor: pointer;
+      }
+      #prev::before,
+      #next::before {
+        content: "";
+        width: 50%;
+        height: 50%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        border-style: solid;
+        border-width: 0.25em 0.25em 0 0;
+        border-color: #ccc;
+        transition: all .3s ease-in-out;
+      }
+
+      #next::before {
+        transform: translate(-50%, -50%) rotate(45deg);
+      }
+
+      #prev::before {
+        transform: translate(-50%, -50%) rotate(-135deg);
+      }
+
+      #prev:hover::before,
+      #next:hover::before {
+        border-color: #5f47e8;
+      }
+    }
+  }
+
+  .calender-days {
+    color: var(--text-color-inverted);
+
+    .dates li.today {
+      color: #fff;
+    }
+    .dates li.today::before {
+      content: "";
+      width: 1.7rem;
+      height: 1.7rem;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #5f47e8;
+      border-radius: 50%;
+      z-index: -1;
+    }
+    .dates li.inactive {
+      color: #909090;
+    }
+
+    .days {
+        font-weight: 600;
+
+        .days-title {
+          color: var(--text-color-inverted);
+        }
+      }      
+  }
+}
+
+.calendar ul {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  text-align: center;
+}
+.calendar ul li {
+  font-size: 14px;
+  width: calc(100% / 7);
+  margin-top: 25px;
+  position: relative;
+  z-index: 2;
+}
+

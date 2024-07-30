@@ -1,0 +1,27 @@
+.content-area-table {
+  .action-button {
+    padding: 4px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: #fff;
+
+    &.red {
+      background-color: #ff0000;
+      transition: all 0.3s ease;
+
+      &:hover {
+        background-color: #ff3d3d;
+      }
+    }
+  }
+
+  .img-mahasiswa {
+    border-radius: 50%;
+    width: 50px;
+  }
+}

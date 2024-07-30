@@ -1,0 +1,271 @@
+.app-bar-mahasiswa {
+  position: relative;
+  width: 100%;
+  height: 250px;
+  padding: 20px 0px 20px 0px;
+  background: #475be8;
+  background: linear-gradient(121deg, rgba(71, 91, 232, 1) 0%, rgba(71, 160, 232, 1) 50%, rgba(0, 255, 244, 1) 100%);
+
+  @media (max-width: 768px) {
+    height: 220px;
+  }
+
+  .app-bar-mahasiswa-container {
+    width: 90%;
+    margin: 0 auto;
+
+    @media (max-width: 768px) {
+      width: 100%;
+      padding: 0px 20px 0px 20px;
+    }
+
+    .app-bar-head-mahasiswa {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      .app-bar-mahasiswa-logo {
+        display: flex;
+        align-items: center;
+        column-gap: 10px;
+
+        .logo-portal-mahasiswa {
+          width: 30px;
+          -webkit-user-drag: none;
+          -khtml-user-drag: none;
+          -moz-user-drag: none;
+          -o-user-drag: none;
+        }
+
+        .logo-title-mahasiswa {
+          color: #fff;
+          font-weight: 600;
+          font-size: 16px;
+        }
+      }
+
+      .app-bar-user {
+        .app-bar-name {
+          display: flex;
+          align-items: center;
+          column-gap: 10px;
+
+          .app-bar-welcome-user {
+            color: #fff;
+            font-size: 16px;
+
+            @media (max-width: 768px) {
+              display: none;
+            }
+          }
+
+          .text-name-bold {
+            font-weight: 600;
+          }
+
+          .user-icon-mahasiswa {
+            color: #fff;
+
+            @media (max-width: 1200px) {
+              display: none;
+            }
+          }
+
+          .user-icon-bg-mahasiswa {
+            @media (max-width: 1200px) {
+              display: flex;
+              padding: 3px;
+              background-color: #fff;
+              border-radius: 5px;
+            }
+
+            .user-icon-menu-mahasiswa {
+              display: none;
+
+              @media (max-width: 768px) {
+                cursor: pointer;
+                color: #fff;
+                display: block;
+              }
+
+              &.sidebar-mahasiswa-open-btn {
+                display: inline-flex;
+                align-items: center;
+                display: none;
+                color: #393939;
+
+                @media (max-width: 1200px) {
+                  display: inline-flex;
+                  // position: relative;
+                  // z-index: 999;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    //details
+    .app-bar-details-mahasiswa {
+      margin-top: 30px;
+
+      @media (max-width: 768px) {
+        margin-top: 20px;
+      }
+
+      .app-bar-details-info-mahasiswa {
+        display: flex;
+        align-items: center;
+        column-gap: 40px;
+
+        @media (max-width: 1200px) {
+          flex-direction: column;
+          justify-content: center;
+          text-align: center;
+        }
+
+        .profile-mahasiswa {
+          background-color: #fff;
+          padding: 2px;
+          width: 130px;
+          height: 130px;
+          border-radius: 50%;
+
+          @media (max-width: 1200px) {
+            width: 60px;
+            height: 60px;
+          }
+        }
+
+        .app-bar-info-mahasiswa {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          gap: 5px;
+          color: #fff;
+
+          .app-bar-details {
+            // margin-bottom: 5px;
+
+            .app-bar-title-name {
+              font-size: 20px;
+              font-weight: 600;
+              // margin-bottom: 8px;
+
+              @media (max-width: 1200px) {
+                margin-top: 10px;
+                font-size: 16px;
+                margin-bottom: 0;
+              }
+            }
+
+            .app-bar-nim {
+              font-size: 14px;
+            }
+
+            .app-bar-email {
+              margin-top: 8px;
+              font-size: 14px;
+
+              @media (max-width: 1200px) {
+                display: none;
+                margin-top: 0;
+              }
+            }
+          }
+
+          .app-bar-status {
+            font-size: 13px;
+
+            .app-bar-border-status {
+              border: 1px solid #fff;
+              border-radius: 20px;
+              padding: 0px 15px 0px 15px;
+
+              @media (max-width: 1200px) {
+                display: none;
+              }
+            }
+          }
+        }
+
+        .app-bar-border-left {
+          height: 100px;
+          border-left: 1px solid #fff;
+          margin-left: 40px;
+          margin-right: 40px;
+
+          @media (max-width: 1200px) {
+            display: none;
+          }
+        }
+
+        .app-bar-info-kanan {
+          display: flex;
+          flex-direction: column;
+          gap: 25px;
+
+          @media (max-width: 1200px) {
+            display: none;
+          }
+
+          .app-bar-info-kanan-card {
+            display: flex;
+            column-gap: 90px;
+
+            .app-bar-card {
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              color: #fff;
+
+              .app-bar-card-title {
+                font-size: 14px;
+              }
+
+              .app-bar-card-value {
+                font-size: 20px;
+                font-weight: 600;
+              }
+            }
+          }
+
+          .app-bar-dosenwali {
+            font-size: 14px;
+            color: #fff;
+
+            .app-bar-dosenwali-name {
+              font-weight: 600;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .right {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 150px;
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+
+    @media (max-width: 1200px) {
+      right: 40px;
+      top: 120px;
+      width: 110px;
+      transform: rotate(90deg);
+    }
+
+    @media (max-width: 768px) {
+      right: 40px;
+      top: 80px;
+      width: 110px;
+      transform: rotate(90deg);
+    }
+  }
+}

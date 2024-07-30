@@ -1,0 +1,37 @@
+.digital-clock {
+    margin-top: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    width: 280px;
+    font-weight: 600;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    column-gap: 5px;
+
+    .clock-time {
+        display: flex;
+        align-items: center;
+        column-gap: 5px;
+
+        // .clock-hours {
+        //     padding: 10px 15px 10px 15px;
+        //     border-radius: 10px;
+        //     background-color: #47a0e8;
+        //     color: #fff;
+        // }
+        
+        // .clock-minutes {
+        //     padding: 10px 15px 10px 15px;
+        //     border-radius: 10px;
+        //     background-color: #47a0e8;
+        //     color: #fff;
+        // }
+    }
+
+    @media (max-width: 768px) {
+        width: 100%;
+    }
+}
