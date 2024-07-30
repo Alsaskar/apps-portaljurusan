@@ -36,22 +36,54 @@
         margin-bottom: 60px;
 
         .logo-img {
-          width: 300px;
+          width: 350px;
         }
       }
 
-      .title {
-        font-size: 20px;
-        font-weight: 600;
-        color: #292929;
-      }
+      
 
       .body {
-        margin-top: 20px;
+        margin-top: 150px;
 
-        .desc {
-          color: #808191;
-          font-size: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .text-profile {
+          .title-about {
+            font-size: 13px;
+            color: #808191;
+          }
+          .title {
+            margin-top: 10px;
+            font-size: 40px;
+            font-weight: 600;
+            color: #292929;
+            max-width: 460px;
+            line-height: 50px;
+          }
+  
+          .desc {
+            margin-top: 10px;
+            font-size: 14px;
+            max-width: 590px;
+          }
+        }
+
+        
+
+        .foto_himaju {
+          width: 450px;
+          border-radius: 20px;
+
+          @media (max-width: 768px) {
+            margin-top: 20px;
+            width: 100%;
+          }
+        }
+
+        @media (max-width: 768px) {
+          flex-direction: column;
         }
       }
     }

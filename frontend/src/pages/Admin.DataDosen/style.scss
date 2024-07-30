@@ -107,6 +107,7 @@
         font-size: 15px;
         padding: 14px 12px;
         white-space: nowrap;
+        
         @media (max-width: 768px) {
           font-size: 15px;
           padding: 12px 10px;
@@ -117,31 +118,10 @@
         padding: 14px 12px;
         font-size: 14px;
         white-space: nowrap;
+
         @media (max-width: 768px) {
           font-size: 14px;
           padding: 12px 10px;
-        }
-
-        .reset-button {
-          padding: 4px;
-          border-radius: 5px;
-          border: none;
-          cursor: pointer;
-          margin-right: 8px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          text-decoration: none;
-          color: #fff;
-
-          &.orange {
-            background-color: green;
-            transition: all 0.3s ease;
-
-            &:hover {
-              background-color: rgb(16, 175, 16);
-            }
-          }
         }
       }
 
@@ -159,16 +139,29 @@
 
       .dt-cell-action {
         text-align: center;
-      }
 
-      .ada-reset {
-        display: flex;
+        .reset-button-dosen {
+          padding: 4px;
+          border-radius: 5px;
+          border: none;
+          cursor: pointer;
+          margin-left: 8px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          text-decoration: none;
+          color: #fff;
 
-        .reset-button {
-          padding: 2px 10px 2px 10px;
+          &.green {
+            background-color: green;
+            transition: all 0.3s ease;
+
+            &:hover {
+              background-color: rgb(16, 175, 16);
+            }
+          }
         }
       }
-
 
       .dt-status {
         display: flex;

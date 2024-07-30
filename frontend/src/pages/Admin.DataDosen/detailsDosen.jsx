@@ -3,7 +3,7 @@ import axios from "axios";
 import ProfilNoImage from "../../assets/images/profile_no_image.png";
 import { urlApi } from "../../config";
 import { Field, Formik } from "formik";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import { formatTanggal } from "../../hooks/mainHooks";
 
@@ -13,7 +13,7 @@ const AdminDetailsDosen = () => {
   const [detailDosen, setDetailDosen] = useState([]);
   const { id } = useParams();
 
-  const _getDosen = async () => {
+  const _getDosen = useCallback(async () => {
     try {
       const res = await axios.get(`${urlApi}/dosen/${id}`, {
         headers: { Authorization: `Bearer ${sessionStorage.getItem("token")}` },
@@ -25,17 +25,16 @@ const AdminDetailsDosen = () => {
     } catch (err) {
       console.log(err);
     }
-  };
+  }, [id]); 
 
   useEffect(() => {
     _getDosen();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [_getDosen]);
 
   return (
     <div className="detail-dosen">
       <div className="profile-dosen">
-        <img src={ProfilNoImage} alt="profile-mahasiswa" className="img-dosen" />
+        <img src={ProfilNoImage} alt="profile-dosen" className="img-dosen" />
         <div className="profile-content">
           <div className="profile-detail">
             <p className="label-name">Nama</p>
@@ -89,67 +88,67 @@ const AdminDetailsDosen = () => {
                       <label htmlFor="noHp">
                         No Hp <span className="important">*</span>
                       </label>
-                      <Field type="text" id="noHp" name="noHp" onChange={() => {}} value={user.noHp} disable />
+                      <Field type="text" id="noHp" name="noHp" onChange={() => {}} value={user.noHp} disabled />
                     </div>
                     <div className="form-group">
                       <label htmlFor="tglLahir">
                         Tanggal Lahir <span className="important">*</span>
                       </label>
-                      <Field type="date" id="tglLahir" name="tglLahir" onChange={() => {}} value={dosen.tglLahir} disable />
+                      <Field type="date" id="tglLahir" name="tglLahir" onChange={() => {}} value={dosen.tglLahir} disabled />
                     </div>
                     <div className="form-group">
                       <label htmlFor="karpeg">
                         Karpeg <span className="important">*</span>
                       </label>
-                      <Field type="text" id="karpeg" name="karpeg" onChange={() => {}} value={dosen.karpeg} disable />
+                      <Field type="text" id="karpeg" name="karpeg" onChange={() => {}} value={dosen.karpeg} disabled />
                     </div>
                     <div className="form-group">
                       <label htmlFor="cpns">
                         CPNS <span className="important">*</span>
                       </label>
-                      <Field type="text" id="cpns" name="cpns" onChange={() => {}} value={dosen.cpsn} disable />
+                      <Field type="text" id="cpns" name="cpns" onChange={() => {}} value={dosen.cpns} disabled />
                     </div>
                     <div className="form-group">
                       <label htmlFor="pns">
                         PNS <span className="important">*</span>
                       </label>
-                      <Field type="text" id="pns" name="pns" onChange={() => {}} value={dosen.pns} disable />
+                      <Field type="text" id="pns" name="pns" onChange={() => {}} value={dosen.pns} disabled />
                     </div>
                     <div className="form-group">
                       <label htmlFor="jurusan">
                         Jurusan <span className="important">*</span>
                       </label>
-                      <Field type="text" id="jurusan" name="jurusan" onChange={() => {}} value={dosen.jurusan} disable />
+                      <Field type="text" id="jurusan" name="jurusan" onChange={() => {}} value={dosen.jurusan} disabled />
                     </div>
                     <div className="form-group">
                       <label htmlFor="pendidikanTerakhir">
                         Pendidikan Terakhir <span className="important">*</span>
                       </label>
-                      <Field type="text" id="pendidikanTerakhir" name="pendidikanTerakhir" onChange={() => {}} value={detailDosen.pendidikanTerakhir} disable />
+                      <Field type="text" id="pendidikanTerakhir" name="pendidikanTerakhir" onChange={() => {}} value={detailDosen.pendidikanTerakhir} disabled />
                     </div>
                     <div className="form-group">
                       <label htmlFor="tahun">
                         Tahun <span className="important">*</span>
                       </label>
-                      <Field type="text" id="tahun" name="tahun" onChange={() => {}} value={detailDosen.tahun} disable />
+                      <Field type="text" id="tahun" name="tahun" onChange={() => {}} value={detailDosen.tahun} disabled />
                     </div>
                     <div className="form-group">
                       <label htmlFor="gol">
                         Gol <span className="important">*</span>
                       </label>
-                      <Field type="text" id="gol" name="gol" onChange={() => {}} value={detailDosen.gol} disable />
+                      <Field type="text" id="gol" name="gol" onChange={() => {}} value={detailDosen.gol} disabled />
                     </div>
                     <div className="form-group">
                       <label htmlFor="tmtGolongan">
                         TMT Golongan <span className="important">*</span>
                       </label>
-                      <Field type="email" id="tmtGolongan" name="tmtGolongan" onChange={() => {}} value={detailDosen.tmtGolongan} disable />
+                      <Field type="email" id="tmtGolongan" name="tmtGolongan" onChange={() => {}} value={detailDosen.tmtGolongan} disabled />
                     </div>
                     <div className="form-group">
                       <label htmlFor="tmtJabatan">
                         TMT Jabatan <span className="important">*</span>
                       </label>
-                      <Field type="text" id="tmtJabatan" name="tmtJabatan" onChange={() => {}} value={detailDosen.tmtJabatan} disable />
+                      <Field type="text" id="tmtJabatan" name="tmtJabatan" onChange={() => {}} value={detailDosen.tmtJabatan} disabled />
                     </div>
                   </div>
                 </form>

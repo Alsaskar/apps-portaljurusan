@@ -10,6 +10,11 @@ import {
 import styles from "./styles";
 import Logo from "../../assets/images/logo_poli.png";
 
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { urlApi } from "../../config";
+import { useParams } from "react-router-dom";
+
 import Poppins from "../../assets/font/Poppins Regular 400.ttf";
 import Poppins600 from "../../assets/font/Poppins SemiBold 600.ttf";
 import Poppins500 from "../../assets/font/Poppins Medium 500.ttf";
@@ -20,9 +25,32 @@ Font.register({ family: "Poppins500", src: Poppins500 });
 
 
 // Komponen PDF
-const Layout = () => (
+const Layout = () => {
 
-  <PDFViewer style={{ height: "100vh", width: "100%" }}>
+  const [mahasiswa, setMahasiswa] = useState([]);
+  const [dataMahasiswa, setDataMahasiswa] = useState([]);
+  const { id } = useParams();
+
+  const _getMahasiswa = async () => {
+    try {
+      const res = await axios.get(`${urlApi}/mahasiswa/${id}`, {
+        headers: { Authorization: `Bearer ${sessionStorage.getItem("token")}` },
+      });
+
+      setMahasiswa(res.data.result);
+      setDataMahasiswa(res.data.result.user);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    _getMahasiswa();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return (
+<PDFViewer style={{ height: "100vh", width: "100%" }}>
     <Document>
       <Page size="A4" style={styles.page}>
         <View style={styles.section}>
@@ -86,21 +114,32 @@ const Layout = () => (
             </View>
             <View>
               <Text style={[styles.text_detail, styles.width]}>
-                Anggun Gabriela Sharon Tuuk
+              {mahasiswa.fullname === undefined
+              ? "Loading..."
+              : mahasiswa.fullname}
               </Text>
               <Text style={[styles.text_detail, styles.width]}>20024070</Text>
               <Text style={[styles.text_detail, styles.width]}>
-                Manado, 25 November 2002
+              {mahasiswa.kotaLahir === undefined
+              ? "Loading..."
+              : mahasiswa.kotaLahir}, {mahasiswa.tglLahir === undefined
+              ? "Loading..."
+              : mahasiswa.tglLahir}
               </Text>
               <Text style={[styles.text_detail, styles.width]}>
-                Desa Pinilih, Jaga1, Kec. Dimembe, kab, Minahasa Utara, Prov.
-                Sulawesi Utara
+              {mahasiswa.alamatTerakhir === undefined
+              ? "Loading..."
+              : mahasiswa.alamatTerakhir}
               </Text>
               <Text style={[styles.text_detail, styles.width]}>
-                085757521265
+                {dataMahasiswa.noHp === undefined
+              ? "Loading..."
+              : dataMahasiswa.noHp}
               </Text>
               <Text style={[styles.text_detail, styles.width, styles.child]}>
-                angguntuuk@gmail.com
+              {dataMahasiswa.email === undefined
+              ? "Loading..."
+              : dataMahasiswa.email}
               </Text>
             </View>
           </View>
@@ -172,6 +211,7 @@ const Layout = () => (
       </Page>
     </Document>
   </PDFViewer>
-);
+  );
+};
 
 export default Layout;

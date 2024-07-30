@@ -18,7 +18,7 @@ const validationSchema = Yup.object().shape({
   tempatLahir: Yup.string().required("Tempat Lahir harus diisi"),
   tglLahir: Yup.string().required("Tanggal Lahir harus diisi"),
   karpeg: Yup.string().required("Karpeg harus diisi"),
-  cpsn: Yup.string().required("CPNS harus diisi"),
+  cpns: Yup.string().required("CPNS harus diisi"),
   pns: Yup.string().required("PNS harus diisi"),
   jurusan: Yup.string().required("Jurusan harus diisi"),
   prodi: Yup.string().required("Prodi harus diisi"),
@@ -53,7 +53,7 @@ const Layout = () => {
             tempatLahir: values.tempatLahir,
             tglLahir: values.tglLahir,
             karpeg: values.karpeg,
-            cpsn: values.cpns,
+            cpns: values.cpns,
             pns: values.pns,
             jurusan: values.jurusan,
             prodi: values.prodi,
@@ -107,7 +107,7 @@ const Layout = () => {
             tempatLahir: "",
             tglLahir: "",
             karpeg: "",
-            cpsn: "",
+            cpns: "",
             pns: "",
             jurusan: "",
             prodi: "",
@@ -207,11 +207,11 @@ const Layout = () => {
                   {touched.karpeg && errors.karpeg ? <div className="error-form">{errors.karpeg}</div> : null}
                 </div>
                 <div className="form-group">
-                  <label htmlFor="cpsn">
+                  <label htmlFor="cpns">
                     CPNS <span className="important">*</span>
                   </label>
-                  <Field type="text" id="cpsn" name="cpsn" onChange={handleChange} />
-                  {touched.cpsn && errors.cpsn ? <div className="error-form">{errors.cpsn}</div> : null}
+                  <Field type="text" id="cpns" name="cpns" onChange={handleChange} />
+                  {touched.cpns && errors.cpns ? <div className="error-form">{errors.cpns}</div> : null}
                 </div>
                 <div className="form-group">
                   <label htmlFor="pns">
@@ -288,7 +288,7 @@ const Layout = () => {
                   </label>
                   <Field as="select" id="agama" name="agama" onChange={handleChange}>
                     <option value="">...</option>
-                    <option value="Kristen">Kristen</option>
+                    <option value="Kristen Protestan">Kristen Protestan</option>
                     <option value="Katolik">Katolik</option>
                     <option value="Islam">Islam</option>
                     <option value="Hindu">Hindu</option>

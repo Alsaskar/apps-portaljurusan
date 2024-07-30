@@ -5,7 +5,7 @@ import axios from "axios";
 import { urlApi, urlStatic } from "../../config";
 import { Field, Formik } from "formik";
 import * as Yup from "yup";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { BsDatabaseAdd } from "react-icons/bs";
 import { useParams } from "react-router-dom";
 import { FaRegEdit } from "react-icons/fa";
@@ -46,7 +46,7 @@ const AdminDetailsMahasiswa = () => {
 
 
 
-  const _getMahasiswa = async () => {
+  const _getMahasiswa = useCallback(async () => {
     try {
       const res = await axios.get(`${urlApi}/mahasiswa/${id}`, {
         headers: { Authorization: `Bearer ${sessionStorage.getItem("token")}` },
@@ -59,12 +59,11 @@ const AdminDetailsMahasiswa = () => {
     } catch (err) {
       console.log(err);
     }
-  };
+  }, [id]); 
 
   useEffect(() => {
     _getMahasiswa();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [_getMahasiswa]);
 
   const _handleSubmit = async (values) => {
     setLoading(true);

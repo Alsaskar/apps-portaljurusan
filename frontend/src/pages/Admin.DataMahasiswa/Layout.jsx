@@ -8,6 +8,8 @@ import TableAction from "../../components/TableAction/TableAction";
 import ModalEdit from "./ModalEdit";
 import Swal from "sweetalert2";
 import { GrPowerReset } from "react-icons/gr";
+import { FaUserGear } from "react-icons/fa6";
+import { TbTrashXFilled } from "react-icons/tb";
 
 const Layout = () => {
   const [mahasiswa, setMahasiswa] = useState([]);
@@ -51,9 +53,16 @@ const Layout = () => {
 
   const _listMahasiswa = async () => {
     try {
-      const res = await axios.get(`${urlApi}/mahasiswa?search=${keyword}&page=${page}&limit=${limit}&adminProdi=${sessionStorage.getItem('prodiAdmin')}`, {
-        headers: { Authorization: `Bearer ${sessionStorage.getItem("token")}` },
-      });
+      const res = await axios.get(
+        `${urlApi}/mahasiswa?search=${keyword}&page=${page}&limit=${limit}&adminProdi=${sessionStorage.getItem(
+          "prodiAdmin"
+        )}`,
+        {
+          headers: {
+            Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+          },
+        }
+      );
 
       setMahasiswa(res.data.result);
       setPages(res.data.totalPage);
@@ -80,20 +89,111 @@ const Layout = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axios.put(`${urlApi}/mahasiswa/update-pass/${idUser}`, {
-            tglLahir: tglLahir
-          }, {
-            headers: { Authorization: `Bearer ${sessionStorage.getItem("token")}` },
-          });
+          await axios.put(
+            `${urlApi}/mahasiswa/update-pass/${idUser}`,
+            {
+              tglLahir: tglLahir,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+              },
+            }
+          );
 
           Swal.fire("Berhasil!", `Password telah di reset`, "success");
-
         } catch (err) {
           Swal.fire("Error!", err.response.data.message, "error");
         }
       }
     });
-  }
+  };
+
+  const handleKetuaHimaju = async (idMahasiswa, fullname) => {
+    Swal.fire({
+      title: "Jadikan Ketua Himaju",
+      text: `Yakin ingin jadikan ${fullname} ketua himaju?`,
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Ya",
+      cancelButtonText: "Tidak",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const res = await axios.put(
+            `${urlApi}/mahasiswa/create-ketuahimaju/${idMahasiswa}`,
+            {
+              statusHimaju: "ketua",
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+              },
+            }
+          );
+
+          if (res.data.success) {
+            Swal.fire(
+              "Berhasil!",
+              `${fullname} telah menjadi ketua himaju`,
+              "success"
+            );
+
+            setTimeout(() => {
+              window.location.reload();
+            }, 1000);
+          } else {
+            Swal.fire("Oppsss...!", `${res.data.message}`, "error");
+          }
+        } catch (err) {
+          Swal.fire("Error!", err.response.data.message, "error");
+        }
+      }
+    });
+  };
+
+  const handleRemoveKetua = async (idMahasiswa, fullname) => {
+    Swal.fire({
+      title: "Hapus Ketua Himaju",
+      text: `Yakin ingin hapus ${fullname} dari ketua himaju?`,
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Ya",
+      cancelButtonText: "Tidak",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const res = await axios.put(
+            `${urlApi}/mahasiswa/remove-ketuahimaju/${idMahasiswa}`,
+            {
+              statusHimaju: "anggota_pasif",
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+              },
+            }
+          );
+
+          if (res.data.success) {
+            Swal.fire(
+              "Berhasil!",
+              `${fullname} telah dihapus dari ketua himaju`,
+              "success"
+            );
+
+            setTimeout(() => {
+              window.location.reload();
+            }, 1000);
+          } else {
+            Swal.fire("Oppsss...!", `${res.data.message}`, "error");
+          }
+        } catch (err) {
+          Swal.fire("Error!", err.response.data.message, "error");
+        }
+      }
+    });
+  };
 
   const _handleDelete = async (id, fullname) => {
     Swal.fire({
@@ -107,7 +207,9 @@ const Layout = () => {
       if (result.isConfirmed) {
         try {
           await axios.delete(`${urlApi}/mahasiswa/${id}`, {
-            headers: { Authorization: `Bearer ${sessionStorage.getItem("token")}` },
+            headers: {
+              Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+            },
           });
 
           Swal.fire("Terhapus!", `${fullname} telah terhapus`, "success");
@@ -124,13 +226,24 @@ const Layout = () => {
   return (
     <>
       {/* Modal */}
-      <ModalEdit isOpen={showModal} handleClose={handleCloseModal} data={selectedData} dataUser={selectedDataUser} />
+      <ModalEdit
+        isOpen={showModal}
+        handleClose={handleCloseModal}
+        data={selectedData}
+        dataUser={selectedDataUser}
+      />
 
       <div className="filter">
         {/*search filter*/}
         <form onSubmit={searchData}>
           <div className="search-form">
-            <input type="text" className="filter-input" placeholder="Search..." value={query} onChange={(e) => setQuery(e.target.value)} />
+            <input
+              type="text"
+              className="filter-input"
+              placeholder="Search..."
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+            />
             <MdSearch size={20} className="search-icon" />
           </div>
         </form>
@@ -167,6 +280,7 @@ const Layout = () => {
                 <th>No Telp</th>
                 <th>Jenis Kelamin</th>
                 <th>Tempat Tanggal Lahir</th>
+                <th>Status Himaju</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -184,6 +298,23 @@ const Layout = () => {
                       <td>
                         {val.kotaLahir}, {val.tglLahir}
                       </td>
+                      <td>
+                        {val.statusHimaju === "anggota_pasif" && (
+                          <span className="badge badge-anggota-pasif">
+                            Anggota Pasif
+                          </span>
+                        )}
+                        {val.statusHimaju === "anggota_aktif" && (
+                          <span className="badge badge-anggota-aktif">
+                            Anggota Aktif
+                          </span>
+                        )}
+                        {val.statusHimaju !== "anggota_pasif" &&
+                          val.statusHimaju !== "anggota_aktif" && (
+                            <span className="badge badge-ketua">Ketua</span>
+                          )}
+                      </td>
+
                       <td className="dt-cell-action ada-reset">
                         <TableAction
                           _onClickEdit={() => handleEditClick(val, val.user)}
@@ -192,11 +323,35 @@ const Layout = () => {
                             _handleDelete(val.userId, val.fullname);
                           }}
                         />
-                        <button onClick={() => {
-                          handleReset(val.userId, val.tglLahir, val.fullname)
-                        }} className="reset-button orange">
+                        <button
+                          onClick={() => {
+                            handleReset(val.userId, val.tglLahir, val.fullname);
+                          }}
+                          className="reset-button-mahasiswa green"
+                          title="reset password"
+                        >
                           <GrPowerReset size={18} />
                         </button>
+                        <button
+                          onClick={() => {
+                            handleKetuaHimaju(val.id, val.fullname);
+                          }}
+                          className="set-role-himaju black"
+                          title="Jadikan ketua himaju"
+                        >
+                          <FaUserGear size={18} />
+                        </button>
+                        {val.statusHimaju === "ketua" && (
+                          <button
+                            onClick={() => {
+                              handleRemoveKetua(val.id, val.fullname);
+                            }}
+                            className="hapus-ketua purple"
+                            title="Hapus ketua himaju"
+                          >
+                            <TbTrashXFilled size={18} />
+                          </button>
+                        )}
                       </td>
                     </tr>
                   );

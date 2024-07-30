@@ -6,13 +6,13 @@ import { MdOutlineClose, MdKeyboardArrowRight, MdWbSunny, MdFormatListBulletedAd
 import { IoDocumentAttachSharp, IoDocumentText, IoLogOut } from "react-icons/io5";
 import { HiDocumentPlus, HiChatBubbleLeftRight, HiMiniClipboardDocumentCheck, HiDocumentText } from "react-icons/hi2";
 import { HiUserAdd } from "react-icons/hi";
-import { PiStudentFill, PiUsersThreeFill, PiNetworkFill } from "react-icons/pi";
+import { PiStudentFill, PiUsersThreeFill, PiNetworkFill, PiUsersFourFill, PiListChecksFill, PiMonitorFill  } from "react-icons/pi";
 import { AiFillSchedule, AiFillMessage } from "react-icons/ai";
-import { MdWorkspaces, MdAssignmentAdd, MdDocumentScanner } from "react-icons/md";
+import { MdAssignmentAdd, MdDocumentScanner, MdLock  } from "react-icons/md";
 import { BiSolidMessageRoundedAdd } from "react-icons/bi";
 import { FaPeopleRoof } from "react-icons/fa6";
 import { FaUserFriends, FaChalkboardTeacher } from "react-icons/fa";
-import { RiCalendarScheduleFill, RiMoonClearFill, RiDashboardHorizontalFill, RiMailSendFill  } from "react-icons/ri";
+import { RiCalendarScheduleFill, RiMoonClearFill, RiDashboardHorizontalFill, RiMailSendFill, RiFileList2Fill } from "react-icons/ri";
 import LogoBlue from "../../assets/images/logo_blue.png";
 import LogoWhite from "../../assets/images/logo_white.png";
 import { SidebarContext } from "../../context/SidebarContext";
@@ -57,6 +57,7 @@ const AdminSidebar = () => {
   const [himajuSubmenuOpen, setHimajuSubmenuOpen] = useState(false);
   const [jadwalSubmenuOpen, setJadwalSubmenuOpen] = useState(false);
   const [absensiSubmenuOpen, setAbsensiSubmenuOpen] = useState(false);
+  const [monitoringSubmenuOpen, setMonitoringSubmenuOpen] = useState(false);
 
   // closing the navbar when clicked outside the sidebar area
   const handleClickOutside = (event) => {
@@ -146,7 +147,7 @@ const AdminSidebar = () => {
     }
   };
 
-  //himaju
+  //hme
   const toggleHimajuSubmenu = () => {
     setHimajuSubmenuOpen(!himajuSubmenuOpen);
     if (!himajuSubmenuOpen) {
@@ -170,6 +171,15 @@ const AdminSidebar = () => {
     if (!absensiSubmenuOpen) {
       setActiveMenu("absensi");
       sessionStorage.setItem("activeMenu", "absensi");
+    }
+  };
+
+  //monitoring
+  const toggleMonitoringSubmenu = () => {
+    setMonitoringSubmenuOpen(!monitoringSubmenuOpen);
+    if (!monitoringSubmenuOpen) {
+      setActiveMenu("monitoring");
+      sessionStorage.setItem("activeMenu", "monitoring");
     }
   };
 
@@ -322,24 +332,24 @@ const AdminSidebar = () => {
               {bimbinganSubmenuOpen && (
                 <ul className={`submenu ${bimbinganSubmenuOpen ? "open" : ""}`}>
                   <li className="submenu-item">
-                    <div className="submenu-link">
+                    <Link to="/admin/add/bimbingan" className="submenu-link"  onClick={() => handleSubmenuClick("Add Bimbingan")}>
                       <span className="menu-link-icon">
                         <BiSolidMessageRoundedAdd size={20} />
                       </span>
-                      <Link to="/admin/add/bimbingan" className={`submenu-link-text`} onClick={() => handleSubmenuClick("Data Bimbingan")}>
-                        Data Bimbingan
-                      </Link>
-                    </div>
+                      <div className={`submenu-link-text`}>
+                        Add Bimbingan
+                      </div>
+                    </Link>
                   </li>
                   <li className="submenu-item">
-                    <div className="submenu-link">
+                    <Link to="/admin/data/bimbingan" className="submenu-link" onClick={() => handleSubmenuClick("Data Bimbingan")}>
                       <span className="menu-link-icon">
                         <AiFillMessage size={20} />
                       </span>
-                      <Link to="/admin/data/bimbingan" className={`submenu-link-text`} onClick={() => handleSubmenuClick("Bimbingan Dosen Wali")}>
-                        Bimbingan
-                      </Link>
-                    </div>
+                      <div className={`submenu-link-text`}>
+                        Data Bimbingan
+                      </div>
+                    </Link>
                   </li>
                 </ul>
               )}
@@ -381,14 +391,14 @@ const AdminSidebar = () => {
               )}
             </li>
 
-            {/*himaju*/}
+            {/*hme*/}
             <li className={`menu-item`}>
               <div className={`menu-link ${activeMenu === "himaju" ? "active" : ""}`} onClick={toggleHimajuSubmenu}>
                 <span className="menu-link-icon">
                   <FaPeopleRoof size={20} />
                 </span>
                 <div className="menu">
-                  <span className="menu-link-text">Kegiatan Himaju</span>
+                  <span className="menu-link-text">HME</span>
                 </div>
                 <span className={`submenu-arrow ${himajuSubmenuOpen ? "open" : ""}`}>
                   <MdKeyboardArrowRight size={18} style={{ transform: himajuSubmenuOpen ? "rotate(90deg)" : "none", transition: "transform 0.3s ease" }} />
@@ -398,24 +408,44 @@ const AdminSidebar = () => {
               {himajuSubmenuOpen && (
                 <ul className={`submenu ${himajuSubmenuOpen ? "open" : ""}`}>
                   <li className="submenu-item">
-                    <div className="submenu-link">
+                    <Link to="/admin/profile/hme" className="submenu-link" onClick={() => handleSubmenuClick("Prof HME")}>
                       <span className="menu-link-icon">
-                        <MdWorkspaces size={20} />
+                        <RiFileList2Fill size={20} />
                       </span>
-                      <Link to="/admin-bukti-pembayaran-ukt" className={`submenu-link-text`} onClick={() => handleSubmenuClick("Data Himaju")}>
-                        Data Himaju
-                      </Link>
-                    </div>
+                      <div className={`submenu-link-text`}>
+                        Profile HME
+                      </div>
+                    </Link>
                   </li>
                   <li className="submenu-item">
-                    <div className="submenu-link">
+                    <Link to="/admin/pendaftaran/hme" className="submenu-link" onClick={() => handleSubmenuClick("Pendaftaran HME")}>
+                      <span className="menu-link-icon">
+                        <PiListChecksFill size={20} />
+                      </span>
+                      <div className={`submenu-link-text`}>
+                        Pendaftaran HME
+                      </div>
+                    </Link>
+                  </li>
+                  <li className="submenu-item">
+                    <Link to="/admin/buat/program/kerja" className="submenu-link" onClick={() => handleSubmenuClick("Program Kerja")}>
                       <span className="menu-link-icon">
                         <PiNetworkFill size={20} />
                       </span>
-                      <Link to="/admin/bimbingan" className={`submenu-link-text`} onClick={() => handleSubmenuClick("Himaju")}>
-                        Himaju
-                      </Link>
-                    </div>
+                      <div className={`submenu-link-text`}>
+                        Program Kerja
+                      </div>
+                    </Link>
+                  </li>
+                  <li className="submenu-item">
+                    <Link to="/admin/anggota/hme" className="submenu-link" onClick={() => handleSubmenuClick("Anggota HME")}>
+                      <span className="menu-link-icon">
+                        <PiUsersFourFill size={20} />
+                      </span>
+                      <div className={`submenu-link-text`}>
+                        Anggota HME
+                      </div>
+                    </Link>
                   </li>
                 </ul>
               )}
@@ -474,24 +504,64 @@ const AdminSidebar = () => {
               {absensiSubmenuOpen && (
                 <ul className={`submenu ${absensiSubmenuOpen ? "open" : ""}`}>
                   <li className="submenu-item">
-                    <div className="submenu-link">
+                    <Link to="/admin-bukti-pembayaran-ukt" className="submenu-link" onClick={() => handleSubmenuClick("Data Absensi")}>
                       <span className="menu-link-icon">
                         <HiDocumentText size={20} />
                       </span>
-                      <Link to="/admin-bukti-pembayaran-ukt" className={`submenu-link-text`} onClick={() => handleSubmenuClick("Data Absensi")}>
+                      <div className={`submenu-link-text`}>
                         Data Absensi
-                      </Link>
-                    </div>
+                      </div>
+                    </Link>
                   </li>
                   <li className="submenu-item">
-                    <div className="submenu-link">
+                    <Link to="/admin/jadwal" className="submenu-link" onClick={() => handleSubmenuClick("Absensi")}>
                       <span className="menu-link-icon">
                         <MdDocumentScanner size={20} />
                       </span>
-                      <Link to="/admin/jadwal" className={`submenu-link-text`} onClick={() => handleSubmenuClick("Absensi")}>
+                      <div className={`submenu-link-text`}>
                         Absensi
-                      </Link>
-                    </div>
+                      </div>
+                    </Link>
+                  </li>
+                </ul>
+              )}
+            </li>
+
+            {/*monitoring*/}
+            <li className={`menu-item`}>
+              <div className={`menu-link ${activeMenu === "monitoring" ? "active" : ""}`} onClick={toggleMonitoringSubmenu}>
+                <span className="menu-link-icon">
+                  <PiMonitorFill size={20} />
+                </span>
+                <div className="menu">
+                  <span className="menu-link-text">Monitoring Login</span>
+                </div>
+                <span className={`submenu-arrow ${monitoringSubmenuOpen ? "open" : ""}`}>
+                  <MdKeyboardArrowRight size={18} style={{ transform: monitoringSubmenuOpen ? "rotate(90deg)" : "none", transition: "transform 0.3s ease" }} />
+                </span>
+              </div>
+              {/* Submenu */}
+              {monitoringSubmenuOpen && (
+                <ul className={`submenu ${monitoringSubmenuOpen ? "open" : ""}`}>
+                  <li className="submenu-item">
+                    <Link to="/admin/monitoring/login" className="submenu-link" onClick={() => handleSubmenuClick("Gagal Login")}>
+                      <span className="menu-link-icon">
+                        <MdLock  size={20} />
+                      </span>
+                      <div className={`submenu-link-text`}>
+                        Gagal Login
+                      </div>
+                    </Link>
+                  </li>
+                  <li className="submenu-item">
+                    <Link to="/admin/daftar/ip" className="submenu-link" onClick={() => handleSubmenuClick("Daftar IP Di Blokir")}>
+                      <span className="menu-link-icon">
+                        <RiFileList2Fill size={20} />
+                      </span>
+                      <div className={`submenu-link-text`}>
+                        Daftar IP
+                      </div>
+                    </Link>
                   </li>
                 </ul>
               )}

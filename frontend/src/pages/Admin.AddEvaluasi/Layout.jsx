@@ -6,9 +6,11 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { urlApi } from "../../config";
 import { useParams } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const Layout = () => {
   const [mahasiswa, setMahasiswa] = useState([]);
+  const [loading, setLoading] = useState(false);
   const { id } = useParams();
 
   const _getMahasiswa = async () => {
@@ -28,11 +30,50 @@ const Layout = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const _handleSubmit = async (values, { resetForm }) => {
+    setLoading(true);
+
+    setTimeout(async () => {
+      try {
+        const res = await axios.post(
+          `${urlApi}/evaluasi`,
+          {
+            tgl: values.tgl,
+            kegiatan: values.kegiatan,
+            permasalahan: values.permasalahan,
+            solusi: values.solusi,
+            tandaTanganMah: values.tandaTanganMah,
+          },
+          { headers: { Authorization: `Bearer ${sessionStorage.getItem("token")}` } }
+        );
+
+        Swal.fire({
+          title: "Berhasil",
+          text: res.data.message,
+          icon: "success",
+          confirmButtonText: "Ok",
+        });
+
+        setLoading(false);
+        resetForm();
+      } catch (err) {
+        setLoading(false);
+        Swal.fire({
+          title: "Gagal",
+          text: err.response.data.message,
+          icon: "error",
+          confirmButtonText: "Ok",
+        });
+      }
+    }, 1500);
+  };
+
   const validationSchema = Yup.object().shape({
-    mataKuliah: Yup.string().required("Mata Kuliah harus diisi"),
-    kelas: Yup.string().required("Kelas harus diisi"),
-    hari: Yup.string().required("Hari harus diisi"),
-    ruangan: Yup.string().required("Ruangan harus diisi"),
+    tgl: Yup.string().required("Mata Kuliah harus diisi"),
+    kegiatan: Yup.string().required("Kelas harus diisi"),
+    permasalahan: Yup.string().required("Hari harus diisi"),
+    solusi: Yup.string().required("Ruangan harus diisi"),
+    tandaTanganMah: Yup.string().required("Ruangan harus diisi"),
   });
   return (
     <div className="evaluasi">
@@ -58,14 +99,13 @@ const Layout = () => {
           <p className="title">Buat Daftar Konsultasi</p>
           <Formik
             initialValues={{
-              mataKuliah: "",
-              kelas: "",
-              hari: "",
-              ruangan: "",
+              tgl: "",
+              kegiatan: "",
+              permasalahan: "",
+              solusi: "",
+              tandaTanganMah: "",
             }}
-            onSubmit={() => {
-              console.log("submit");
-            }}
+            onSubmit={_handleSubmit}
             validationSchema={validationSchema}
           >
             {({ errors, touched, handleSubmit, handleChange }) => (
@@ -76,22 +116,22 @@ const Layout = () => {
               >
                 <div className="form-content">
                   <div className="form-group">
-                    <label htmlFor="tanggal">
+                    <label htmlFor="tgl">
                       Tanggal <span className="important">*</span>
                     </label>
                     <input
                       type="date"
-                      id="tanggal"
-                      name="tanggal"
+                      id="tgl"
+                      name="tgl"
                       onChange={handleChange}
                     />
-                    {touched.tanggal && errors.tanggal ? (
-                      <div className="error-form">{errors.tanggal}</div>
+                    {touched.tgl && errors.tgl ? (
+                      <div className="error-form">{errors.tgl}</div>
                     ) : null}
                   </div>
                   <div className="form-group">
                     <label htmlFor="kegiatan">
-                      Kegiatan Mah. Saat Ini{" "}
+                      Kegiatan Mah. Saat Ini
                       <span className="important">*</span>
                     </label>
                     <input
@@ -134,7 +174,7 @@ const Layout = () => {
                   </div>
                   <div className="form-group">
                     <label htmlFor="tandaTanganMah">
-                      Tanda Tangan Mahasiswa{" "}
+                      Tanda Tangan Mahasiswa
                       <span className="important">*</span>
                     </label>
                     <input
@@ -151,7 +191,9 @@ const Layout = () => {
                 <div className="button-dua">
                   <button type="submit" className="button-simpan-rps">
                     <BsDatabaseAdd size={16} />
-                    <span>Simpan</span>
+                    <span>
+                      {loading ? "Loading..." : "Simpan"}
+                    </span>
                   </button>
                 </div>
               </form>

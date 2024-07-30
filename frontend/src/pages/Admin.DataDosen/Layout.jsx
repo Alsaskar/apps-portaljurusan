@@ -51,15 +51,21 @@ const Layout = () => {
 
   const _listDosen = async () => {
     try {
-      const res = await axios.get(`${urlApi}/dosen?search=${keyword}&page=${page}&limit=${limit}&adminProdi=${sessionStorage.getItem('prodiAdmin')}`, {
-        headers: { Authorization: `Bearer ${sessionStorage.getItem("token")}` },
-      });
+      const res = await axios.get(
+        `${urlApi}/dosen?search=${keyword}&page=${page}&limit=${limit}&adminProdi=${sessionStorage.getItem(
+          "prodiAdmin"
+        )}`,
+        {
+          headers: {
+            Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+          },
+        }
+      );
 
       setDosen(res.data.result);
       setPages(res.data.totalPage);
       setRows(res.data.totalRows);
       setPage(res.data.page);
-
     } catch (err) {
       console.log(err);
     }
@@ -81,20 +87,25 @@ const Layout = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axios.put(`${urlApi}/dosen/update-pass/${idUser}`, {
-            tglLahir: tglLahir
-          }, {
-            headers: { Authorization: `Bearer ${sessionStorage.getItem("token")}` },
-          });
+          await axios.put(
+            `${urlApi}/dosen/update-pass/${idUser}`,
+            {
+              tglLahir: tglLahir,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+              },
+            }
+          );
 
           Swal.fire("Berhasil!", `Password telah di reset`, "success");
-
         } catch (err) {
           Swal.fire("Error!", err.response.data.message, "error");
         }
       }
     });
-  }
+  };
 
   const _handleDelete = async (id, fullname) => {
     Swal.fire({
@@ -108,7 +119,9 @@ const Layout = () => {
       if (result.isConfirmed) {
         try {
           await axios.delete(`${urlApi}/dosen/${id}`, {
-            headers: { Authorization: `Bearer ${sessionStorage.getItem("token")}` },
+            headers: {
+              Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+            },
           });
 
           Swal.fire("Terhapus!", `${fullname} telah terhapus`, "success");
@@ -125,13 +138,24 @@ const Layout = () => {
   return (
     <>
       {/* Modal */}
-      <ModalEdit isOpen={showModal} handleClose={handleCloseModal} data={selectedData} dataUser={selectedDataUser} />
+      <ModalEdit
+        isOpen={showModal}
+        handleClose={handleCloseModal}
+        data={selectedData}
+        dataUser={selectedDataUser}
+      />
 
       <div className="filter">
         {/*search filter*/}
         <form onSubmit={searchData}>
           <div className="search-form">
-            <input type="text" className="filter-input" placeholder="Search..." value={query} onChange={(e) => setQuery(e.target.value)} />
+            <input
+              type="text"
+              className="filter-input"
+              placeholder="Search..."
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+            />
             <MdSearch size={20} className="search-icon" />
           </div>
         </form>
@@ -187,15 +211,18 @@ const Layout = () => {
                       </td>
                       <td className="dt-cell-action ada-reset">
                         <TableAction
-                          _onClickEdit={() => handleEditClick(val)}
-                          urlDetail={`/admin/details/dosen/${val.userId}`}
+                          _onClickEdit={() => handleEditClick(val, val.user)}
+                          urlDetail={`/admin/details/dosen/${val.id}`}
                           _onClickDelete={() => {
                             _handleDelete(val.userId, val.fullname);
                           }}
                         />
-                        <button onClick={() => {
-                          handleReset(val.userId, val.tglLahir, val.fullname)
-                        }} className="reset-button orange">
+                        <button
+                          onClick={() => {
+                            handleReset(val.userId, val.tglLahir, val.fullname);
+                          }}
+                          className="reset-button-dosen green"
+                        >
                           <GrPowerReset size={18} />
                         </button>
                       </td>

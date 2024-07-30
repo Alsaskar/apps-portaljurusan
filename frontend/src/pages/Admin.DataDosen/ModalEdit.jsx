@@ -258,7 +258,7 @@ const ModalEdit = ({ data, isOpen, handleClose }) => {
                           </label>
                           <select id="status" name="status" onChange={handleChange} value={values.prodi}>
                             <option value="">...</option>
-                            <option value="D4 Teknik Informtika">D4 Teknik Informatika</option>
+                            <option value="D4 Teknik Informatika">D4 Teknik Informatika</option>
                             <option value="D3 Teknik Komputer">D3 Teknik Komputer</option>
                             <option value="D4 Teknik Listrik">D4 Teknik Listrik</option>
                             <option value="D3 Teknik Listrik">D3 Teknik Listrik</option>

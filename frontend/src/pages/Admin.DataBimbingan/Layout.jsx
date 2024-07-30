@@ -5,7 +5,7 @@ import axios from "axios";
 import { urlApi, urlStatic } from "../../config";
 import ReactPaginate from "react-paginate";
 import Swal from "sweetalert2";
-import { HiOutlineTrash } from "react-icons/hi";
+import { HiTrash } from "react-icons/hi2";
 import ProfilNoImage from "../../assets/images/profile_no_image.png";
 
 const Layout = () => {
@@ -117,7 +117,7 @@ const Layout = () => {
       </div>
 
       <section className="content-area-table">
-        <div className="data-table-diagram-data-mahasiswa">
+        <div className="data-table-diagram-data-bimbingan">
           <table>
             <thead>
               <tr>
@@ -141,11 +141,11 @@ const Layout = () => {
                       </td>
                       <td>{val.dosen.fullname}</td>
                       <td>{val.dosen.nip}</td>
-                      <td className="dt-cell-action">
+                      <td className="dt-cell-action trash">
                         <button className="action-button red" onClick={() => {
                           _handleDelete(val.id, val.mahasiswa.fullname)
                         }}>
-                          <HiOutlineTrash size={18} />
+                          <HiTrash size={18} />
                         </button>
                       </td>
                     </tr>

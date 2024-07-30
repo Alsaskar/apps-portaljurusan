@@ -1,6 +1,51 @@
 .send-evaluasi {
     .container {
+      display: flex;
+      column-gap: 20px;
+
+      .desc {
+        width: 30%;
+        padding: 20px;
+        border-radius: 10px;
+        background-color: var(--secondary-color);
+
+        .title {
+          font-size: 18px;
+          font-weight: 600;
+          color: var(--text-color-inverted);
+
+          .important {
+            color: #f34141;
+          }
+        }
+
+        .section-text {
+          margin-top: 20px;
+
+          .text-info {
+            font-size: 13px;
+            color: var(--text-color-inverted);
+
+            &.wa {
+              margin-top: 20px;
+            }
+
+            .wa-desktop {
+              font-weight: 600;
+            }
+
+            .wa-web {
+              font-weight: 600;
+            }
+          }
+        }
+
+        @media (max-width: 768px) {
+          width: 100%;
+        }
+      }
       .content {
+        width: 70%;
         padding: 20px;
         border-radius: 10px;
         background-color: var(--secondary-color);
@@ -116,6 +161,15 @@
             }
           }
         }
+
+        @media (max-width: 768px) {
+          margin-top: 20px;
+          width: 100%;
+        }
+      }
+
+      @media (max-width: 768px) {
+        flex-direction: column-reverse;
       }
     }
   }

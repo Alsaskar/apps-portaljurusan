@@ -1,17 +1,68 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useContext } from "react";
 import { RiMenu4Fill } from "react-icons/ri";
 import "./style.scss";
-import ModalDaftar from "../../pages/Mahasiswa.Himaju/ModalDaftar/ModalDaftar";
+import { Link } from "react-router-dom";
+import { MdKeyboardArrowDown } from "react-icons/md";
+import Swal from "sweetalert2";
+import axios from "axios";
+import { urlApi } from "../../config";
+import { MahasiswaContext } from "../../context/MahasiswaContext";
 
 const NavbarHimaju = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [scrolling, setScrolling] = useState(false);
   const modalRef = useRef(null);
-  const [showModal, setShowModal] = useState(false);
+  const dataMahasiswa = useContext(MahasiswaContext);
 
-  const handleModal = () => {
-    setShowModal(!showModal);
-  }
+  const handelDaftar = async() => {
+    Swal.fire({
+      title: "Konfirmasi",
+      text: "Apakah Anda Yakin Ingin Daftar?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Ya",
+      cancelButtonText: "Tidak",
+    }).then(async (result) => {
+      if(result.isConfirmed){
+        try {
+          const mahasiswa = dataMahasiswa.result;
+    
+          const res = await axios.post(
+            `${urlApi}/himaju`,
+            {
+              idMahasiswa: mahasiswa.id,
+              fullname: mahasiswa.fullname,
+              status: 'pending'
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+              },
+            }
+          );
+    
+          if (res.data.success) {
+            Swal.fire(
+              "Berhasil!",
+              `Anda berhasil mendaftar himaju`,
+              "success"
+            );
+    
+            setTimeout(() => {
+              window.location.reload()
+            }, 1000)
+          } else {
+            Swal.fire("Oppsss...!", `${res.data.message}`, "error");
+          }
+        } catch (err) {
+          Swal.fire("Error!", err.response.data.message, "error");
+        }
+      }
+      
+    });
+  };
 
   const toggleModal = () => {
     setModalOpen(!modalOpen);
@@ -59,28 +110,63 @@ const NavbarHimaju = () => {
 
         <div className="nav-links">
           <ul className="menu-list">
-            <li className="">
-              <a href="#hero" className={scrolling ? "menu-links-items scrolled-text" : "menu-links-items"}>
+            <li>
+              <Link
+                to="/mahasiswa/hme"
+                className={
+                  scrolling
+                    ? "menu-links-items scrolled-text"
+                    : "menu-links-items"
+                }
+              >
                 Beranda
-              </a>
+              </Link>
+            </li>
+            <li className="profile-menu">
+              <div
+                className={
+                  scrolling
+                    ? "menu-links-items scrolled-text"
+                    : "menu-links-items"
+                }
+              >
+                <span>Profil </span>
+                <MdKeyboardArrowDown size={20} />
+              </div>
+              <ul className="submenu">
+                <li className="submenu-item">
+                  <Link to="/hme/visi/misi" className="submenu-link">
+                    Visi & Misi
+                  </Link>
+                </li>
+                <li className="submenu-item">
+                  <Link to="/program/kerja/hme" className="submenu-link">
+                    Program Kerja
+                  </Link>
+                </li>
+              </ul>
             </li>
             <li>
-              <a href="#profile" className={scrolling ? "menu-links-items scrolled-text" : "menu-links-items"}>
-                Profil
-              </a>
-            </li>
-            <li>
-              <a href="#visi&misi" className={scrolling ? "menu-links-items scrolled-text" : "menu-links-items"}>
-                Visi & Misi
-              </a>
+              <Link to="/hme/all/galeri"
+                className={
+                  scrolling
+                    ? "menu-links-items scrolled-text"
+                    : "menu-links-items"
+                }
+              >
+                Galeri
+              </Link>
             </li>
           </ul>
-          <button className="daftar" onClick={handleModal}>Daftar HME</button>
+          <button className="daftar" onClick={handelDaftar}>
+            Daftar HME
+          </button>
         </div>
 
-        <ModalDaftar isOpen={showModal} onClose={() => setShowModal(false)} />
-
-        <div className={scrolling ? "menu scrolled-bg" : "menu"} onClick={toggleModal}>
+        <div
+          className={scrolling ? "menu scrolled-bg" : "menu"}
+          onClick={toggleModal}
+        >
           <RiMenu4Fill />
 
           {/* Modal */}
@@ -99,8 +185,8 @@ const NavbarHimaju = () => {
                     </a>
                   </li>
                   <li className="submenu-list">
-                    <a href="#visi&misi" className="submmenu-link">
-                      Visi & Misi
+                    <a href="#galeri" className="submmenu-link">
+                      Galeri
                     </a>
                   </li>
                 </ul>

@@ -62,10 +62,16 @@
           font-weight: 600;
           color: #fff;
           font-size: 13px;
+          cursor: pointer;
           transition: all 0.3s ease-in-out;
+
+          display: flex;
+          align-items: center;
+          column-gap: 3px;
 
           &:hover {
             color: var(--blue-color);
+            transform: scale(1.08);
           }
 
           &.scrolled-text {
@@ -99,6 +105,47 @@
             font-weight: 500;
           }
         }
+
+        .profile-menu {
+          position: relative;
+
+          .submenu {
+            display: block;
+            opacity: 0;
+            visibility: hidden;
+            position: absolute;
+            top: 45px;
+            left: 0;
+            background-color: #fff;
+            width: 200px;
+            box-shadow: 5px 5px 0 var(--blue-color);
+            z-index: 1000;
+            transition: opacity 0.2s ease, visibility 0.2s ease;
+
+            .submenu-item {
+              list-style: none;
+
+              .submenu-link {
+                display: block;
+                padding: 20px;
+                text-decoration: none;
+                color: black;
+                font-size: 13px;
+                font-weight: 600;
+                transition: background-color 0.2s;
+
+                &:hover {
+                  background-color: #f0f0f0;
+                }
+              }
+            }
+          }
+
+          &:hover .submenu {
+            opacity: 1;
+            visibility: visible;
+          }
+        }
       }
 
       .daftar {
@@ -109,7 +156,7 @@
         font-size: 13px;
         font-weight: 600;
         border-radius: 10px;
-        transition: all .3s ease-in-out;
+        transition: all 0.3s ease-in-out;
 
         &:hover {
           background-color: #6d58e4;
@@ -174,7 +221,7 @@
         height: 100vh;
         background-color: rgba(0, 0, 0, 0.5);
         display: flex;
-        align-items: center;
+        // align-items: center;
         justify-content: center;
         z-index: 100;
 
@@ -185,16 +232,17 @@
         .modal-content-daftar {
           position: absolute;
           z-index: 999;
-          left: 20%;
-          top: 30%;
+          // left: 20%;
+          top: 70px;
           transform: translate(-20% -30%);
           background-color: #fff;
           border: 2px solid var(--border);
           padding: 20px;
-          border-radius: 20px;
+          // border-radius: 20px;
           width: 60%;
           font-size: 13px;
           font-weight: 600;
+          width: 100%;
 
           &.fade-in {
             animation: fadeIn 0.3s ease-in-out;
@@ -206,10 +254,8 @@
             gap: 15px;
 
             .submenu-list {
-              text-align: center;
-
               .submmenu-link {
-                color: var(--text-color-inverted);
+                color: #292929;
                 font-weight: var(--text-weight);
               }
             }
@@ -226,4 +272,9 @@
   @media (max-width: 768px) {
     padding: 0;
   }
+}
+
+
+.swal2-container {
+  z-index: 10000 !important;
 }
