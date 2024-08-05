@@ -84,7 +84,7 @@ export const loggedInDosen = async (req, res) => {
     try{
         const result = await Dosen.findOne({
             where: {
-                idUser: idUser
+                userId: idUser
             },
             include: [
                 {

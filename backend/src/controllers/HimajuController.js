@@ -104,19 +104,61 @@ export const updateStatus = async (req, res) => {
 }
 
 export const addProfil = async (req, res) => {
-    const visi = req.body.visi;
-    const misi = req.body.misi;
-    const deskripsi = req.body.deskripsi;
+    const { visi, misi, deskripsi } = req.body;
 
-    try{
-        await ProfilHimaju.create({
-            visi: visi,
-            misi: misi,
-            deskripsi: deskripsi
-        })
+    try {
+        // Periksa tabel sudah ada data
+        const existingProfile = await ProfilHimaju.findOne();
 
-        return res.status(200).json({message: 'Berhasil menambahkan Profil HME', success: true})
-    }catch(err){
-        return res.status(500).json({ message: err.message })
+        if (existingProfile) {
+            // Jika sudah ada data, kirim pesan bahwa data sudah ada
+            return res.status(400).json({ message: 'Data sudah ada', success: false });
+        } else {
+            // Jika belum ada data, tambahkan profil baru
+            await ProfilHimaju.create({
+                visi: visi,
+                misi: misi,
+                deskripsi: deskripsi
+            });
+
+            return res.status(200).json({ message: 'Berhasil menambahkan Profil HME', success: true });
+        }
+    } catch (err) {
+        return res.status(500).json({ message: err.message });
+    }
+};
+
+export const getProfil = async (req, res) => {
+    try {
+        const profil = await ProfilHimaju.findOne();
+        if (!profil) {
+            return res.status(200).json({ message: "Data not found" });
+        }
+        return res.status(200).json({ profil });
+    } catch (err) {
+        return res.status(500).json({ message: err.message });
     }
 }
+ 
+export const cekStatus = async (req, res) => {
+    const idMahasiswa = req.params.idMahasiswa;
+
+    try {
+        // Cari data himaju berdasarkan idMahasiswa
+        const himaju = await Himaju.findOne({
+            where: { idMahasiswa: idMahasiswa }
+        });
+
+        if (!himaju) {
+            return res.status(404).json({ message: 'Data himaju tidak ditemukan', success: false });
+        }
+
+        return res.status(200).json({
+            message: 'Status ditemukan',
+            status: himaju.status,
+            success: true
+        });
+    } catch (err) {
+        return res.status(500).json({ message: err.message });
+    }
+};
