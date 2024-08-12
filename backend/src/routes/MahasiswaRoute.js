@@ -9,7 +9,8 @@ import {
     list, 
     remove, 
     removeKetuaHimaju, 
-    updatePassword 
+    updatePassword,
+    getMahasiswaWithDetails
 } from '../controllers/MahasiswaController';
 
 const router = express.Router();
@@ -19,6 +20,7 @@ router.post('/add-detail', CekToken, addDetail);
 router.get('/', CekToken, list);
 router.get('/:id', CekToken, getById);
 router.put('/:id', CekToken, edit);
+router.get('/detail/:id/details', getMahasiswaWithDetails);
 router.put('/create-ketuahimaju/:id', CekToken, createKetuaHimaju);
 router.put('/remove-ketuahimaju/:id', CekToken, removeKetuaHimaju);
 router.put('/update-pass/:id', CekToken, updatePassword);

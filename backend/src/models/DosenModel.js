@@ -1,12 +1,14 @@
 import { DataTypes } from "sequelize";
-import db from '../config/database';
+import db from "../config/database";
 import User from "./UserModel";
 
-const Dosen = db.define('dosen', {
+const Dosen = db.define(
+  "dosen",
+  {
     id: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
     },
     fullname: { type: DataTypes.STRING },
     nip: { type: DataTypes.STRING },
@@ -20,16 +22,20 @@ const Dosen = db.define('dosen', {
     pns: { type: DataTypes.STRING },
     jurusan: { type: DataTypes.STRING },
     prodi: { type: DataTypes.STRING },
-}, {
+  },
+  {
     freezeTableName: true,
     timestamps: false,
-})
+  }
+);
 
-const DetailDosen = db.define('detaildosen', {
+const DetailDosen = db.define(
+  "detaildosen",
+  {
     id: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
     },
     dosenId: { type: DataTypes.INTEGER },
     pendidikanTerakhir: { type: DataTypes.STRING },
@@ -39,20 +45,19 @@ const DetailDosen = db.define('detaildosen', {
     tmtJabatan: { type: DataTypes.STRING },
     jabatan: { type: DataTypes.STRING },
     agama: { type: DataTypes.STRING },
-}, {
+  },
+  {
     freezeTableName: true,
     timestamps: false,
-})
+  }
+);
 
 // Join table - dosen to user
 User.hasMany(Dosen);
-Dosen.belongsTo(User)
+Dosen.belongsTo(User);
 
 // Join table - dosen to detail dosen
 Dosen.hasMany(DetailDosen);
-DetailDosen.belongsTo(Dosen)
+DetailDosen.belongsTo(Dosen);
 
-export {
-    Dosen,
-    DetailDosen
-};
+export { Dosen, DetailDosen };

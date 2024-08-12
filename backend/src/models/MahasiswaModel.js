@@ -31,6 +31,7 @@ const Mahasiswa = db.define('mahasiswa', {
     timestamps: false,
 })
 
+
 const DetailMahasiswa = db.define('detailmahasiswa', {
     id: {
         type: DataTypes.INTEGER,

@@ -5,14 +5,18 @@ import { Dosen } from "../models/DosenModel";
 
 // data untuk memilih mahasiswa
 export const listChooseStudent = async (req, res) => {
-    const page = parseInt(req.query.page) || 1;
-    const pageSize = parseInt(req.query.pageSize) || 10;
+    const page = parseInt(req.query.page, 10) || 1;
+    const pageSize = parseInt(req.query.pageSize, 10) || 10;
     const search = req.query.search || '';
     const offset = (page - 1) * pageSize;
     const limit = pageSize;
     const adminProdi = req.query.adminProdi;
 
-    try{
+    if (!adminProdi) {
+        return res.status(400).json({ success: false, message: 'Admin Prodi is required' });
+    }
+
+    try {
         const students = await Mahasiswa.findAndCountAll({
             where: {
                 prodi: adminProdi,
@@ -24,15 +28,14 @@ export const listChooseStudent = async (req, res) => {
             offset,
             limit,
             order: [['fullname', 'ASC']]
-        })
+        });
 
-        res.status(200).json({
-            result: students
-        })
-    }catch(err){
-        res.status(500).json({ message: err.message })
+        res.status(200).json({ result: students });
+    } catch (err) {
+        res.status(500).json({ success: false, message: err.message });
     }
-}
+};
+
 
 // data untuk memilih mahasiswa
 export const listChooseDosen = async (req, res) => {
@@ -85,17 +88,29 @@ export const add = async (req, res) => {
     const idMahasiswa = req.body.idMahasiswa;
     const idDosen = req.body.idDosen;
 
-    try{
+    try {
+        // Cek apakah mahasiswa sudah memiliki dosen
+        const existingBimbingan = await Bimbingan.findOne({
+            where: {
+                idMahasiswa: idMahasiswa
+            }
+        });
+
+        if (existingBimbingan) {
+            return res.status(400).json({ message: 'Mahasiswa dengan nama ini sudah memiliki dosen pembimbing', success: false });
+        }
+
+        // Tambahkan data baru
         await Bimbingan.create({
             idMahasiswa: idMahasiswa,
             idDosen: idDosen
-        })
+        });
 
-        return res.status(200).json({ message: 'Berhasil menambahkan Dospem', success: true })
-    }catch(err){
-        return res.status(500).json({ message: err.message })
+        return res.status(200).json({ message: 'Berhasil menambahkan Dospem', success: true });
+    } catch (err) {
+        return res.status(500).json({ message: err.message, success: false });
     }
-}
+};
 
 export const list = async (req, res) => {
     const page = parseInt(req.query.page) || 0;

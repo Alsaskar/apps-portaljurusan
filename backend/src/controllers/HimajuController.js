@@ -1,6 +1,7 @@
 import { Mahasiswa } from "../models/MahasiswaModel";
 import { Himaju, ProfilHimaju, ProkerHimaju } from "../models/HimajuModel";
 import { Op } from "sequelize";
+import transporter from '../config/email';
 
 // jadikan mahasiswa sebagai himaju
 export const add = async (req, res) => {
@@ -218,63 +219,106 @@ export const deleteProfil = async (req, res) => {
 
 // tambahkan proker atau kegiatan
 export const addProker = async (req, res) => {
-    const namaKegiatan = req.body.namaKegiatan;
-    const description = req.body.description;
-    const tglPelaksanaan = req.body.tglPelaksanaan;
-    const jamMulai = req.body.jamMulai;
-    const jamSelesai = req.body.jamSelesai;
-    const lokasi = req.body.lokasi;
+    const { namaKegiatan, description, tglPelaksanaan, jamMulai, jamSelesai, lokasi } = req.body;
 
-    try{
+    try {
         await ProkerHimaju.create({
-            namaKegiatan: namaKegiatan,
-            description: description,
-            tglPelaksanaan: tglPelaksanaan,
-            jamMulai: jamMulai,
-            jamSelesai: jamSelesai,
-            lokasi: lokasi
-        })
+            namaKegiatan,
+            description,
+            tglPelaksanaan,
+            jamMulai,
+            jamSelesai,
+            lokasi,
+        });
 
-        if(namaKegiatan === ''){
-            return res.status(500).json({ message: 'Nama Kegiatan masih kosong', success: false })
-        }else if(description === ''){
-            return res.status(500).json({ message: 'Deskripsi masih kosong', success: false })
-        }else if(tglPelaksanaan === ''){
-            return res.status(500).json({ message: 'Tanggal Pelaksanaan masih kosong', success: false })
-        }else if(jamMulai === ''){
-            return res.status(500).json({ message: 'Jam Mulai masih kosong', success: false })
-        }else if(jamSelesai === ''){
-            return res.status(500).json({ message: 'Jam Selesai masih kosong', success: false })
-        }else if(lokasi === ''){
-            return res.status(500).json({ message: 'Deskripsi masih kosong', success: false })
-        }else{
-            return res.status(200).json({ message: 'Berhasil tambahkan Program Kerja', success: true })
-        }
-    }catch(err){
-        return res.status(500).json({ message: err.message });
+        res.status(200).json({ message: 'Program Kerja berhasil ditambahkan', success: true });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
     }
-}
+};
 
+// Daftar Proker
 export const listProker = async (req, res) => {
-    try{
-        const result = await ProkerHimaju.findAll()
-
-        return res.status(200).json({ result: result })
-    }catch(err){
-        return res.status(500).json({ message: err.message });
+    try {
+        const result = await ProkerHimaju.findAll();
+        res.status(200).json({ result });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
     }
-}
+};
 
+// Hapus Proker
 export const deleteProker = async (req, res) => {
     const id = req.params.id;
 
-    try{
+    try {
         await ProkerHimaju.destroy({
-            where: { id: id }
-        })
-        
-        return res.status(200).json({ message: 'Program Kerja berhasil dihapus', success: true })
-    }catch(err){
-        return res.status(500).json({ message: err.message });
+            where: { id },
+        });
+        res.status(200).json({ message: 'Program Kerja berhasil dihapus', success: true });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
     }
-}
+};
+
+// Notifikasi Email Satu Jam Sebelumnya
+export const notifyUpcomingEvents = async () => {
+    const now = new Date();
+    const oneHourLater = new Date(now.getTime() + 60 * 60 * 1000);
+
+    try {
+        // Langkah 1: Ambil semua Himaju dengan status 'terima'
+        const acceptedHimaju = await Himaju.findAll({
+            where: { status: 'terima' },
+            attributes: ['idMahasiswa']
+        });
+
+        // Ambil idMahasiswa dari hasil query
+        const acceptedMahasiswaIds = acceptedHimaju.map(h => h.idMahasiswa);
+
+        if (acceptedMahasiswaIds.length === 0) {
+            console.log('Tidak ada pengguna dengan status "terima".');
+            return;
+        }
+
+        // Langkah 2: Ambil acara yang dimulai dalam satu jam ke depan
+        const events = await ProkerHimaju.findAll({
+            where: {
+                tglPelaksanaan: {
+                    [Op.eq]: now.toISOString().split('T')[0], // Hari ini
+                },
+                jamMulai: {
+                    [Op.between]: [
+                        now.toTimeString().split(' ')[0].substring(0, 5), 
+                        oneHourLater.toTimeString().split(' ')[0].substring(0, 5)
+                    ],
+                },
+            }
+        });
+
+        if (events.length === 0) {
+            console.log('Tidak ada acara yang akan datang.');
+            return;
+        }
+
+        // Langkah 3: Kirim notifikasi
+        events.forEach((event) => {
+            const mailOptions = {
+                from: "oswaldtanlee44@gmail.com",
+                to: 'oswaldtanlee444@gmail.com', 
+                subject: `Pengingat: ${event.namaKegiatan} akan dimulai dalam 1 jam`,
+                text: `Halo,\n\nIni adalah pengingat bahwa acara "${event.namaKegiatan}" akan dimulai dalam 1 jam.\n\nDetail:\nDeskripsi: ${event.description}\nTanggal: ${event.tglPelaksanaan}\nJam Mulai: ${event.jamMulai}\nJam Selesai: ${event.jamSelesai}\nLokasi: ${event.lokasi}`,
+            };
+
+            transporter.sendMail(mailOptions, (error, info) => {
+                if (error) {
+                    console.error('Error saat mengirim email:', error);
+                } else {
+                    console.log('Email terkirim:', info.response);
+                }
+            });
+        });
+    } catch (err) {
+        console.error('Error saat mengambil data acara:', err);
+    }
+};
