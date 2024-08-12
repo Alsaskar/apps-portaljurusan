@@ -16,7 +16,7 @@ const AreaDetailsProfileOrangtua = () => {
     return (
       <div className="area-details-profile">
         <div className="area-details-container">
-          <p className="area-details-title-head">Profile Orangtua</p>
+          <p className="area-details-title-head">Profile Wali</p>
           <div className="divider-orangtua"></div>
           <div className="area-details-content">
             {/*Nama*/}

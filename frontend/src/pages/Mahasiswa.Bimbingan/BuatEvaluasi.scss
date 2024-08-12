@@ -1,0 +1,158 @@
+.form-buat-evaluasi {
+  .title-buat-evaluasi {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-color-inverted);
+    margin-bottom: 20px;
+
+    background-color: var(--secondary-color);
+    padding: 20px;
+    border-radius: 10px;
+  }
+
+  .lihat-file-evaluasi {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+
+    width: 145px;
+    margin-top: 10px;
+    padding: 8px 30px;
+    background-color: var(--blue-color);
+    border-radius: 12px;
+    transition: var(--default-transition);
+    color: #fff;
+    border: none;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-bottom: 20px;
+
+    &:hover {
+      background-color: #458bf5;
+    }
+  }
+
+  .form-buat-evaluasi-container {
+    background-color: var(--secondary-color);
+    padding: 20px;
+    border-radius: 10px;
+
+    .form-buat-evaluasi-mahasiswa {
+      .form-content {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        column-gap: 16px;
+
+        @media (max-width: 768px) {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+
+        .important {
+          color: var(--red-color);
+        }
+
+        .error-form {
+          margin-top: 5px;
+          font-size: 12px;
+          color: var(--red-color);
+          font-style: italic;
+        }
+
+        label {
+          font-size: 14px;
+          color: var(--text-color-inverted);
+          margin-bottom: 5px;
+          display: block;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        select {
+          width: 100%;
+          padding: 8px;
+          border: 2px solid var(--input-form-color);
+          border-radius: 4px;
+          background-color: var(--input-form-color);
+          color: var(--text-color-inverted);
+
+          &:focus {
+            border: 2px solid var(--blue-color);
+            outline: none;
+          }
+
+          @media (max-width: 768px) {
+            width: calc(100%);
+          }
+        }
+
+        input[type="file"] {
+          cursor: pointer;
+        }
+
+        .signature-section {
+
+          .signature {
+            border: 2px solid var(--input-form-color);
+            border-radius: 4px;
+            background-color: var(--input-form-color);
+            margin-bottom: 10px;
+
+            .sigCanvas {
+              width: 510px;
+              height: 150px;
+
+              @media (max-width: 768px) {
+                
+                width: 100%;
+              }
+            }
+          }
+
+          .btn-clear-signature {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 20px;
+            background-color: var(--red-color);
+            border-radius: 12px;
+            transition: var(--default-transition);
+            color: #fff;
+            border: none;
+            font-size: 13px;
+            cursor: pointer;
+            margin: 0 auto;
+
+            &:hover {
+              background-color: #f77777;
+            }
+          }
+        }
+      }
+
+      .btn-buat-evaluasi {
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        margin-top: 10px;
+        padding: 8px 30px;
+        background-color: var(--blue-color);
+        border-radius: 12px;
+        transition: var(--default-transition);
+        color: #fff;
+        border: none;
+        cursor: pointer;
+
+        &:hover {
+          background-color: #458bf5;
+        }
+      }
+    }
+  }
+}

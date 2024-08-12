@@ -8,8 +8,9 @@ import * as Yup from "yup";
 import { useEffect, useState, useCallback } from "react";
 import { BsDatabaseAdd } from "react-icons/bs";
 import { useParams } from "react-router-dom";
-import { FaRegEdit } from "react-icons/fa";
+import { MdEditSquare  } from "react-icons/md";
 import ModalEditDetails from "./ModalEditDetails";
+import useFormatDate from "../../hooks/useFormatDateHooks";
 
 const validationSchema = Yup.object().shape({
   statusMahasiswa: Yup.string().required("Status Mahasiswa harus diisi"),
@@ -35,6 +36,8 @@ const AdminDetailsMahasiswa = () => {
   const { id } = useParams();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const { formatDate } = useFormatDate();
+
   const handleEditDetailsClick = () => {
     // console.log('Edit Modal')
     setIsModalOpen(true);
@@ -56,6 +59,7 @@ const AdminDetailsMahasiswa = () => {
       setUser(res.data.result.user);
       setDetailMahasiswa(res.data.result.detailmahasiswas[0]);
       setCekDetail(res.data.result.detailmahasiswas.length);
+      console.log(res.data.result);
     } catch (err) {
       console.log(err);
     }
@@ -146,7 +150,7 @@ const AdminDetailsMahasiswa = () => {
           <div className="profile-detail">
             <p className="label-name">Tempat Tanggal Lahir</p>
             <p className="content-name">
-              {mahasiswa.kotaLahir === undefined ? "Loading..." : mahasiswa.kotaLahir}, {mahasiswa.tglLahir === undefined ? "Loading..." : mahasiswa.tglLahir}
+              {mahasiswa.kotaLahir === undefined ? "Loading..." : mahasiswa.kotaLahir}, {mahasiswa.tglLahir === undefined ? "Loading..." : formatDate(mahasiswa.tglLahir)}
             </p>
           </div>
         </div>
@@ -244,7 +248,7 @@ const AdminDetailsMahasiswa = () => {
                 </div>
 
                 <div onClick={handleEditDetailsClick} className="button-edit-detail">
-                 <FaRegEdit size={16} /> Edit
+                 <MdEditSquare size={18} /> Edit
                 </div>
               </form>
             ) : (

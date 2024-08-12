@@ -1,22 +1,42 @@
-.evaluasi {
+.program-kerja {
   .container {
-    .text-section {
-      padding: 20px;
-      border-radius: 10px;
-      background-color: var(--secondary-color);
-
-      display: flex;
-      column-gap: 5px;
-
-      .name-title {
-        border: 2px solid var(--border-color);
+    .content {
+      .text-title-program-kerja {
+        padding: 20px;
         border-radius: 10px;
-        padding: 10px;
-        font-size: 14px;
-        color: var(--text-color-inverted);
+        background-color: var(--secondary-color);
+
+        .title {
+          font-size: 18px;
+          font-weight: 600;
+          color: var(--text-color-inverted);
+        }
+      }
+
+      .btn-data-program-kerja-hme {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+        margin-top: 20px;
+        padding: 8px 30px;
+        background-color: var(--blue-color);
+        border-radius: 12px;
+        transition: var(--default-transition);
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        width: 165px;
+        font-size: 13px;
+        font-weight: 600;
+
+        &:hover {
+          background-color: #458bf5;
+        }
       }
     }
-    .content {
+
+    .buat-program-kerja {
       margin-top: 20px;
       padding: 20px;
       border-radius: 10px;
@@ -28,9 +48,7 @@
         color: var(--text-color-inverted);
       }
 
-      .form-add-category {
-        margin-top: 20px;
-
+      .form-buat-program-kerja {
         .form-content {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
@@ -66,6 +84,7 @@
           input[type="email"],
           input[type="date"],
           input[type="file"],
+          input[type="time"],
           select {
             width: 100%;
             padding: 8px;
@@ -90,10 +109,7 @@
         }
 
         .button-dua {
-          display: flex;
-          column-gap: 10px;
-
-          .button-simpan-rps {
+          .button-simpan-program-kerja {
             margin-bottom: 10px;
             display: flex;
             align-items: center;
@@ -109,26 +125,6 @@
 
             &:hover {
               background-color: #458bf5;
-            }
-          }
-
-          .button-batal-rps {
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            margin-top: 10px;
-            padding: 8px 30px;
-            background-color: var(--red-color);
-            border-radius: 12px;
-            transition: var(--default-transition);
-            color: #fff;
-            border: none;
-            cursor: pointer;
-            font-size: 14px;
-
-            &:hover {
-              background-color: #f56363;
             }
           }
         }

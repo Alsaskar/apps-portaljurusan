@@ -1,19 +1,5 @@
 .form-add {
-    overflow-y: auto;
-
-    &::-webkit-scrollbar {
-      width: 0px;
-    }
-    &::-webkit-scrollbar-track {
-      background-color: var(--scroll-track-bg-color);
-    }
-    &::-webkit-scrollbar-thumb {
-      border-radius: 100vh !important;
-      background-color: var(--scroll-thumb-bg-color);
-      outline: 1px solid rgba(0, 0, 0, 0.02);
-      outline-offset: -1px;
-    }
-
+  
   .form-add-container {
     .title-edit-mahasiswa {
       font-weight: 600;

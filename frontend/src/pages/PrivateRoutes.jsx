@@ -5,29 +5,30 @@ import { useContext } from "react";
 import { MahasiswaProvider } from "../context/MahasiswaContext";
 import { DosenProvider } from "../context/DosenContext";
 
-const RoleBasedProvider = ({children}) => {
+const RoleBasedProvider = ({ children }) => {
   const data = useContext(UserContext);
 
-  if(data.user.role === 'mahasiswa'){
-    return <MahasiswaProvider>{children}</MahasiswaProvider>
-  }else if(data.user.role === 'dosen'){
-    return <DosenProvider>{children}</DosenProvider>
-  }else{
-    return <div>{children}</div>
+  if (data.user.role === "mahasiswa") {
+    return <MahasiswaProvider>{children}</MahasiswaProvider>;
+  } else if (data.user.role === "dosen") {
+    return <DosenProvider>{children}</DosenProvider>;
+  } else {
+    return <div>{children}</div>;
   }
-}
+};
 const PrivateRoutes = () => {
-  let auth = sessionStorage.getItem('isLoggedIn');
+  let auth = sessionStorage.getItem("isLoggedIn");
 
-  return ( 
-    auth ? // telah login
-      <UserProvider>
+  return auth ? ( // telah login
+    <UserProvider>
       <RoleBasedProvider>
         <Outlet />
       </RoleBasedProvider>
-      </UserProvider> : <Navigate to="/" />
-  )
-}
+    </UserProvider>
+  ) : (
+    <Navigate to="/" />
+  );
+};
 
 export default PrivateRoutes;
 

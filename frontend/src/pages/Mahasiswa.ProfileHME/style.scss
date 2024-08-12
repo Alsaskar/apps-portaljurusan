@@ -1,214 +1,171 @@
-.tentang-hme {
-    .container {
-      .editor {
+.tentang-profile-hme {
+  .container {
+    .editor {
+      .see {
+        background-color: var(--blue-color);
+        padding: 10px 30px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        color: #fff;
+        font-size: 13px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        width: 200px;
+
         display: flex;
-        column-gap: 20px;
-  
-        .text-editor {
-          background-color: var(--secondary-color);
-          padding: 20px;
-          border-radius: 10px;
-          width: 50%;
-          
-          .title-desc {
-              margin-bottom: 20px;
-              font-size: 18px;
-              font-weight: 600;
-              color: var(--text-color-inverted);
-            }
-  
-          .text {
-              color: var(--text-color-inverted);
+        align-items: center;
+        column-gap: 5px;
+
+          &:hover {
+            background-color: #4c7cff;
           }
-  
-          .btn-buat {
-            margin-top: 20px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            padding: 8px 30px;
-            border-radius: 12px;
-            color: #fff;
-            border: none;
-            cursor: pointer;
-            background-color: var(--blue-color);
-            transition: all 0.3s ease;
-  
-            &:hover {
-              background-color: #4c7cff;
-            }
-          }
-  
-          @media (max-width: 768px) {
-            width: 100%;
-          }
-  
-          .ql-font-normal {
-            font-weight: 400; // Normal weight
-          }
-          
-          .ql-font-medium {
-            font-weight: 600; // Medium weight
-          }
-          
-          .ql-font-bold {
-            font-weight: 700; // Bold weight
+      }
+      .text-editor {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        width: 100%;
+
+        .title-desc {
+          margin-bottom: 20px;
+          font-size: 18px;
+          font-weight: 600;
+          color: var(--text-color-inverted);
+        }
+
+        .text {
+          color: var(--text-color-inverted);
+        }
+
+        .btn-buat {
+          margin-top: 20px;
+          display: flex;
+          align-items: center;
+          gap: 5px;
+          padding: 8px 30px;
+          border-radius: 12px;
+          color: #fff;
+          border: none;
+          cursor: pointer;
+          background-color: var(--blue-color);
+          transition: all 0.3s ease;
+
+          &:hover {
+            background-color: #4c7cff;
           }
         }
-  
-        .hasil {
-          background-color: var(--secondary-color);
-          padding: 20px;
-          border-radius: 10px;
-          width: 50%;
-  
-          .title-prev {
-            margin-bottom: 20px;
-            font-size: 18px;
-            font-weight: 600;
-            color: var(--text-color-inverted);
-          }
-          .preview {
-            color: var(--text-color-inverted);
-            font-size: 14px;
-          }
-  
-          @media (max-width: 768px) {
-            width: 100%;
-            margin-top: 20px;
-          }
-        }
-  
+
         @media (max-width: 768px) {
-          flex-direction: column;
+          width: 100%;
+        }
+
+        .ql-font-normal {
+          font-weight: 400; // Normal weight
+        }
+
+        .ql-font-medium {
+          font-weight: 600; // Medium weight
+        }
+
+        .ql-font-bold {
+          font-weight: 700; // Bold weight
         }
       }
-      .visi-misi-form {
-        display: flex;
+
+      @media (max-width: 768px) {
         flex-direction: column;
-        margin-top: 20px;
+      }
+    }
 
-        background-color: var(--secondary-color);
-          border-radius: 10px;
-  
-        .form-buat-visi {
-          align-self: flex-start;
-          width: 100%;
-  
-          .title-visi {
-            margin-bottom: 20px;
-            font-size: 18px;
-            font-weight: 600;
-            color: var(--text-color-inverted);
-          }
+    .visi-misi-form {
+      display: flex;
+      flex-direction: column;
+      margin-top: 20px;
+      padding: 20px;
 
-          .title-misi {
-            // margin-top: 20px;
+      background-color: #fff;
+      border-radius: 10px;
+
+      .form-buat-visi-misi {
+        align-self: flex-start;
+        width: 100%;
+
+        .title-visi {
+          margin-bottom: 20px;
+          font-size: 18px;
+          font-weight: 600;
+          color: var(--text-color-inverted);
+        }
+
+        .title-misi {
+          // margin-top: 20px;
+          margin-bottom: 20px;
+          font-size: 18px;
+          font-weight: 600;
+          color: var(--text-color-inverted);
+        }
+
+        .form-content {
+          .form-group {
+            display: flex;
+            column-gap: 10px;
             margin-bottom: 20px;
-            font-size: 18px;
-            font-weight: 600;
-            color: var(--text-color-inverted);
-          }
-  
-          .form-content {
-            .form-group {
-              display: flex;
-              margin-bottom: 20px;
-  
-              .important {
-                color: var(--red-color);
+
+            .important {
+              color: var(--red-color);
+            }
+
+            .error-form {
+              margin-top: 5px;
+              font-size: 12px;
+              color: var(--red-color);
+              font-style: italic;
+            }
+
+            input[type="text"],
+            select {
+              width: 100%;
+              padding: 8px;
+              border: 2px solid var(--input-form-color);
+              border-radius: 4px;
+              background-color: var(--input-form-color);
+              color: var(--text-color-inverted);
+              // margin-right: 10px;
+
+              &:focus {
+                border: 2px solid var(--blue-color);
+                outline: none;
               }
-  
-              .error-form {
-                margin-top: 5px;
-                font-size: 12px;
-                color: var(--red-color);
-                font-style: italic;
-              }
-  
-              input[type="text"],
-              select {
-                width: 100%;
-                padding: 8px;
-                border: 2px solid var(--input-form-color);
-                border-radius: 4px;
-                background-color: var(--input-form-color);
-                color: var(--text-color-inverted);
-                margin-right: 10px;
-  
-                &:focus {
-                  border: 2px solid var(--blue-color);
-                  outline: none;
-                }
-  
-                @media (max-width: 768px) {
-                  width: calc(100%);
-                }
-              }
-  
-              .btn-hapus {
-                padding: 4px 10px;
-                border-radius: 5px;
-                border: none;
-                cursor: pointer;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                color: #fff;
-                background-color: #ff0000;
-                transition: all 0.3s ease;
-  
-                &:hover {
-                  background-color: #ff3d3d;
-                }
+
+              @media (max-width: 768px) {
+                width: calc(100%);
               }
             }
-          }
-  
-          .btn-section {
-            display: flex;
-            column-gap: 5px;
-  
-            .btn {
-              display: flex;
-              align-items: center;
-              gap: 5px;
-              padding: 8px 30px;
-              border-radius: 12px;
-              color: #fff;
+
+            .btn-hapus {
+              padding: 4px 10px;
+              border-radius: 5px;
               border: none;
               cursor: pointer;
-  
-              &.blue {
-                background-color: var(--blue-color);
-                transition: all 0.3s ease;
-  
-                &:hover {
-                  background-color: #4c7cff;
-                }
-              }
-  
-              &.orange {
-                background-color: #ffa500;
-                transition: all 0.3s ease;
-  
-                &:hover {
-                  background-color: #ffc71f;
-                }
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              color: #fff;
+              background-color: #ff0000;
+              transition: all 0.3s ease;
+
+              &:hover {
+                background-color: #ff3d3d;
               }
             }
           }
-  
-          @media (max-width: 768px) {
-            width: 100%;
-          }
-        }
-  
-        @media (max-width: 768px) {
-          flex-direction: column;
         }
 
-        .btn {
+        .btn-section {
+          display: flex;
+          column-gap: 5px;
+
+          .btn {
             display: flex;
             align-items: center;
             gap: 5px;
@@ -219,7 +176,6 @@
             cursor: pointer;
 
             &.blue {
-                margin-top: 40px;
               background-color: var(--blue-color);
               transition: all 0.3s ease;
 
@@ -237,7 +193,64 @@
               }
             }
           }
+        }
+
+        @media (max-width: 768px) {
+          width: 100%;
+        }
+      }
+
+      @media (max-width: 768px) {
+        flex-direction: column;
+      }
+
+      .btn {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        padding: 8px 30px;
+        border-radius: 12px;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+
+        &.blue {
+          margin-top: 40px;
+          background-color: var(--blue-color);
+          transition: all 0.3s ease;
+
+          &:hover {
+            background-color: #4c7cff;
+          }
+        }
+
+        &.orange {
+          background-color: #ffa500;
+          transition: all 0.3s ease;
+
+          &:hover {
+            background-color: #ffc71f;
+          }
+        }
       }
     }
   }
-  
+}
+
+.my-custom-editor .ProseMirror {
+  padding: 8px;
+  border: 2px solid var(--input-form-color);
+  border-radius: 4px;
+  background-color: var(--input-form-color);
+  color: var(--text-color-inverted);
+  font-size: 13px;
+
+  &:focus {
+    border: 2px solid var(--blue-color);
+    outline: none;
+  }
+
+  @media (max-width: 768px) {
+    width: calc(100%);
+  }
+}

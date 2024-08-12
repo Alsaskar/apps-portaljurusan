@@ -1,4 +1,4 @@
-.title {
+.title-data {
     background-color: #fff;
     padding: 20px;
     border-radius: 10px;
@@ -161,8 +161,47 @@
                   background-color: #f86767;
                 }
             }
+            &.keluarkan {
+              background-color: var(--red-color);
+              transition: all 0.3s ease;
+  
+              &:hover {
+                  background-color: #f86767;
+                }
+            }
   
             
+          }
+
+          &.data-status-badge {
+            .badge {
+              padding: 0.25em 0.5em;
+              font-size: 13px;
+              font-weight: 600;
+              color: #fff;
+              text-align: center;
+              white-space: nowrap;
+              vertical-align: baseline;
+              border-radius: 5px;
+  
+              &.badge-terima {
+                background-color: var(--green-color); 
+              }
+  
+              /* Anggota Aktif Badge */
+              &.badge-pending {
+                background-color: var(--orange-color); 
+              }
+  
+              /* Ketua Badge */
+              &.badge-tolak {
+                background-color: var(--red-color); 
+              }
+
+              &.badge-keluarkan {
+                background-color: var(--red-color); 
+              }
+            }
           }
         }
   
@@ -187,33 +226,6 @@
           display: flex;
           align-items: center;
           justify-content: center;
-        }
-  
-        .dt-status {
-          display: flex;
-          align-items: center;
-          justify-content: flex-start;
-          column-gap: 6px;
-  
-          .dt-status-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 100%;
-  
-            &.dot-cuti {
-              background-color: var(--orange-color);
-            }
-            &.dot-keluar {
-              background-color: var(--red-color);
-            }
-            &.dot-aktif {
-              background-color: var(--green-color);
-            }
-          }
-  
-          .dt-status-text {
-            text-transform: capitalize;
-          }
         }
       }
     }

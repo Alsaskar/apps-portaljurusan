@@ -6,11 +6,10 @@ import { MdOutlineClose, MdKeyboardArrowRight, MdWbSunny, MdFormatListBulletedAd
 import { IoDocumentAttachSharp, IoDocumentText, IoLogOut } from "react-icons/io5";
 import { HiDocumentPlus, HiChatBubbleLeftRight, HiMiniClipboardDocumentCheck, HiDocumentText } from "react-icons/hi2";
 import { HiUserAdd } from "react-icons/hi";
-import { PiStudentFill, PiUsersThreeFill, PiNetworkFill, PiUsersFourFill, PiListChecksFill, PiMonitorFill  } from "react-icons/pi";
+import { PiStudentFill, PiUsersThreeFill, PiMonitorFill  } from "react-icons/pi";
 import { AiFillSchedule, AiFillMessage } from "react-icons/ai";
 import { MdAssignmentAdd, MdDocumentScanner, MdLock  } from "react-icons/md";
 import { BiSolidMessageRoundedAdd } from "react-icons/bi";
-import { FaPeopleRoof } from "react-icons/fa6";
 import { FaUserFriends, FaChalkboardTeacher } from "react-icons/fa";
 import { RiCalendarScheduleFill, RiMoonClearFill, RiDashboardHorizontalFill, RiMailSendFill, RiFileList2Fill } from "react-icons/ri";
 import LogoBlue from "../../assets/images/logo_blue.png";
@@ -54,7 +53,6 @@ const AdminSidebar = () => {
   const [evaluasiSubmenuOpen, setEvaluasiSubmenuOpen] = useState(false);
   const [bimbinganSubmenuOpen, setBimbinganSubmenuOpen] = useState(false);
   const [rpsSubmenuOpen, setRPSSubmenuOpen] = useState(false);
-  const [himajuSubmenuOpen, setHimajuSubmenuOpen] = useState(false);
   const [jadwalSubmenuOpen, setJadwalSubmenuOpen] = useState(false);
   const [absensiSubmenuOpen, setAbsensiSubmenuOpen] = useState(false);
   const [monitoringSubmenuOpen, setMonitoringSubmenuOpen] = useState(false);
@@ -144,15 +142,6 @@ const AdminSidebar = () => {
     if (!rpsSubmenuOpen) {
       setActiveMenu("rps");
       sessionStorage.setItem("activeMenu", "rps");
-    }
-  };
-
-  //hme
-  const toggleHimajuSubmenu = () => {
-    setHimajuSubmenuOpen(!himajuSubmenuOpen);
-    if (!himajuSubmenuOpen) {
-      setActiveMenu("himaju");
-      sessionStorage.setItem("activeMenu", "himaju");
     }
   };
 
@@ -385,66 +374,6 @@ const AdminSidebar = () => {
                         <IoDocumentText size={20} />
                       </span>
                       <div className={`submenu-link-text`}>Daftar RPS</div>
-                    </Link>
-                  </li>
-                </ul>
-              )}
-            </li>
-
-            {/*hme*/}
-            <li className={`menu-item`}>
-              <div className={`menu-link ${activeMenu === "himaju" ? "active" : ""}`} onClick={toggleHimajuSubmenu}>
-                <span className="menu-link-icon">
-                  <FaPeopleRoof size={20} />
-                </span>
-                <div className="menu">
-                  <span className="menu-link-text">HME</span>
-                </div>
-                <span className={`submenu-arrow ${himajuSubmenuOpen ? "open" : ""}`}>
-                  <MdKeyboardArrowRight size={18} style={{ transform: himajuSubmenuOpen ? "rotate(90deg)" : "none", transition: "transform 0.3s ease" }} />
-                </span>
-              </div>
-              {/* Submenu */}
-              {himajuSubmenuOpen && (
-                <ul className={`submenu ${himajuSubmenuOpen ? "open" : ""}`}>
-                  <li className="submenu-item">
-                    <Link to="/admin/profile/hme" className="submenu-link" onClick={() => handleSubmenuClick("Prof HME")}>
-                      <span className="menu-link-icon">
-                        <RiFileList2Fill size={20} />
-                      </span>
-                      <div className={`submenu-link-text`}>
-                        Profile HME
-                      </div>
-                    </Link>
-                  </li>
-                  <li className="submenu-item">
-                    <Link to="/admin/pendaftaran/hme" className="submenu-link" onClick={() => handleSubmenuClick("Pendaftaran HME")}>
-                      <span className="menu-link-icon">
-                        <PiListChecksFill size={20} />
-                      </span>
-                      <div className={`submenu-link-text`}>
-                        Pendaftaran HME
-                      </div>
-                    </Link>
-                  </li>
-                  <li className="submenu-item">
-                    <Link to="/admin/buat/program/kerja" className="submenu-link" onClick={() => handleSubmenuClick("Program Kerja")}>
-                      <span className="menu-link-icon">
-                        <PiNetworkFill size={20} />
-                      </span>
-                      <div className={`submenu-link-text`}>
-                        Program Kerja
-                      </div>
-                    </Link>
-                  </li>
-                  <li className="submenu-item">
-                    <Link to="/admin/anggota/hme" className="submenu-link" onClick={() => handleSubmenuClick("Anggota HME")}>
-                      <span className="menu-link-icon">
-                        <PiUsersFourFill size={20} />
-                      </span>
-                      <div className={`submenu-link-text`}>
-                        Anggota HME
-                      </div>
                     </Link>
                   </li>
                 </ul>

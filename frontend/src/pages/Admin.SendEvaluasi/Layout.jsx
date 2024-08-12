@@ -1,139 +1,73 @@
-import "./style.scss";
-import { BsDatabaseAdd } from "react-icons/bs";
-import { Formik } from "formik";
-import * as Yup from "yup";
+import { useState } from "react";
 import axios from "axios";
+import "./style.scss";
 import { urlApi } from "../../config";
 
 const Layout = () => {
-  // Validasi dengan Yup
-  const validationSchema = Yup.object().shape({
-    fileEvaluasi: Yup.mixed()
-      .required("File Evaluasi harus diisi")
-      .test(
-        "fileFormat",
-        "Hanya file PDF yang diperbolehkan",
-        (value) => value && value.type === "application/pdf"
-      ),
-    noTujuan: Yup.string()
-      .matches(/^[0-9]{10,}$/, "Nomor tujuan tidak valid")
-      .required("Nomor Tujuan harus diisi"),
-  });
+  const [to, setTo] = useState("");
+  const [subject, setSubject] = useState("");
+  const [text, setText] = useState("");
+  const [response, setResponse] = useState("");
 
-  // Handle file upload and WhatsApp message
-  const handleUpload = async (values) => {
-    const { fileEvaluasi, noTujuan } = values;
-
-    if (!fileEvaluasi || !noTujuan) {
-      alert("Please provide both file and WhatsApp number.");
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append("file", fileEvaluasi);
+  const sendEmail = async (e) => {
+    e.preventDefault();
 
     try {
-      const response = await axios.post(`${urlApi}/upload`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
+      const res = await axios.post(
+        `${urlApi}/email/send-email`,
+        {
+          to,
+          subject,
+          text,
         },
-      });
-
-      const filePath = response.data.filePath;
-      const fileUrl = `${urlApi}/files/${filePath}`;
-
-      // Kirim pesan ke WhatsApp tanpa baris baru
-      const message = `Download file nya disini: ${fileUrl}`;
-
-      // Tambahkan delay sebelum membuka URL WhatsApp
-      setTimeout(() => {
-        window.open(
-          `https://wa.me/${noTujuan}?text=${encodeURIComponent(message)}`
-        );
-      }, 500); // Delay 500ms
+        {
+          headers: {
+            Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+          },
+        }
+      );
+      setResponse(res.data.message);
     } catch (error) {
-      console.error("Error uploading file:", error);
-      alert("Error uploading file.");
+      setResponse("Error sending email: " + error.message);
     }
   };
 
   return (
-    <div className="send-evaluasi">
-      <div className="container">
-        <div className="content">
-          <p className="title">Kirim Evaluasi</p>
-          <Formik
-            initialValues={{
-              fileEvaluasi: null,
-              noTujuan: "",
-            }}
-            onSubmit={handleUpload}
-            validationSchema={validationSchema}
-          >
-            {({
-              errors,
-              touched,
-              handleSubmit,
-              handleChange,
-              setFieldValue,
-            }) => (
-              <form onSubmit={handleSubmit} className="form-send-evaluasi">
-                <div className="form-content">
-                  <div className="form-group">
-                    <label htmlFor="fileEvaluasi">
-                      File Evaluasi <span className="important">*</span>
-                    </label>
-                    <input
-                      type="file"
-                      id="fileEvaluasi"
-                      name="fileEvaluasi"
-                      accept=".pdf"
-                      onChange={(event) =>
-                        setFieldValue(
-                          "fileEvaluasi",
-                          event.currentTarget.files[0]
-                        )
-                      }
-                    />
-                    {touched.fileEvaluasi && errors.fileEvaluasi ? (
-                      <div className="error-form">{errors.fileEvaluasi}</div>
-                    ) : null}
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="noTujuan">
-                      No Tujuan <span className="important">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      id="noTujuan"
-                      name="noTujuan"
-                      placeholder="Enter WhatsApp number"
-                      onChange={handleChange}
-                    />
-                    {touched.noTujuan && errors.noTujuan ? (
-                      <div className="error-form">{errors.noTujuan}</div>
-                    ) : null}
-                  </div>
-                </div>
-                <div className="button-dua">
-                  <button type="submit" className="button-simpan-rps">
-                    <BsDatabaseAdd size={16} />
-                    <span>Kirim</span>
-                  </button>
-                </div>
-              </form>
-            )}
-          </Formik>
+    <div className="send-email">
+      <h1>Send Email</h1>
+      <form onSubmit={sendEmail}>
+        <div>
+          <label htmlFor="to">To:</label>
+          <input
+            type="email"
+            id="to"
+            value={to}
+            onChange={(e) => setTo(e.target.value)}
+            required
+          />
         </div>
-
-        <div className="desc">
-          <p className="title"><span className="important">*</span>Info</p>
-          <ul className="section-text">
-            <li className="text-info">Pastikan untuk membuka <span className="wa-desktop">WhatsApp Desktop</span> terlebih dahulu sebelum mengirim evaluasi. Tidak menggunakan <span className="wa-web">WhatsApp Web</span>!</li>
-            <li className="text-info wa">Untuk no WhatsApp diawali dengan no Negara (628).</li>
-          </ul>
+        <div>
+          <label htmlFor="subject">Subject:</label>
+          <input
+            type="text"
+            id="subject"
+            value={subject}
+            onChange={(e) => setSubject(e.target.value)}
+            required
+          />
         </div>
-      </div>
+        <div>
+          <label htmlFor="text">Text:</label>
+          <textarea
+            id="text"
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            required
+          ></textarea>
+        </div>
+        <button type="submit">Send Email</button>
+      </form>
+      {response && <p>{response}</p>}
     </div>
   );
 };

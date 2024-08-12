@@ -16,6 +16,7 @@ import { FaDotCircle } from "react-icons/fa";
 import { PiStudentFill } from "react-icons/pi";
 import { IoLogOut } from "react-icons/io5";
 import { AiFillSchedule } from "react-icons/ai";
+import { RiFunctionAddFill } from "react-icons/ri";
 import Swal from "sweetalert2";
 import { SidebarContext } from "../../context/SidebarContext";
 import { MdOutlineClose } from "react-icons/md";
@@ -26,6 +27,7 @@ const Sidebar = () => {
   const [activeMenu, setActiveMenu] = useState(null);
   const navigate = useNavigate();
   const [jadwalSubMenuOpen, setJadwalSubMenuOpen] = useState(false);
+  const [bimbinganSubMenuOpen, setBimbinganSubMenuOpen] = useState(false);
   const [dataHiamjuSubMenuOpen, setDataHimajuSubMenuOpen] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const [statusHimaju, setStatusHimaju] = useState(null);
@@ -62,6 +64,10 @@ const Sidebar = () => {
     }
 
     if (storedActiveMenu === "jadwal") {
+      setIsExpanded(false);
+    }
+
+    if (storedActiveMenu === "bimbingan") {
       setIsExpanded(false);
     }
 
@@ -102,15 +108,23 @@ const Sidebar = () => {
     if (menu === "jadwal") {
       setIsExpanded(false);
     }
+    if (menu === "bimbingan") {
+      setIsExpanded(false);
+    }
     if (menu === "data-himaju") {
       setIsExpanded(false);
     }
     setJadwalSubMenuOpen(false);
+    setBimbinganSubMenuOpen(false);
     setDataHimajuSubMenuOpen(false);
   };
 
-  const toggleHimajuSubMenu = () => {
+  const toggleJadwalSubMenu = () => {
     setJadwalSubMenuOpen(!jadwalSubMenuOpen);
+  };
+
+  const toggleBimbingaSubMenu = () => {
+    setBimbinganSubMenuOpen(!bimbinganSubMenuOpen);
   };
 
   const toggleDataHimajuSubMenu = () => {
@@ -126,6 +140,10 @@ const Sidebar = () => {
 
     if (dataHiamjuSubMenuOpen) {
       setDataHimajuSubMenuOpen(false);
+    }
+
+    if (bimbinganSubMenuOpen) {
+      setBimbinganSubMenuOpen(false);
     }
   };
 
@@ -193,7 +211,7 @@ const Sidebar = () => {
                         isExpanded ? "menu-list-expanded" : ""
                       }`}
                     >
-                      Dashboard
+                      Beranda
                     </span>
                   </Link>
                 </li>
@@ -225,14 +243,13 @@ const Sidebar = () => {
 
                 {/* Bimbingan */}
                 <li className="menu-item-mahasiswa">
-                  <Link
-                    to="/mahasiswa/bimbingan/dosenwali"
+                  <div
                     className={`menu-link-mahasiswa ${
                       activeMenu === "bimbingan" ? "active" : ""
                     }`}
                     onClick={() => {
                       handleSetActiveMenu("bimbingan");
-                      handleSubmenuClick("Bimbingan");
+                      toggleBimbingaSubMenu();
                     }}
                   >
                     <span className="menu-link-icon-mahasiswa">
@@ -245,7 +262,52 @@ const Sidebar = () => {
                     >
                       Bimbingan Dosen Wali
                     </span>
-                  </Link>
+                    <span
+                      className={`submenu-arrow-mahasiswa ${
+                        bimbinganSubMenuOpen ? "open" : ""
+                      } ${isExpanded ? "menu-list-expanded" : ""}`}
+                    >
+                      <MdKeyboardArrowRight
+                        size={18}
+                        style={{
+                          transform: bimbinganSubMenuOpen
+                            ? "rotate(90deg)"
+                            : "none",
+                          transition: "transform 0.3s ease",
+                        }}
+                      />
+                    </span>
+                  </div>
+                  {/* Tampilkan submenu jika himajuSubMenuOpen true */}
+                  <ul
+                    className={`submenu-list-mahasiswa ${
+                      bimbinganSubMenuOpen ? "open" : ""
+                    }`}
+                  >
+                    <div className="divider-list-mahasiswa"></div>
+                    <li className="submenu-item-mahasiswa">
+                      <Link
+                        to="/mahasiswa/bimbingan/dosenwali"
+                        className="submenu-link-mahasiswa"
+                      >
+                        <span className="submenu-link-icon-mahasiswa">
+                          <FaDotCircle size={12} />
+                        </span>
+                        Chat Dosen
+                      </Link>
+                    </li>
+                    <li className="submenu-item-mahasiswa">
+                      <Link
+                        to="/mahasiswa/buat/evaluasi"
+                        className="submenu-link-mahasiswa"
+                      >
+                        <span className="submenu-link-icon-mahasiswa">
+                          <FaDotCircle size={12} />
+                        </span>
+                        Buat Evaluasi
+                      </Link>
+                    </li>
+                  </ul>
                 </li>
 
                 {/* Himaju */}
@@ -273,33 +335,6 @@ const Sidebar = () => {
                   </Link>
                 </li>
 
-                {/* Ketua Himaju */}
-                {statusHimaju === "ketua" && (
-                  <li className="menu-item-mahasiswa">
-                    <Link
-                      to="/mahasiswa/data/hme"
-                      className={`menu-link-mahasiswa ${
-                        activeMenu === "ketua" ? "active" : ""
-                      }`}
-                      onClick={() => {
-                        handleSetActiveMenu("ketua");
-                        handleSubmenuClick("Ketua");
-                      }}
-                    >
-                      <span className="menu-link-icon-mahasiswa">
-                        <FaPeopleRoof size={20} />
-                      </span>
-                      <span
-                        className={`menu-link-text-mahasiswa ${
-                          isExpanded ? "menu-list-expanded" : ""
-                        }`}
-                      >
-                        Data Himaju
-                      </span>
-                    </Link>
-                  </li>
-                )}
-
                 {/* Data Himaju */}
                 {statusHimaju === "ketua" && (
                   <li className="menu-item-mahasiswa">
@@ -313,14 +348,14 @@ const Sidebar = () => {
                       }}
                     >
                       <span className="menu-link-icon-mahasiswa">
-                        <AiFillSchedule size={20} />
+                        <RiFunctionAddFill size={20} />
                       </span>
                       <span
                         className={`menu-link-text-mahasiswa ${
                           isExpanded ? "menu-list-expanded" : ""
                         }`}
                       >
-                        Data Himaju
+                        Data HME
                       </span>
                       <span
                         className={`submenu-arrow-mahasiswa ${
@@ -351,7 +386,7 @@ const Sidebar = () => {
                           className="submenu-link-mahasiswa"
                         >
                           <span className="submenu-link-icon-mahasiswa">
-                            <FaDotCircle size={13} />
+                            <FaDotCircle size={12} />
                           </span>
                           Profile HME
                         </Link>
@@ -362,9 +397,31 @@ const Sidebar = () => {
                           className="submenu-link-mahasiswa"
                         >
                           <span className="submenu-link-icon-mahasiswa">
-                            <FaDotCircle size={13} />
+                            <FaDotCircle size={12} />
                           </span>
-                          Data Himaju
+                          Data Mahasiswa HME
+                        </Link>
+                      </li>
+                      <li className="submenu-item-mahasiswa">
+                        <Link
+                          to="/mahasiswa/buat/program/kerja/hme"
+                          className="submenu-link-mahasiswa"
+                        >
+                          <span className="submenu-link-icon-mahasiswa">
+                            <FaDotCircle size={12} />
+                          </span>
+                          Program Kerja HME
+                        </Link>
+                      </li>
+                      <li className="submenu-item-mahasiswa">
+                        <Link
+                          to="/mahasiswa/galeri/hme"
+                          className="submenu-link-mahasiswa"
+                        >
+                          <span className="submenu-link-icon-mahasiswa">
+                            <FaDotCircle size={12} />
+                          </span>
+                          Galeri
                         </Link>
                       </li>
                     </ul>
@@ -379,7 +436,7 @@ const Sidebar = () => {
                     }`}
                     onClick={() => {
                       handleSetActiveMenu("jadwal");
-                      toggleHimajuSubMenu();
+                      toggleJadwalSubMenu();
                     }}
                   >
                     <span className="menu-link-icon-mahasiswa">
@@ -421,7 +478,7 @@ const Sidebar = () => {
                         className="submenu-link-mahasiswa"
                       >
                         <span className="submenu-link-icon-mahasiswa">
-                          <FaDotCircle size={13} />
+                          <FaDotCircle size={12} />
                         </span>
                         Jadwal
                       </Link>
@@ -432,7 +489,7 @@ const Sidebar = () => {
                         className="submenu-link-mahasiswa"
                       >
                         <span className="submenu-link-icon-mahasiswa">
-                          <FaDotCircle size={13} />
+                          <FaDotCircle size={12} />
                         </span>
                         Jadwal Ku
                       </Link>

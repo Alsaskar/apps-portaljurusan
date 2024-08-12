@@ -4,7 +4,7 @@
     background-color: #fff;
     position: relative;
     width: 270px;
-    height: 406px;
+    height: auto;
     border-radius: 10px;
     overflow-y: scroll;
     overflow: hidden;
@@ -221,7 +221,7 @@
             }
 
             .submenu-list-mahasiswa {
-              background-color: #e3e3e3;
+              background-color: #d0d0d0;
               position: relative;
               max-height: 0;
               opacity: 0;

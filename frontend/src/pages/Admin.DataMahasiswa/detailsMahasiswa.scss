@@ -65,12 +65,12 @@
         .form-add-mahasiswa {
           .button-edit-detail {
             cursor: pointer;
-            padding: 6px;
+            padding: 8px;
             color: #fff;
             border-radius: 10px;
-            width: 100px;
-            background-color: orange;
+            background-color: var(--orange-color);
             transition: all .3s ease-in-out;
+            font-size: 16px;
 
             display: flex;
             align-items: center;

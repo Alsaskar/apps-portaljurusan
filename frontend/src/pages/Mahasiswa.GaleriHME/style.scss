@@ -1,0 +1,114 @@
+.buat-galeri-hme {
+  .container {
+    .btn-data-galeri {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      margin-top: 20px;
+      padding: 8px 30px;
+      background-color: var(--blue-color);
+      border-radius: 12px;
+      transition: var(--default-transition);
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      width: 155px;
+      font-size: 13px;
+      font-weight: 600;
+
+      &:hover {
+        background-color: #458bf5;
+      }
+    }
+    .title {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .form-buat-galeri {
+      margin-top: 20px;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+
+      .form-content {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        column-gap: 16px;
+
+        @media (max-width: 768px) {
+          grid-template-columns: 1fr;
+        }
+
+        .form-group {
+          margin-bottom: 20px;
+
+          .important {
+            color: var(--red-color);
+          }
+
+          .error-form {
+            margin-top: 5px;
+            font-size: 12px;
+            color: var(--red-color);
+            font-style: italic;
+          }
+
+          label {
+            font-size: 14px;
+            color: var(--text-color-inverted);
+            margin-bottom: 5px;
+            display: block;
+          }
+
+          input[type="text"],
+          input[type="file"],
+          select {
+            width: 100%;
+            padding: 8px;
+            border: 2px solid var(--input-form-color);
+            border-radius: 4px;
+            background-color: var(--input-form-color);
+            color: var(--text-color-inverted);
+
+            &:focus {
+              border: 2px solid var(--blue-color);
+              outline: none;
+            }
+
+            @media (max-width: 768px) {
+              width: calc(100%);
+            }
+          }
+
+          input[type="file"] {
+            cursor: pointer;
+          }
+        }
+      }
+
+      button {
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        margin-top: 10px;
+        padding: 8px 30px;
+        background-color: var(--blue-color);
+        border-radius: 12px;
+        transition: var(--default-transition);
+        color: #fff;
+        border: none;
+        cursor: pointer;
+
+        &:hover {
+          background-color: #458bf5;
+        }
+      }
+    }
+  }
+}

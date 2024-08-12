@@ -123,6 +123,33 @@
           font-size: 14px;
           padding: 12px 10px;
         }
+
+        &.status-badge {
+          .badge {
+            padding: 0.25em 0.5em;
+            font-size: 13px;
+            font-weight: 600;
+            color: #fff;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: baseline;
+            border-radius: 5px;
+
+            &.badge-anggota-pasif {
+              background-color: #6c757d; /* Grey */
+            }
+
+            /* Anggota Aktif Badge */
+            &.badge-anggota-aktif {
+              background-color: var(--green-color); /* Green */
+            }
+
+            /* Ketua Badge */
+            &.badge-ketua {
+              background-color: var(--blue-color); /* Blue */
+            }
+          }
+        }
       }
 
       thead {
@@ -145,7 +172,7 @@
           border-radius: 5px;
           border: none;
           cursor: pointer;
-          margin-left: 2px;
+          margin-left: 8px;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -167,7 +194,7 @@
           border-radius: 5px;
           border: none;
           cursor: pointer;
-          margin-left: 2px;
+          margin-left: 8px;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -189,7 +216,7 @@
           border-radius: 5px;
           border: none;
           cursor: pointer;
-          margin-left: 2px;
+          margin-left: 8px;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -206,123 +233,62 @@
           }
         }
       }
+    }
 
-      .dt-status {
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-        column-gap: 6px;
+    .paginate-title {
+      margin-top: 20px;
+      color: var(--text-color-inverted);
+      font-size: 14px;
+      padding: 0px 10px 0px 0px;
+    }
 
-        .dt-status-dot {
-          width: 8px;
-          height: 8px;
-          border-radius: 100%;
+    .pagination {
+      margin-top: 10px;
 
-          &.dot-cuti {
-            background-color: var(--orange-color);
-          }
-          &.dot-keluar {
-            background-color: var(--red-color);
-          }
-          &.dot-aktif {
-            background-color: var(--green-color);
-          }
-        }
+      display: flex;
+      justify-content: start;
+      list-style-type: none;
+      column-gap: 3px;
+    }
 
-        .dt-status-text {
-          text-transform: capitalize;
-        }
+    .page-item {
+      &.active {
+        color: red;
       }
     }
-  }
 
-  .action-dropdown-btn {
-    color: var(--text-color-inverted);
-    position: relative;
-  }
+    .page-link {
+      padding: 4px 12px;
+      color: #fff;
+      text-decoration: none;
+      // border: 1px solid #ccc;
+      border-radius: 4px;
+      background-color: var(--blue-color);
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.3s ease-in-out;
 
-  .action-dropdown-menu {
-    position: absolute;
-    top: 100%;
-    right: 50%;
-    transform: translateX(50%);
-    height: auto;
-    min-width: 80px;
-    box-shadow: rgba(100, 100, 111, 0.1) 0px 1px 4px 0px;
-    background-color: var(--secondary-color);
-    padding: 6px 10px;
-    z-index: 1;
-    border-radius: 8px;
-    border: 1px solid var(--border-color-inverted);
-    text-align: left;
-  }
+      &.active {
+        background-color: #f29a2e;
+        color: #fff;
+        pointer-events: none;
+      }
 
-  .dropdown-menu-item {
-    margin: 8px 0;
-  }
+      &.disabled {
+        pointer-events: none;
+      }
+    }
 
-  .dropdown-menu-link {
-    color: var(--text-color-inverted);
-    font-weight: 600;
-    transition: var(--default-transition);
+    .page-link:hover {
+      background-color: #4782e8;
+      color: #fff;
+    }
 
-    &:hover {
-      opacity: 0.9;
+    .page-item.active .page-link {
+      background-color: #007bff;
+      color: #fff;
+      border-color: #007bff;
     }
   }
 }
 
-.paginate-title {
-  margin-top: 20px;
-  color: var(--text-color-inverted);
-  font-size: 14px;
-  padding: 0px 10px 0px 0px;
-}
-
-.pagination {
-  margin-top: 10px;
-
-  display: flex;
-  justify-content: start;
-  list-style-type: none;
-  column-gap: 3px;
-}
-
-.page-item {
-  &.active {
-    color: red;
-  }
-}
-
-.page-link {
-  padding: 4px 12px;
-  color: #fff;
-  text-decoration: none;
-  // border: 1px solid #ccc;
-  border-radius: 4px;
-  background-color: var(--blue-color);
-  font-size: 14px;
-  cursor: pointer;
-  transition: all 0.3s ease-in-out;
-
-  &.active {
-    background-color: #f29a2e;
-    color: #fff;
-    pointer-events: none;
-  }
-
-  &.disabled {
-    pointer-events: none;
-  }
-}
-
-.page-link:hover {
-  background-color: #4782e8;
-  color: #fff;
-}
-
-.page-item.active .page-link {
-  background-color: #007bff;
-  color: #fff;
-  border-color: #007bff;
-}

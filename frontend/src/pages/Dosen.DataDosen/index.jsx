@@ -1,9 +1,24 @@
-import Layout from "./Layout";
+import AreaTopProfile from "./areaTopProfile/AreaTopProfile";
+import Helmet from "react-helmet";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const DosenDataDosen = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if(sessionStorage.getItem('role') !== 'dosen'){
+      navigate(`/${sessionStorage.getItem('role')}`)
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   return (
     <div>
-      <Layout />
+       <Helmet>
+        <title>Profile Mahasiswa</title>
+      </Helmet>
+      <AreaTopProfile />
     </div>
   );
 }

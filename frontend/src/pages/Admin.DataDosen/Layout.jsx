@@ -8,6 +8,7 @@ import TableAction from "../../components/TableAction/TableAction";
 import ModalEdit from "./ModalEdit";
 import Swal from "sweetalert2";
 import { GrPowerReset } from "react-icons/gr";
+import useFormatDate from "../../hooks/useFormatDateHooks";
 
 const Layout = () => {
   const [dosen, setDosen] = useState([]);
@@ -21,6 +22,8 @@ const Layout = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedData, setSelectedData] = useState([]);
   const [selectedDataUser, setSelectedDataUser] = useState([]);
+
+  const { formatDate } = useFormatDate();
 
   const changePage = ({ selected }) => {
     setPage(selected);
@@ -207,9 +210,9 @@ const Layout = () => {
                       <td>{val.prodi}</td>
                       <td>{val.jenisKelamin}</td>
                       <td>
-                        {val.tempatLahir}, {val.tglLahir}
+                        {val.tempatLahir}, {formatDate(val.tglLahir)}
                       </td>
-                      <td className="dt-cell-action ada-reset">
+                      <td className="dt-cell-action-data-dosen ada-reset">
                         <TableAction
                           _onClickEdit={() => handleEditClick(val, val.user)}
                           urlDetail={`/admin/details/dosen/${val.id}`}

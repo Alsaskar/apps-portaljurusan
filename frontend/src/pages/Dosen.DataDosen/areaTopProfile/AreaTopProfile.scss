@@ -1,0 +1,136 @@
+.area-profile {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  border-radius: 10px;
+  // background-color: var(--secondary-color);
+  // padding: 20px;
+
+  .area-container {
+    .area-profile-top {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      @media (max-width: 768px) {
+        flex-direction: column;
+      }
+
+      .edit-details-mahasiswa {
+        background-color: #5f47e8;
+        padding: 5px 15px 5px 15px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        column-gap: 5px;
+        font-size: 12px;
+        color: #fff;
+        transition: all .3s ease-in-out;
+        
+        @media (max-width: 768px) {
+          margin-top: 20px;
+        }
+
+        &:hover {
+          background-color: #4762e8;
+        }
+
+        .icon-edit-mahasiswa {
+          color: #fff;
+        }
+      }
+
+      .area-profile-details {
+        display: flex;
+        align-items: center;
+        column-gap: 30px;
+
+        @media (max-width: 768px) {
+          flex-direction: column;
+        }
+
+        @media (max-width: 1200px) {
+          flex-direction: column;
+        }
+
+        .area-profile-top1 {
+          display: flex;
+          flex-direction: column;
+
+          .area-profile-name {
+            color: var(--text-color-inverted);
+
+            @media (max-width: 768px) {
+              font-size: 16px;
+            }
+          }
+
+          .area-profile-nim {
+            color: var(--text-color-secondary);
+            font-size: 14px;
+
+            @media (max-width: 768px) {
+              font-size: 14px;
+            }
+          }
+
+          @media (max-width: 768px) {
+            margin-top: 10px;
+            align-items: center;
+            justify-content: center;
+          }
+
+          @media (max-width: 1200px) {
+            margin-top: 10px;
+            align-items: center;
+            justify-content: center;
+          }
+        }
+
+        .area-profile-contact {
+          color: var(--text-color-secondary);
+          font-size: 14px;
+          margin-top: 20px;
+          display: flex;
+          column-gap: 15px;
+
+          .garis {
+            @media (max-width: 768px) {
+              display: none;
+            }
+
+            @media (max-width: 1200px) {
+              display: none;
+            }
+          }
+
+          @media (max-width: 768px) {
+            font-size: 14px;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+          }
+
+          @media (max-width: 1200px) {
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+          }
+        }
+
+        .area-profile-img {
+          width: 120px;
+          height: 120px;
+          border-radius: 50%;
+          background-position: center;
+          background-size: cover;
+          background-repeat: no-repeat;
+        }
+      }
+    }
+  }
+}

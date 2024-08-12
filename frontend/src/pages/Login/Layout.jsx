@@ -45,7 +45,7 @@ const Login = () => {
   //generate captcha
   const generateCaptcha = () => {
     let value = btoa(Math.random() * 1000000000);
-    value = value.slice(0, 8);
+    value = value.slice(0, 6);
     setCaptchaValue(value);
 
     const fonts = ["Arial", "Roboto  Black", "Helvetica", "Verdana", "Georgia", "Times New Roman", "Courier New", "Trebuchet MS", "Palatino", "curve", "sans-serif", "serif", "monospace"];

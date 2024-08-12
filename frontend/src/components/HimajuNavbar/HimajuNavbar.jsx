@@ -11,30 +11,76 @@ import { MahasiswaContext } from "../../context/MahasiswaContext";
 const NavbarHimaju = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [scrolling, setScrolling] = useState(false);
+  const [status, setStatus] = useState(null);
+  const [loading, setLoading] = useState(true); // Add loading state
   const modalRef = useRef(null);
   const dataMahasiswa = useContext(MahasiswaContext);
 
-  const handelDaftar = async() => {
+  const checkStatus = async () => {
+    if (!dataMahasiswa?.result?.id) {
+      console.error("Mahasiswa data is not available");
+      return;
+    }
+
+    try {
+      const mahasiswaId = dataMahasiswa.result.id;
+      const res = await axios.get(`${urlApi}/himaju/cekStatus/${mahasiswaId}`, {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+        },
+      });
+
+      setStatus(res.data.status);
+
+      if (res.data.status === "ditolak") {
+        Swal.fire({
+          title: "Status Pendaftaran",
+          text: "Anda ditolak menjadi anggota HME.",
+          icon: "error",
+          confirmButtonText: "OK",
+        });
+      } else if (res.data.status === "pending") {
+        Swal.fire({
+          title: "Status Pendaftaran",
+          text: "Pendaftaran Anda sedang dalam proses. Silahkan menunggu konfirmasi.",
+          icon: "info",
+          confirmButtonText: "OK",
+        });
+      }
+    } catch (err) {
+      console.error(
+        "Error checking status:",
+        err.response ? err.response.data.message : err.message
+      );
+    } finally {
+      setLoading(false); // Set loading to false once the status check is done
+    }
+  };
+
+  const handleDaftar = async (status) => {
+    if (!dataMahasiswa?.result?.id || !dataMahasiswa?.result?.fullname) {
+      console.error("Mahasiswa data is not available");
+      return;
+    }
+
     Swal.fire({
       title: "Konfirmasi",
       text: "Apakah Anda Yakin Ingin Daftar?",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
       confirmButtonText: "Ya",
       cancelButtonText: "Tidak",
     }).then(async (result) => {
-      if(result.isConfirmed){
+      if (result.isConfirmed) {
         try {
           const mahasiswa = dataMahasiswa.result;
-    
+
           const res = await axios.post(
             `${urlApi}/himaju`,
             {
               idMahasiswa: mahasiswa.id,
               fullname: mahasiswa.fullname,
-              status: 'pending'
+              status: status,
             },
             {
               headers: {
@@ -42,17 +88,17 @@ const NavbarHimaju = () => {
               },
             }
           );
-    
+
           if (res.data.success) {
+            setTimeout(() => {
+              window.location.reload();
+            }, 1500);
+
             Swal.fire(
               "Berhasil!",
-              `Anda berhasil mendaftar himaju`,
+              `Anda berhasil mendaftar HME. Cek untuk melihat status pendaftaran.`,
               "success"
             );
-    
-            setTimeout(() => {
-              window.location.reload()
-            }, 1000)
           } else {
             Swal.fire("Oppsss...!", `${res.data.message}`, "error");
           }
@@ -60,9 +106,49 @@ const NavbarHimaju = () => {
           Swal.fire("Error!", err.response.data.message, "error");
         }
       }
-      
     });
   };
+
+  const handelIfAnggota = () => {
+    Swal.fire({
+      title: "Anggota!",
+      text: "Anda adalah anggota HME.",
+      icon: "success",
+      confirmButtonText: "OK",
+    });
+  };
+
+  useEffect(() => {
+    const checkInitialStatus = async () => {
+      if (!dataMahasiswa?.result?.id) {
+        console.error("Mahasiswa data is not available");
+        return;
+      }
+
+      try {
+        const mahasiswaId = dataMahasiswa.result.id;
+        const res = await axios.get(
+          `${urlApi}/himaju/cekStatus/${mahasiswaId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+            },
+          }
+        );
+
+        setStatus(res.data.status); // Update status based on response
+      } catch (err) {
+        console.error(
+          "Error fetching initial status:",
+          err.response ? err.response.data.message : err.message
+        );
+      } finally {
+        setLoading(false); // Set loading to false once the status check is done
+      }
+    };
+
+    checkInitialStatus();
+  }, [dataMahasiswa]);
 
   const toggleModal = () => {
     setModalOpen(!modalOpen);
@@ -84,7 +170,6 @@ const NavbarHimaju = () => {
   }, []);
 
   useEffect(() => {
-    // Menambahkan event listener untuk menutup modal ketika klik di luar modal
     const handleClickOutsideModal = (event) => {
       if (modalRef.current && !modalRef.current.contains(event.target)) {
         setModalOpen(false);
@@ -139,15 +224,29 @@ const NavbarHimaju = () => {
                     Visi & Misi
                   </Link>
                 </li>
+
                 <li className="submenu-item">
                   <Link to="/program/kerja/hme" className="submenu-link">
-                    Program Kerja
+                    Link apa?
                   </Link>
                 </li>
               </ul>
             </li>
             <li>
-              <Link to="/hme/all/galeri"
+              <Link
+                to="/program/kerja/hme"
+                className={
+                  scrolling
+                    ? "menu-links-items scrolled-text"
+                    : "menu-links-items"
+                }
+              >
+                Program Kerja
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/hme/all/galeri"
                 className={
                   scrolling
                     ? "menu-links-items scrolled-text"
@@ -158,9 +257,40 @@ const NavbarHimaju = () => {
               </Link>
             </li>
           </ul>
-          <button className="daftar" onClick={handelDaftar}>
-            Daftar HME
-          </button>
+          {loading ? null : (
+            <>
+              {status === null && (
+                <button
+                  className="daftar"
+                  onClick={() => {
+                    handleDaftar("pending");
+                  }}
+                >
+                  Daftar HME
+                </button>
+              )}
+              {(status === "ditolak" || status === "pending") && (
+                <button className="check-status" onClick={checkStatus}>
+                  Cek Status
+                </button>
+              )}
+              {status === "terima" && (
+                <button className="anggota" onClick={handelIfAnggota}>
+                  Anggota
+                </button>
+              )}
+              {status === "dikeluarkan" && (
+                <button
+                  className="daftar"
+                  onClick={() => {
+                    handleDaftar("dikeluarkan");
+                  }}
+                >
+                  Daftar HME
+                </button>
+              )}
+            </>
+          )}
         </div>
 
         <div
@@ -183,6 +313,13 @@ const NavbarHimaju = () => {
                     <a href="#profile" className="submmenu-link">
                       Profile
                     </a>
+                  </li>
+                  <li className="submenu-list">
+                    {status === "terima" && (
+                      <a href="#program-kerja" className="submmenu-link">
+                        Program Kerja
+                      </a>
+                    )}
                   </li>
                   <li className="submenu-list">
                     <a href="#galeri" className="submmenu-link">

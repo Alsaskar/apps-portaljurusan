@@ -1,0 +1,43 @@
+.title-jadwal-ku {
+  font-size: 18px;
+  font-weight: 600;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #fff;
+  margin-bottom: 20px;
+}
+
+.panduan {
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #fff;
+  margin-bottom: 20px;
+
+  .title-panduan {
+    font-size: 18px;
+    font-weight: 600;
+  }
+
+  .desc-panduan {
+    list-style-type: disc;
+    margin-left: 15px;
+    font-size: 13px;
+  }
+}
+
+.my-task {
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+
+  .section-list {
+    width: 100%;
+  }
+}

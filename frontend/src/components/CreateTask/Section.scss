@@ -1,0 +1,14 @@
+.section-s {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  padding: 5px;
+
+  &.bg-drop {
+    background-color: #e3e3e3;
+  }
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+}

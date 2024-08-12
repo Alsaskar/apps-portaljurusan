@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { MdSearch, MdRemoveRedEye } from "react-icons/md";
 import { BsFillSendArrowUpFill } from "react-icons/bs";
-import { RiMailSendFill } from "react-icons/ri";
 import "./style.scss";
 import axios from "axios";
 import { urlApi } from "../../config";
 import ReactPaginate from "react-paginate";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const Layout = () => {
   const [mahasiswa, setMahasiswa] = useState([]);
@@ -17,10 +17,10 @@ const Layout = () => {
   const [keyword, setKeyword] = useState("");
   const [query, setQuery] = useState("");
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const changePage = ({ selected }) => {
     setPage(selected);
-
     if (selected === 9) {
       setMessage("Data tidak ditemukan");
     } else {
@@ -48,7 +48,14 @@ const Layout = () => {
         }
       );
 
-      setMahasiswa(res.data.result);
+      const mahasiswaData = res.data.result;
+      
+      // Fetch details for each mahasiswa to include emailWali
+      for (const student of mahasiswaData) {
+        await getMahasiswaWithDetails(student.id, student);
+      }
+
+      setMahasiswa(mahasiswaData);
       setPages(res.data.totalPage);
       setRows(res.data.totalRows);
       setPage(res.data.page);
@@ -57,13 +64,90 @@ const Layout = () => {
     }
   };
 
+  const getMahasiswaWithDetails = async (id, student) => {
+    try {
+      if (!id) {
+        console.error("ID mahasiswa tidak tersedia");
+        return;
+      }
+
+      const res = await axios.get(`${urlApi}/mahasiswa/detail/${id}/details`, {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+        },
+      });
+
+      const detail = res.data.result.detailmahasiswas[0];
+      student.emailWali = detail.emailWali;
+  
+    } catch (err) {
+      console.error("Gagal memuat detail mahasiswa:", err);
+    }
+  };
+  
+
   useEffect(() => {
     _listMahasiswa();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, keyword, limit]);
 
+  const handleSendEvaluasi = async (emailWali) => {
+    const subject = "Evaluasi Akademik";
+    const body = `
+      INI ADALAH EVALUASI AKADEMI MAHASISWA\n\n
+      Lihat Evaluasi: https://github.com/Oswald28090\n\n
+      Persentase kehadiran mahasiswa selama semester ini 80%.
+    `;
+
+    Swal.fire({
+      title: "Kirim Evaluasi",
+      text: `Yakin ingin mengirim evaluasi ke Wali dengan alamat email ${emailWali}?`,
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Ya",
+      cancelButtonText: "Batal",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        setLoading(true);
+
+        try {
+          await axios.post(
+            `${urlApi}/email/send-email`,
+            {
+              to: emailWali,
+              subject: subject,
+              text: body,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+              },
+            }
+          );
+
+          Swal.fire(
+            "Terkirim!",
+            `Evaluasi telah dikirim ke Wali dengan email ${emailWali}`,
+            "success"
+          );
+        } catch (error) {
+          Swal.fire(
+            "Gagal!",
+            `Terjadi kesalahan: ${
+              error.response ? error.response.data.message : error.message
+            }`,
+            "error"
+          );
+        } finally {
+          setLoading(false);
+        }
+      }
+    });
+  };
+
   return (
     <>
+      {loading && <div className="loading-spinner"></div>}
       <div className="filter">
         {/*search filter*/}
         <form onSubmit={searchData}>
@@ -106,43 +190,36 @@ const Layout = () => {
               <tr>
                 <th>Nama</th>
                 <th>NIM</th>
-                <th>Email</th>
-                <th>No Telp</th>
-                <th>Alamat</th>
-                <th>Tempat Tanggal Lahir</th>
+                <th>Email Wali</th>
                 <th>Action</th>
               </tr>
             </thead>
             <tbody>
               {mahasiswa.length > 0 ? (
-                mahasiswa.map((val, key) => {
-                  return (
-                    <tr key={key}>
-                      <td>{val.fullname}</td>
-                      <td>{val.nim}</td>
-                      <td>{val.user.email}</td>
-                      <td>{val.user.noHp}</td>
-                      <td>{val.alamatTerakhir}</td>
-                      <td>
-                        {val.kotaLahir}, {val.tglLahir}
-                      </td>
-                      <td className="dt-cell-action">
-                        <Link to={`/admin/add/evaluasi/${val.id}`} className="action-button orange">
-                          <RiMailSendFill size={18} />
-                        </Link>
-                        <Link to={`/admin/file/evaluasi/${val.id}`} className="action-button blue">
-                          <MdRemoveRedEye size={18} />
-                        </Link>
-                        <Link to={`/admin/send/evaluasi`} className="action-button red">
-                          <BsFillSendArrowUpFill size={18} />
-                        </Link>
-                      </td>
-                    </tr>
-                  );
-                })
+                mahasiswa.map((val, key) => (
+                  <tr key={key}>
+                    <td>{val.fullname}</td>
+                    <td>{val.nim}</td>
+                    <td>{val.emailWali || "Email Wali tidak tersedia"}</td>
+                    <td className="dt-cell-action-btn-all-evaluasi">
+                      <Link
+                        to={`/admin/file/evaluasi/${val.id}`}
+                        className="action-button-ev blue"
+                      >
+                        <MdRemoveRedEye size={18} />
+                      </Link>
+                      <button
+                        className="action-button-ev green"
+                        onClick={() => handleSendEvaluasi(val.emailWali)}
+                      >
+                        <BsFillSendArrowUpFill size={18} />
+                      </button>
+                    </td>
+                  </tr>
+                ))
               ) : (
                 <tr>
-                  <td colSpan={18} align="center">
+                  <td colSpan={4} align="center">
                     Belum ada data
                   </td>
                 </tr>
@@ -170,7 +247,6 @@ const Layout = () => {
             pageLinkClassName={"page-link"}
             previousLinkClassName={"page-link"}
             nextLinkClassName={"page-link"}
-            x
             activeLinkClassName={"page-item active"}
             disabledLinkClassName={"page-item disabled"}
           />

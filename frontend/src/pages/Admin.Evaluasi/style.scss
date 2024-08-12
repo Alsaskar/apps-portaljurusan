@@ -158,12 +158,13 @@
         }
       }
 
-      .dt-cell-action {
+      .dt-cell-action-btn-all-evaluasi {
         text-align: center;
+        justify-content: center;
         display: flex;
         column-gap: 5px;
 
-        .action-button {
+        .action-button-ev {
           padding: 4px;
           border-radius: 5px;
           border: none;
@@ -192,14 +193,14 @@
             }
           }
 
-          &.red {
-        background-color: #ff0000;
-        transition: all 0.3s ease;
+          &.green {
+            background-color: var(--green-color);
+            transition: all 0.3s ease;
 
-        &:hover {
-            background-color: #ff3d3d;
-        }
-    }
+            &:hover {
+              background-color: #3dda7c;
+            }
+          }
         }
       }
 

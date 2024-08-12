@@ -19,7 +19,7 @@
       opacity: 1;
     }
   }
-  
+
   @keyframes fadeOut {
     from {
       opacity: 1;
@@ -36,7 +36,7 @@
   &.fade-out {
     animation: fadeOut 0.3s ease-in-out;
   }
-  
+
   .modal-content-edit {
     background-color: white;
     border-radius: 8px;
@@ -59,7 +59,7 @@
       align-items: center;
       border-radius: 50%;
       color: #fff;
-      transition: all .3s ease-in-out;
+      transition: all 0.3s ease-in-out;
 
       &:hover {
         background-color: #4e4e4e;
@@ -78,9 +78,20 @@
         }
       }
     }
+
+    overflow-y: auto;
+
+    &::-webkit-scrollbar {
+      width: 0px;
+    }
+    &::-webkit-scrollbar-track {
+      background-color: var(--scroll-track-bg-color);
+    }
+    &::-webkit-scrollbar-thumb {
+      border-radius: 100vh !important;
+      background-color: var(--scroll-thumb-bg-color);
+      outline: 1px solid rgba(0, 0, 0, 0.02);
+      outline-offset: -1px;
+    }
   }
 }
-
-
-
-

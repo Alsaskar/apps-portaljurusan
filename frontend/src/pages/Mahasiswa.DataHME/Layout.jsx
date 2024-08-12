@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
-import { MdSearch } from "react-icons/md";
 import "./style.scss";
 import axios from "axios";
 import { urlApi } from "../../config";
 import ReactPaginate from "react-paginate";
 import { TbSquareRoundedCheckFilled } from "react-icons/tb";
-import { MdCancel } from "react-icons/md";
+import { MdCancel, MdSearch } from "react-icons/md";
+import { FaSignOutAlt } from "react-icons/fa";
 import Swal from "sweetalert2";
+import useFormatDate from "../../hooks/useFormatDateHooks";
 
 const Layout = () => {
   const [mahasiswa, setMahasiswa] = useState([]);
@@ -17,6 +18,8 @@ const Layout = () => {
   const [keyword, setKeyword] = useState("");
   const [query, setQuery] = useState("");
   const [message, setMessage] = useState("");
+
+  const { formatDate } = useFormatDate();
 
   const changePage = ({ selected }) => {
     setPage(selected);
@@ -63,7 +66,7 @@ const Layout = () => {
   const handleAccept = (idMahasiswa, fullname) => {
     Swal.fire({
       title: "Terima Mahasiswa",
-      text: `Yakin ingin terima ${fullname} ?`,
+      text: `Yakin ingin terima ${fullname} untuk bergabung HME ?`,
       icon: "question",
       showCancelButton: true,
       confirmButtonText: "Ya",
@@ -96,7 +99,7 @@ const Layout = () => {
   const handleReject = (idMahasiswa, fullname) => {
     Swal.fire({
       title: "Tolak Mahasiswa",
-      text: `Yakin ingin tolak ${fullname} ?`,
+      text: `Yakin ingin tolak ${fullname} untuk bergabung HME ?`,
       icon: "question",
       showCancelButton: true,
       confirmButtonText: "Ya",
@@ -126,9 +129,42 @@ const Layout = () => {
     });
   };
 
+  const handleKick = (idMahasiswa, fullname) => {
+    Swal.fire({
+      title: "Keluarkan Mahasiswa",
+      text: `Yakin ingin keluarkan ${fullname} dari HME ?`,
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Ya",
+      cancelButtonText: "Batal",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await axios.put(
+            `${urlApi}/himaju/${idMahasiswa}`,
+            {
+              status: "dikeluarkan",
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+              },
+            }
+          );
+
+          _listMahasiswa();
+
+          Swal.fire("Berhasil!", `Telah dikeluarkan`, "success");
+        } catch (err) {
+          Swal.fire("Error!", err.response.data.message, "error");
+        }
+      }
+    });
+  };
+
   return (
     <>
-      <p className="title">Data Pendaftaran</p>
+      <p className="title-data">Data Mahasiswa HME</p>
       <div className="filter">
         {/*search filter*/}
         <form onSubmit={searchData}>
@@ -170,6 +206,7 @@ const Layout = () => {
             <thead>
               <tr>
                 <th>Nama</th>
+                <th>Tanggal Daftar</th>
                 <th>Status</th>
                 <th>Action</th>
               </tr>
@@ -180,28 +217,59 @@ const Layout = () => {
                   return (
                     <tr key={key}>
                       <td>{val.fullname}</td>
-                      <td>{val.status}</td>
-                      {val.status === 'pending' ?
-                      <td className="dt-cell-action pendaftarann">
-                        <button
-                          className="btnn accept"
-                          title="terima"
-                          onClick={() => {
-                            handleAccept(val.idMahasiswa, val.fullname);
-                          }}
-                        >
-                          <TbSquareRoundedCheckFilled size={18} />
-                        </button>
-                        <button
-                          className="btnn reject"
-                          title="tolak"
-                          onClick={() => {
-                            handleReject(val.idMahasiswa, val.fullname);
-                          }}
-                        >
-                          <MdCancel size={18} />
-                        </button>
-                      </td> : <td align="center">-</td> }
+                      <td>{formatDate(val.tglDaftar)}</td>
+                      <td className="data-status-badge">
+                        {val.status === "terima" && (
+                          <span className="badge badge-terima">Di Terima</span>
+                        )}
+                        {val.status === "pending" && (
+                          <span className="badge badge-pending">Pending</span>
+                        )}
+                        {val.status === "ditolak" && (
+                          <span className="badge badge-tolak">Di Tolak</span>
+                        )}
+                        {val.status === "dikeluarkan" && (
+                          <span className="badge badge-keluarkan">
+                            Di Keluarkan
+                          </span>
+                        )}
+                      </td>
+                      {val.status === "pending" ? (
+                        <td className="dt-cell-action pendaftarann">
+                          <button
+                            className="btnn accept"
+                            title="terima"
+                            onClick={() => {
+                              handleAccept(val.idMahasiswa, val.fullname);
+                            }}
+                          >
+                            <TbSquareRoundedCheckFilled size={18} />
+                          </button>
+                          <button
+                            className="btnn reject"
+                            title="tolak"
+                            onClick={() => {
+                              handleReject(val.idMahasiswa, val.fullname);
+                            }}
+                          >
+                            <MdCancel size={18} />
+                          </button>
+                        </td>
+                      ) : val.status === "terima" ? (
+                        <td align="center">
+                          <button
+                            className="btnn keluarkan"
+                            title="keluarkan"
+                            onClick={() => {
+                              handleKick(val.idMahasiswa, val.fullname);
+                            }}
+                          >
+                            <FaSignOutAlt size={18} />
+                          </button>
+                        </td>
+                      ) : (
+                        <td align="center">-</td>
+                      )}
                     </tr>
                   );
                 })

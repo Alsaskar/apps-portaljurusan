@@ -7,6 +7,7 @@ import Galeri from "../pages/Mahasiswa.Himaju/Galeri/Galeri";
 import Helmet from "react-helmet";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import Organisasi from "../pages/Mahasiswa.Himaju/Organisasi/Organisasi";
 
 const HimajuLayout = () => {
   const navigate = useNavigate();
@@ -32,6 +33,7 @@ const HimajuLayout = () => {
               <div className="body-content">
                 <About />
                 <Departemen />
+                <Organisasi />
                 <Galeri />
               </div>
               <Footer />

@@ -10,6 +10,7 @@ import Swal from "sweetalert2";
 import { GrPowerReset } from "react-icons/gr";
 import { FaUserGear } from "react-icons/fa6";
 import { TbTrashXFilled } from "react-icons/tb";
+import useFormatDate from "../../hooks/useFormatDateHooks";
 
 const Layout = () => {
   const [mahasiswa, setMahasiswa] = useState([]);
@@ -23,6 +24,8 @@ const Layout = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedData, setSelectedData] = useState([]);
   const [selectedDataUser, setSelectedDataUser] = useState([]);
+
+  const { formatDate } = useFormatDate(); 
 
   const changePage = ({ selected }) => {
     setPage(selected);
@@ -296,9 +299,9 @@ const Layout = () => {
                       <td>{val.user.noHp}</td>
                       <td>{val.jenisKelamin}</td>
                       <td>
-                        {val.kotaLahir}, {val.tglLahir}
+                        {val.kotaLahir}, {formatDate(val.tglLahir)}
                       </td>
-                      <td>
+                      <td className="status-badge">
                         {val.statusHimaju === "anggota_pasif" && (
                           <span className="badge badge-anggota-pasif">
                             Anggota Pasif

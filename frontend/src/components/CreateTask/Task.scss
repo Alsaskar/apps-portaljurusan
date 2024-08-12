@@ -1,0 +1,28 @@
+.task {
+  position: relative;
+  background-color: #eef0f4;
+  border-radius: 5px;
+  padding: 10px;
+  margin-top: 10px;
+  cursor: grab;
+
+  .title-task {
+    font-size: 13px;
+    max-width: 90%;
+  }
+
+  .btn-task-remove {
+    position: absolute;
+    right: 8px;
+    bottom: 0;
+    color: #909090;
+  }
+
+  &.op {
+    opacity: 25%;
+  }
+
+  &.opa {
+    opacity: 100%;
+  }
+}

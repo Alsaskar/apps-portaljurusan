@@ -14,7 +14,6 @@ import AdminDetailsMahasiswa from "./pages/Admin.DataMahasiswa/detailsMahasiswa"
 import AdminDetailsDosen from "./pages/Admin.DataDosen/detailsDosen";
 import AdminAddBimbingan from "./pages/Admin.AddBimbingan/Layout";
 import AdminDataBimbingan from "./pages/Admin.DataBimbingan";
-import AdminAddEvaluasi from "./pages/Admin.AddEvaluasi/Layout";
 import AdminEvaluasi from "./pages/Admin.Evaluasi";
 import AdminFileEvaluasi from "./pages/Admin.FileEvaluasi";
 import AdminSendEvaluasi from "./pages/Admin.SendEvaluasi";
@@ -29,6 +28,8 @@ import MahasiswaLayout from "./layout/MahasiswaLayout";
 import MahasiswaDashboard from "./pages/Mahasiswa.Dashboard";
 import MahasiswaProfile from "./pages/Mahasiswa.Profile";
 import MahasiswaBimbingan from "./pages/Mahasiswa.Bimbingan";
+import BuatEvaluasi from "./pages/Mahasiswa.Bimbingan/BuatEvaluasi";
+import LihatEvaluasiBimbingan from "./pages/Mahasiswa.Bimbingan/LihatFileEvaluasi";
 import MahasiswaAbsensi from "./pages/Mahasiswa.Absensi";
 import MahasiswaUbahPassword from "./pages/Mahasiswa.UbahPassword";
 import MahasiswaPilihKelas from "./pages/Mahasiswa.PilihKelas";
@@ -41,6 +42,11 @@ import AllGaleri from "./pages/Mahasiswa.Himaju/Galeri/allGaleri";
 import ProgramKerja from "./pages/Mahasiswa.Himaju/ProgramKerja/ProgramKerja";
 import MahasiswaDataHME from "./pages/Mahasiswa.DataHME";
 import MahasiswaProfileHME from "./pages/Mahasiswa.ProfileHME";
+import MahasiswaDataProfileHME from "./pages/Mahasiswa.ProfileHME/DataProfile";
+import MahasiswaGaleriHME from "./pages/Mahasiswa.GaleriHME";
+import DataGaleri from "./pages/Mahasiswa.GaleriHME/DataGaleri";
+import MahasiswaBuatProgramKerjaHME from "./pages/Mahsiswa.BuatProgramKerjaHME";
+import DataProgramKerjaHME from "./pages/Mahsiswa.BuatProgramKerjaHME/DataProgramKerjaHME";
 
 import DosenLayout from "./layout/DosenLayout";
 import DosenDashboard from "./pages/Dosen.Dashboard";
@@ -48,6 +54,7 @@ import DosenAddAbsensi from "./pages/Dosen.AddAbsensi";
 import DosenDataAbsensi from "./pages/Dosen.DataAbsensi";
 import DosenAddRPS from "./pages/Dosen.AddRPS";
 import DosenDaftarRPS from "./pages/Dosen.DaftarRPS";
+import DosenInputRPS from "./pages/Dosen.InputRPS";
 import DosenDataDosen from "./pages/Dosen.DataDosen";
 
 import KaprodiLayout from "./layout/KaprodiLayout";
@@ -117,11 +124,6 @@ const App = () => {
             />
 
             {/*Evaluasi Akademik*/}
-            <Route
-              element={<AdminAddEvaluasi />}
-              path="/admin/add/evaluasi/:id"
-              exact
-            />
             <Route element={<AdminEvaluasi />} path="/admin/evaluasi" exact />
             <Route
               element={<AdminFileEvaluasi />}
@@ -191,6 +193,16 @@ const App = () => {
               exact
             />
             <Route
+              element={<BuatEvaluasi />}
+              path="/mahasiswa/buat/evaluasi"
+              exact
+            />
+            <Route
+              element={<LihatEvaluasiBimbingan />}
+              path="/mahasiswa/lihat/evaluasi/bimbingan"
+              exact
+            />
+            <Route
               element={<MahasiswaAbsensi />}
               path="/mahasiswa/absensi"
               exact
@@ -217,7 +229,27 @@ const App = () => {
             />
 
             <Route element={<MahasiswaDataHME />} path="/mahasiswa/data/hme" />
-            <Route element={<MahasiswaProfileHME />} path="/mahasiswa/profile/hme" />
+            <Route
+              element={<MahasiswaProfileHME />}
+              path="/mahasiswa/profile/hme"
+            />
+            <Route
+              element={<MahasiswaDataProfileHME />}
+              path="/mahasiswa/data/profile/hme"
+            />
+            <Route
+              element={<MahasiswaGaleriHME />}
+              path="/mahasiswa/galeri/hme"
+            />
+            <Route element={<DataGaleri />} path="/mahasiswa/data/galeri" />
+            <Route
+              element={<MahasiswaBuatProgramKerjaHME />}
+              path="/mahasiswa/buat/program/kerja/hme"
+            />
+            <Route
+              element={<DataProgramKerjaHME />}
+              path="/mahasiswa/data/program/kerja/hme"
+            />
           </Route>
 
           {/*Layout Dosen*/}
@@ -239,6 +271,7 @@ const App = () => {
               path="/dosen/daftar/mata/kuliah"
               exact
             />
+            <Route element={<DosenInputRPS />} path="/dosen/input/rps" exact />
             <Route
               element={<DosenDataDosen />}
               path="/dosen/data/dosen"

@@ -1,5 +1,6 @@
 .galeri {
-  margin-top: 200px;
+  margin-top: 100px;
+  margin-bottom: 70px;
   width: 100%;
 
   .container {
@@ -10,21 +11,65 @@
 
     .title {
       text-align: center;
-      font-size: 40px;
+      font-size: 35px;
       font-weight: 600;
     }
 
     .galeri-section {
-     
-
+      display: flex;
+      gap: 20px;
       margin-top: 70px;
 
-      .galeri-foto {
-        width: 400px;
-        height: 210px;
-        background-position: center;
-        background-size: cover;
-        border-radius: 20px;
+      .galeri-foto-container {
+        position: relative;
+        overflow: hidden;
+
+        .galeri-foto {
+          width: 390px;
+          height: 210px;
+          object-fit: cover;
+          border-radius: 20px;
+          transition: transform 0.3s ease-in-out;
+
+          @media (max-width: 768px) {
+            width: 100%;
+          }
+        }
+
+        .overlay-galeri {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 390px;
+          height: 210px;
+          background: rgba(0, 0, 0, 0.7);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          opacity: 0;
+          transition: opacity 0.3s ease-in-out;
+          border-radius: 20px;
+
+          &:hover {
+            opacity: 1;
+          }
+
+          .overlay-text {
+            color: #fff;
+            font-size: 18px; 
+            font-weight: 600;
+          }
+
+          @media (max-width: 768px) {
+            width: 100%;
+          }
+        }
+
+      }
+
+      @media (max-width: 768px) {
+        gap: 10px;
+        flex-direction: column;
       }
     }
 
@@ -33,7 +78,6 @@
       align-items: center;
       justify-content: center;
       column-gap: 5px;
-
       margin-top: 40px;
       width: 180px;
       padding: 8px 30px;
@@ -42,7 +86,7 @@
       font-size: 13px;
       font-weight: 600;
       color: #fff;
-      transition: all 0.3s ease-in-out;
+      transition: background-color 0.3s ease-in-out;
 
       &:hover {
         background-color: #7e6aef;

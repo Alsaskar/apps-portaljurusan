@@ -106,7 +106,7 @@ const ModalEditDetails = ({ data, isOpen, handleClose }) => {
     <>
       {isOpen && (
         <div className="edit-modal-details fade-in">
-          <div className="modal-content-details fade-in">
+          <div className="modal-content-detailss fade-in">
             <button onClick={handleClose} className="button-close-modal">
               <IoIosClose size={20} />
             </button>

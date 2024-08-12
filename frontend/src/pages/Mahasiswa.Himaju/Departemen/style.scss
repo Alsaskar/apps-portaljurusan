@@ -1,11 +1,11 @@
 .departemen {
-  margin-top: 200px;
+  margin-top: 100px;
   width: 100%;
 
   .container {
     .title {
       text-align: center;
-      font-size: 40px;
+      font-size: 35px;
       font-weight: 600;
     }
 
@@ -40,8 +40,8 @@
           background-color: var(--blue-color);
           border-radius: 10px;
           color: #fff;
-          width: 80px;
-          height: 80px;
+          width: 75px;
+          height: 75px;
           cursor: pointer;
           transition: all 0.3s ease-in-out;
 

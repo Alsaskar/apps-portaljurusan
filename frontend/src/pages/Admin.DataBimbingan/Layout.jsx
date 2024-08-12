@@ -87,6 +87,13 @@ const Layout = () => {
 
   return (
     <>
+    <div className="info-section">
+      {/* <p className="text-info">Bimbingan Mahasiswa</p> */}
+      <p className="text-info-desc">Berikut adalah nama mahasiswa dengan dosen pembimbingnya. 
+        Jika ingin mengganti dosen pembimbing, silahkan
+        hapus data mahasiswa kemudian silahkan buat dosen pembimbing baru pada menu Add Bimbingan.
+      </p>
+    </div>
       <div className="filter">
         {/*search filter*/}
         <form onSubmit={searchData}>
