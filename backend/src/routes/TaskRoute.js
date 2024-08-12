@@ -9,7 +9,7 @@ import {
 
 const router = express.Router();
 
-router.get("/", CekToken, getTasks);
+router.get("/:idMahasiswa", CekToken, getTasks);
 router.post("/create-task", CekToken, createTask);
 router.put("/update-task/:id", CekToken, updateTaskStatus);
 router.delete("/delete-task/:id", CekToken, deleteTask);

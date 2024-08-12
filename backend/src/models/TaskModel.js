@@ -9,6 +9,7 @@ const Task = db.define(
       primaryKey: true,
       autoIncrement: true,
     },
+    idMahasiswa: { type: DataTypes.INTEGER },
     name: { type: DataTypes.STRING },
     status: { type: DataTypes.STRING },
   },

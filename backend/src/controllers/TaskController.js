@@ -4,6 +4,7 @@ import Task from '../models/TaskModel';
 export const createTask = async (req, res) => {
     const name = req.body.name;
     const status = req.body.status;
+    const idMahasiswa = req.body.idMahasiswa;
 
     if (!name || !status) {
         return res.status(400).json({ message: 'Name and status are required' });
@@ -11,8 +12,9 @@ export const createTask = async (req, res) => {
 
     try {
         const task = await Task.create({
-            name,
-            status,
+            name: name,
+            status: status,
+            idMahasiswa: idMahasiswa
         });
 
         return res.status(201).json({ task });
@@ -24,8 +26,17 @@ export const createTask = async (req, res) => {
 
 // dapatkan daftar tugas
 export const getTasks = async (req, res) => {
+    const idMahasiswa = req.params.idMahasiswa;
+
     try {
-        const tasks = await Task.findAll();
+        const tasks = await Task.findAll({
+            where: {
+                idMahasiswa: idMahasiswa
+            }
+        });
+
+        console.log(tasks)
+
         return res.status(200).json({ tasks });
     } catch (err) {
         return res.status(500).json({ message: err.message });

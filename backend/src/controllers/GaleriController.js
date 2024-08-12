@@ -17,10 +17,9 @@ export const createGaleri = async (req, res) => {
 
     res.status(201).json({
       message: 'Galeri berhasil dibuat',
-      data: newGaleri,
+      success: true
     });
   } catch (error) {
-    console.error("Error creating galeri:", error);
     res.status(500).json({ message: error.message });
   }
 };
