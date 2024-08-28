@@ -24,6 +24,7 @@ const Mahasiswa = db.define('mahasiswa', {
     statusMasukPt: { type: DataTypes.STRING },
     jurusan: { type: DataTypes.STRING },
     prodi: { type: DataTypes.STRING },
+    kelas: { type: DataTypes.STRING },
     foto: { type: DataTypes.STRING },
     statusHimaju: { type: DataTypes.STRING },
 }, {
@@ -53,7 +54,7 @@ const DetailMahasiswa = db.define('detailmahasiswa', {
     emailWali: { type: DataTypes.STRING }
 }, {
     freezeTableName: true,
-    timestamps: false,
+    timestamps: false
 })
 
 
