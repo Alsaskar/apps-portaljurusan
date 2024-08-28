@@ -131,6 +131,10 @@
           width: 130px;
           height: 130px;
           border-radius: 50%;
+          background-position: center;
+          background-size: cover;
+          background-repeat: no-repeat;
+          object-fit: cover;
 
           @media (max-width: 1200px) {
             width: 60px;
@@ -234,6 +238,9 @@
           .app-bar-dosenwali {
             font-size: 14px;
             color: #fff;
+
+            display: flex;
+            column-gap: 4px;
 
             .app-bar-dosenwali-name {
               font-weight: 600;

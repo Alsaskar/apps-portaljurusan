@@ -1,0 +1,32 @@
+.btn-otp {
+  .title {
+    font-size: 13px;
+    margin-top: 10px;
+    color: #909090;
+  }
+  
+  .btn-kirim-otp {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+
+    width: 100%;
+    margin-top: 20px;
+    padding: 8px 30px;
+    background-color: var(--blue-color);
+    border-radius: 12px;
+    transition: var(--default-transition);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #458bf5;
+    }
+  }
+}
+
+.swal2-container {
+  z-index: 10000 !important;
+}

@@ -1,0 +1,220 @@
+.chat-dosen {
+  background-color: #fff;
+  border-radius: 10px;
+  position: relative;
+
+  .header-chat-dosen {
+    padding: 10px 20px 10px 20px;
+    background-color: #dfe2e7;
+    border-radius: 10px 10px 0px 0px;
+
+    display: flex;
+    justify-content: space-between;
+
+    .profile-section {
+      display: flex;
+      align-items: center;
+      column-gap: 10px;
+      .profile-img {
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        object-fit: cover;
+      }
+      .dosen-name {
+        font-weight: 600;
+        font-size: 14px;
+      }
+    }
+
+    .down {
+      width: 35px;
+      height: 35px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--orange-color); // Warna latar belakang tombol
+      color: #fff;
+      border-radius: 50%; // Membuat tombol bulat
+      cursor: pointer; // Ubah kursor saat hover
+      transition: background-color 0.3s, box-shadow 0.3s; // Efek transisi untuk perubahan warna latar belakang dan bayangan
+    }
+  }
+
+  .chat-body-dosen {
+    padding: 20px;
+    height: calc(100vh - 240px);
+    max-height: calc(100vh - 240px);
+
+    overflow-y: scroll;
+
+    &::-webkit-scrollbar {
+      width: 3px;
+    }
+    &::-webkit-scrollbar-track {
+      background-color: var(--scroll-track-bg-color);
+    }
+    &::-webkit-scrollbar-thumb {
+      border-radius: 100vh !important;
+      background-color: var(--scroll-thumb-bg-color);
+      outline: 1px solid rgba(0, 0, 0, 0.02);
+      outline-offset: -1px;
+    }
+
+    .divider-chat {
+      width: 100%;
+      height: 1px;
+      background-color: #f0f0f0;
+      margin-bottom: 20px;
+    }
+
+    .chat-container-dosen {
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+
+      .date-section {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+
+        .date-label {
+          font-size: 10px;
+          font-weight: 500;
+          padding: 2px 8px;
+          border-radius: 10px;
+          background-color: #d8dbdf;
+          width: fit-content;
+
+          display: flex;
+        }
+
+        .chat-message {
+          max-width: 55%;
+          max-height: auto;
+          padding: 8px 40px 8px 14px;
+          position: relative;
+
+          .message-options-icon {
+            cursor: pointer;
+            position: absolute;
+            right: 10px;
+            top: 10px;
+          }
+
+          @media (max-width: 768px) {
+            max-width: 75%;
+          }
+        }
+      }
+
+      .dosen-message {
+        font-size: 13px;
+        background-color: #f0f0f0;
+        align-self: flex-start;
+        border-radius: 0px 15px 15px 15px;
+        max-width: 70%;
+
+        display: flex;
+        flex-direction: column;
+
+        .message-timestamp {
+          font-size: 9px;
+          align-self: flex-end;
+          color: #909090;
+          margin-right: -25px;
+        }
+
+        @media (max-width: 768px) {
+          max-width: 85%;
+          font-size: 12px;
+        }
+      }
+
+      .user-message {
+        font-size: 13px;
+        background-color: #47a0e8;
+        color: #fff;
+        align-self: flex-end;
+        border-radius: 15px 0px 15px 15px;
+        max-width: 70%;
+
+        display: flex;
+        flex-direction: column;
+
+        .message-timestamp {
+          font-size: 9px;
+          align-self: flex-end;
+          margin-right: -25px;
+          color: #fff;
+        }
+
+        @media (max-width: 768px) {
+          max-width: 85%;
+          font-size: 12px;
+        }
+      }
+    }
+  }
+
+  .footer-chat {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px 10px 20px;
+    background-color: #dfe2e7;
+    border-radius: 0px 0px 10px 10px;
+
+    .message-input {
+      flex-grow: 1;
+      padding: 10px;
+      border-radius: 10px;
+      border: 2px solid #d8dbdf;
+      margin-right: 10px;
+
+      &:focus {
+        border: 2px solid var(--blue-color);
+        outline: none;
+      }
+
+      @media (max-width: 768px) {
+        font-size: 12px;
+      }
+    }
+
+    .send-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 30px;
+      border-radius: 10px;
+      background-color: var(--blue-color);
+      color: #fff;
+      cursor: pointer;
+      transition: all 0.3s ease-in-out;
+
+      &:hover {
+        background-color: #47a0e8;
+      }
+
+      .icon-send {
+        font-size: 18px;
+
+        @media (max-width: 768px) {
+          font-size: 14px;
+        }
+      }
+
+      @media (max-width: 768px) {
+        font-size: 10px;
+      }
+    }
+  }
+}

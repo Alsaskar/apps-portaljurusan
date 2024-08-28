@@ -1,0 +1,52 @@
+.title-input-otp {
+    margin-top: 10px;
+      font-size: 30px;
+      font-weight: 600;
+      text-align: center;
+}
+.otp-container {
+    margin-top: 20px;
+  input {
+    width: 100%;
+    padding: 8px;
+    border: 2px solid var(--input-form-color);
+    border-radius: 4px;
+    background-color: var(--input-form-color);
+    color: var(--text-color-inverted);
+    margin-bottom: 20px;
+
+    &:focus {
+      border: 2px solid var(--blue-color);
+      outline: none;
+    }
+
+    @media (max-width: 768px) {
+      width: calc(100%);
+    }
+  }
+}
+
+.otp-expire {
+  font-size: 14px;
+  color: #909090;
+  text-align: center;
+}
+
+.btn-verify-otp {
+  margin-top: 20px;
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  background: rgb(71, 91, 232);
+  background: linear-gradient(
+    121deg,
+    rgba(71, 91, 232, 1) 0%,
+    rgba(71, 160, 232, 1) 50%,
+    rgba(0, 255, 244, 1) 100%
+  );
+  transition: all 0.3s ease-in-out;
+  color: #fff;
+  font-weight: 500;
+  cursor: pointer;
+}

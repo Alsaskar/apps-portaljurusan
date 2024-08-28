@@ -35,6 +35,21 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
   },
 
+  image_tanda: {
+    width: 50, 
+  },
+
+  image_ttd_dospem: {
+    width: 60, 
+    marginTop: 15,
+    marginBottom: 15,
+    padding: 0,
+  },
+
+  no_image: {
+    marginTop: 40,
+  },
+
   title: {
     marginTop: 10,
     textAlign: "center",
@@ -213,6 +228,9 @@ const styles = StyleSheet.create({
   },
 
   isi_tanda: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
     width: 100,
     height: 40,
     padding: 5,
@@ -266,7 +284,7 @@ const styles = StyleSheet.create({
   },
 
   name_dosen: {
-    marginTop: 50,
+    // marginTop: 50,
   },
 
   row: {

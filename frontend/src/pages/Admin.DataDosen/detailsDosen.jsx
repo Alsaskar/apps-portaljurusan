@@ -74,7 +74,7 @@ const AdminDetailsDosen = () => {
       <div className="details-dosen">
         <div className="form-add">
           <div className="form-add-container">
-            <h3>Details Dosen</h3>
+            <h3>Detail Dosen</h3>
 
             <Formik
               initialValues={{}}
@@ -89,67 +89,73 @@ const AdminDetailsDosen = () => {
                       <label htmlFor="noHp">
                         No Hp <span className="important">*</span>
                       </label>
-                      <input type="text" id="noHp" name="noHp" onChange={() => {}} value={user.noHp} disabled />
+                      <input type="text" id="noHp" name="noHp" onChange={() => {}} value={user.noHp || ""} disabled />
                     </div>
                     <div className="form-group">
                       <label htmlFor="tglLahir">
                         Tanggal Lahir <span className="important">*</span>
                       </label>
-                      <input type="date" id="tglLahir" name="tglLahir" onChange={() => {}} value={dosen.tglLahir} disabled />
+                      <input type="date" id="tglLahir" name="tglLahir" onChange={() => {}} value={dosen.tglLahir || ""} disabled />
                     </div>
                     <div className="form-group">
                       <label htmlFor="karpeg">
                         Karpeg <span className="important">*</span>
                       </label>
-                      <input type="text" id="karpeg" name="karpeg" onChange={() => {}} value={dosen.karpeg} disabled />
+                      <input type="text" id="karpeg" name="karpeg" onChange={() => {}} value={dosen.karpeg || ""} disabled />
                     </div>
                     <div className="form-group">
                       <label htmlFor="cpns">
                         CPNS <span className="important">*</span>
                       </label>
-                      <input type="text" id="cpns" name="cpns" onChange={() => {}} value={dosen.cpns} disabled />
+                      <input type="text" id="cpns" name="cpns" onChange={() => {}} value={dosen.cpns || ""} disabled />
                     </div>
                     <div className="form-group">
                       <label htmlFor="pns">
                         PNS <span className="important">*</span>
                       </label>
-                      <input type="text" id="pns" name="pns" onChange={() => {}} value={dosen.pns} disabled />
+                      <input type="text" id="pns" name="pns" onChange={() => {}} value={dosen.pns || ""} disabled />
                     </div>
                     <div className="form-group">
                       <label htmlFor="jurusan">
                         Jurusan <span className="important">*</span>
                       </label>
-                      <input type="text" id="jurusan" name="jurusan" onChange={() => {}} value={dosen.jurusan} disabled />
+                      <input type="text" id="jurusan" name="jurusan" onChange={() => {}} value={dosen.jurusan || ""} disabled />
                     </div>
                     <div className="form-group">
                       <label htmlFor="pendidikanTerakhir">
                         Pendidikan Terakhir <span className="important">*</span>
                       </label>
-                      <input type="text" id="pendidikanTerakhir" name="pendidikanTerakhir" onChange={() => {}} value={detailDosen.pendidikanTerakhir} disabled />
+                      <input type="text" id="pendidikanTerakhir" name="pendidikanTerakhir" onChange={() => {}} value={detailDosen.pendidikanTerakhir || ""} disabled />
                     </div>
                     <div className="form-group">
                       <label htmlFor="tahun">
                         Tahun <span className="important">*</span>
                       </label>
-                      <input type="text" id="tahun" name="tahun" onChange={() => {}} value={detailDosen.tahun} disabled />
+                      <input type="text" id="tahun" name="tahun" onChange={() => {}} value={detailDosen.tahun || ""} disabled />
                     </div>
                     <div className="form-group">
                       <label htmlFor="gol">
                         Gol <span className="important">*</span>
                       </label>
-                      <input type="text" id="gol" name="gol" onChange={() => {}} value={detailDosen.gol} disabled />
+                      <input type="text" id="gol" name="gol" onChange={() => {}} value={detailDosen.gol || ""} disabled />
                     </div>
                     <div className="form-group">
                       <label htmlFor="tmtGolongan">
                         TMT Golongan <span className="important">*</span>
                       </label>
-                      <input type="email" id="tmtGolongan" name="tmtGolongan" onChange={() => {}} value={detailDosen.tmtGolongan} disabled />
+                      <input type="email" id="tmtGolongan" name="tmtGolongan" onChange={() => {}} value={detailDosen.tmtGolongan || ""} disabled />
                     </div>
                     <div className="form-group">
                       <label htmlFor="tmtJabatan">
                         TMT Jabatan <span className="important">*</span>
                       </label>
-                      <input type="text" id="tmtJabatan" name="tmtJabatan" onChange={() => {}} value={detailDosen.tmtJabatan} disabled />
+                      <input type="text" id="tmtJabatan" name="tmtJabatan" onChange={() => {}} value={detailDosen.tmtJabatan || ""} disabled />
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="tmtJabatan">
+                        Agama <span className="important">*</span>
+                      </label>
+                      <input type="text" id="tmtJabatan" name="tmtJabatan" onChange={() => {}} value={detailDosen.agama || ""} disabled />
                     </div>
                   </div>
                 </form>

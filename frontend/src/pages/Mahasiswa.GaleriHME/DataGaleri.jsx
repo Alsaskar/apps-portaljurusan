@@ -67,7 +67,7 @@ const DataGaleri = () => {
   const _handleDelete = async (id) => {
     Swal.fire({
       title: "Konfirmasi",
-      text: `Yakin ingin hapus ?`,
+      text: `Yakin ingin hapus data galeri ?`,
       icon: "question",
       showCancelButton: true,
       confirmButtonText: "Ya",

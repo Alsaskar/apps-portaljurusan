@@ -10,8 +10,7 @@ const MahasiswaProfile = () => {
     if(sessionStorage.getItem('role') !== 'mahasiswa'){
       navigate(`/${sessionStorage.getItem('role')}`)
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [navigate])
 
   return (
     <div>

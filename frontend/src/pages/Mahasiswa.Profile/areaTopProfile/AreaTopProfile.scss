@@ -19,8 +19,7 @@
         flex-direction: column;
       }
 
-      .edit-details-mahasiswa {
-        background-color: #5f47e8;
+      .btn-details-mahasiswa {
         padding: 5px 15px 5px 15px;
         border-radius: 10px;
         display: flex;
@@ -35,9 +34,23 @@
           margin-top: 20px;
         }
 
-        &:hover {
-          background-color: #4762e8;
+        &.red {
+          background-color: var(--red-color);
+
+          &:hover {
+            background-color: #ed6161;
+          }
         }
+
+        &.blue {
+          background-color: var(--blue-color);
+
+          &:hover {
+            background-color: #4762e8;
+          }
+        }
+
+       
 
         .icon-edit-mahasiswa {
           color: #fff;
@@ -129,6 +142,7 @@
           background-position: center;
           background-size: cover;
           background-repeat: no-repeat;
+          object-fit: cover;
         }
       }
     }

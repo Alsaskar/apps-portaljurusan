@@ -1,0 +1,59 @@
+.select-mahasiswa {
+  background-color: var(--secondary-color);
+  padding: 20px;
+  border-radius: 10px;
+
+  .title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-color-inverted);
+  }
+
+  .desc {
+    font-size: 13px;
+    color: var(--text-color-secondary);
+    margin-bottom: 20px;
+  }
+
+  .select-mahasiswa-list {
+    display: flex;
+    gap: 10px;
+
+    .select-mahasiswa-item {
+      border: 2px solid var(--border-color);
+      border-radius: 10px;
+      padding: 10px 20px;
+      cursor: pointer;
+      transition: all 0.3s ease-in-out;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+
+      &:hover {
+        transform: scale(1.04);
+      }
+
+      .name {
+        margin-top: 20px;
+        font-size: 16px;
+        font-weight: 600;
+      }
+
+      .nim {
+        font-size: 14px;
+      }
+
+      .profile-img {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        object-fit: cover;
+      }
+    }
+  }
+}

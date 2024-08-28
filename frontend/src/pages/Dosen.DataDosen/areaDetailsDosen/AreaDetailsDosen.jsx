@@ -1,11 +1,14 @@
 import "./AreaDetailsDosen.scss";
 import { useContext, useEffect, useState } from "react";
 import { DosenContext } from "../../../context/DosenContext";
+import useFormatDate from "../../../hooks/useFormatDateHooks";
 
 const AreaDetailsDosen = () => {
   const dataDosen = useContext(DosenContext);
   const [dosen, setDosen] = useState(null);
   const [detailDosen, setDetailDosen] = useState(null);
+
+  const { formatDate } = useFormatDate(); 
 
   useEffect(() => {
     if (dataDosen !== null) {
@@ -16,7 +19,6 @@ const AreaDetailsDosen = () => {
   useEffect(() => {
     if (dataDosen !== null) {
       setDetailDosen(dataDosen.result.detaildosens[0]);
-      console.log(dataDosen.result.detaildosens[0]);
     }
   }, [dataDosen]);
   
@@ -31,6 +33,12 @@ const AreaDetailsDosen = () => {
           <p className="area-details-title-head">Profile Saya</p>
           <div className="divider-profile"></div>
           <div className="area-details-content">
+             {/*NIDN*/}
+             <div className="area-details-sub-content">
+              <p className="area-details-title-content">NIDN</p>
+              <p className="area-details-title">{dosen.nidn === null ? "Loading..." : dosen.nidn}</p>
+            </div>
+
              {/*Jurusan*/}
              <div className="area-details-sub-content">
               <p className="area-details-title-content">Jurusan</p>
@@ -45,20 +53,20 @@ const AreaDetailsDosen = () => {
 
             {/*Alamat*/}
             <div className="area-details-sub-content">
-              <p className="area-details-title-content">Alamat</p>
-              <p className="area-details-title">{dosen.alamatTerakhir === null ? "Loading..." : dosen.alamatTerakhir}</p>
+              <p className="area-details-title-content">Pendidikan Terakhir</p>
+              <p className="area-details-title">{detailDosen.pendidikanTerakhir === null ? "Loading..." : detailDosen.pendidikanTerakhir}</p>
             </div>
 
             {/*Kota*/}
             <div className="area-details-sub-content">
-              <p className="area-details-title-content">Kota</p>
-              <p className="area-details-title">{dosen.kota === null ? "Loading..." : dosen.kota}</p>
+              <p className="area-details-title-content">PNS</p>
+              <p className="area-details-title">{dosen.pns === null ? "Loading..." : dosen.pns}</p>
             </div>
 
             {/*Tahun Masuk*/}
             <div className="area-details-sub-content">
-              <p className="area-details-title-content">Angkatan</p>
-              <p className="area-details-title">{dosen.angkatan === null ? "Loading..." : dosen.angkatan}</p>
+              <p className="area-details-title-content">Karpeg</p>
+              <p className="area-details-title">{dosen.karpeg === null ? "Loading..." : dosen.karpeg}</p>
             </div>
 
             {/*Tempat Lahir*/}
@@ -70,7 +78,7 @@ const AreaDetailsDosen = () => {
             {/*Tanggal Lahir*/}
             <div className="area-details-sub-content">
               <p className="area-details-title-content">Tanggal Lahir</p>
-              <p className="area-details-title">{dosen.tglLahir === null ? "Loading..." : dosen.tglLahir}</p>
+              <p className="area-details-title">{formatDate(dosen.tglLahir) === null ? "Loading..." : formatDate(dosen.tglLahir)}</p>
             </div>
 
             {/*Jenis Kelamin*/}
@@ -81,8 +89,8 @@ const AreaDetailsDosen = () => {
 
             {/*Kode Pos*/}
             <div className="area-details-sub-content">
-              <p className="area-details-title-content">Kode Pos</p>
-              <p className="area-details-title">{dosen.kodePos === null ? "Loading..." : dosen.kodePos}</p>
+              <p className="area-details-title-content">Tahun</p>
+              <p className="area-details-title">{detailDosen.tahun === null ? "Loading..." : detailDosen.tahun}</p>
             </div>
 
             {/*Agama*/}
@@ -93,23 +101,43 @@ const AreaDetailsDosen = () => {
               </p>
             </div>
 
-            {/*Status*/}
+            {/*Gol*/}
             <div className="area-details-sub-content">
-              <p className="area-details-title-content">Status</p>
+              <p className="area-details-title-content">Gol</p>
               <p className="area-details-title">
-                {detailDosen.statusDosen === null
+                {detailDosen.gol === null
                   ? "Loading..."
-                  : detailDosen.statusDosen}
+                  : detailDosen.gol}
               </p>
             </div>
 
-             {/*Tanggal Terdaftar*/}
+             {/*Jabatan*/}
              <div className="area-details-sub-content">
-              <p className="area-details-title-content">Tanggal Terdaftar</p>
+              <p className="area-details-title-content">Jabatan</p>
               <p className="area-details-title">
-                {dosen.tglTerdaftar === null
+                {detailDosen.jabatan === null
                   ? "Loading..."
-                  : dosen.tglTerdaftar}
+                  : detailDosen.jabatan}
+              </p>
+            </div>
+
+             {/*TMT GOL*/}
+             <div className="area-details-sub-content">
+              <p className="area-details-title-content">TMT Gol</p>
+              <p className="area-details-title">
+                {formatDate(detailDosen.tmtGolongan) === null
+                  ? "Loading..."
+                  : formatDate(detailDosen.tmtGolongan)}
+              </p>
+            </div>
+
+            {/*TMT Jabatan*/}
+            <div className="area-details-sub-content">
+              <p className="area-details-title-content">TMT Jabatan</p>
+              <p className="area-details-title">
+                {formatDate(detailDosen.tmtJabatan) === null
+                  ? "Loading..."
+                  : formatDate(detailDosen.tmtJabatan)}
               </p>
             </div>
           </div>

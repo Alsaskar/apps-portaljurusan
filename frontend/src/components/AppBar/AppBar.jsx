@@ -37,7 +37,7 @@ const  AppBar = ({fullname, email}) => {
 
 AppBar.propTypes = {
   fullname: PropTypes.string.isRequired,
-  email: PropTypes.string.isRequired
+  email: PropTypes.string.isRequired,
 };
 
 export default AppBar;

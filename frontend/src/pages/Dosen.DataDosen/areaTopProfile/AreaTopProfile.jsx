@@ -1,11 +1,15 @@
 import "./AreaTopProfile.scss";
-import ProfileM from "../../../assets/images/foto.jpg";
+import ProfileNoImage from "../../../assets/images/profile_no_image.png";
 import AreaDetailsDosen from "../areaDetailsDosen/AreaDetailsDosen";
 import { useContext, useEffect, useState } from "react";
 import { useUser } from "../../../hooks/userHooks";
 import { DosenContext } from "../../../context/DosenContext";
 import { RiImageAddFill } from "react-icons/ri";
-import ModalEdit from "./ModalEdit";
+import ModalUploadFoto from "./ModalUploadFoto";
+import { urlApi, urlStaticAssetsDosen } from "../../../config";
+import axios from "axios";
+import Swal from "sweetalert2";
+import { HiTrash } from "react-icons/hi2";
 
 const AreaTopProfile = () => {
   const { user } = useUser();
@@ -14,6 +18,7 @@ const AreaTopProfile = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedData, setSelectedData] = useState([]);
   const [selectedDataUser, setSelectedDataUser] = useState([]);
+  const [hasFoto, setHasFoto] = useState(false);
 
   const handleUpload = (data, dataUser) => {
     setSelectedData(data);
@@ -25,9 +30,41 @@ const AreaTopProfile = () => {
     setShowModal(false);
   };
 
+  const handleDeleteFoto = async () => {
+    try {
+      // Menampilkan konfirmasi SweetAlert2 sebelum melanjutkan
+      const result = await Swal.fire({
+        title: "Hapus Foto",
+        text: "Yakin ingin menghapus foto profile?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Ya",
+        cancelButtonText: "Batal",
+      });
+
+      if (result.isConfirmed) {
+        await axios.delete(`${urlApi}/dosen/${dataDosen.result.id}/foto`, {
+          headers: {
+            Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+          },
+        });
+
+        // Update state dan UI setelah penghapusan
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500);
+        Swal.fire("Dihapus!", "Foto telah dihapus.", "success");
+      }
+    } catch (err) {
+      console.error("Error deleting photo:", err);
+      Swal.fire("Gagal!", "Terjadi kesalahan saat menghapus foto.", "error");
+    }
+  };
+
   useEffect(() => {
     if (dataDosen !== null) {
       setDetailDosen(dataDosen.result.detaildosens[0]);
+      setHasFoto(dataDosen.result.foto ? true : false);
     }
   }, [dataDosen]);
 
@@ -35,7 +72,7 @@ const AreaTopProfile = () => {
     return (
       <>
         {/* Modal */}
-        <ModalEdit
+        <ModalUploadFoto
           isOpen={showModal}
           handleClose={handleCloseModal}
           data={selectedData}
@@ -45,9 +82,13 @@ const AreaTopProfile = () => {
           <div className="area-container">
             <div className="area-profile-top">
               <div className="area-profile-details">
-                <img
+              <img
                   className="area-profile-img"
-                  src={ProfileM}
+                  src={
+                    hasFoto
+                      ? `${urlStaticAssetsDosen}/${dataDosen.result.foto}`
+                      : ProfileNoImage
+                  }
                   alt="Area Profile"
                 />
                 <div className="area-profile-top1">
@@ -61,10 +102,25 @@ const AreaTopProfile = () => {
                 </div>
               </div>
 
-              <button type="button" className="edit-details-mahasiswa" onClick={handleUpload}>
-                <RiImageAddFill size={16} />
-                Upload Foto
-              </button>
+              {hasFoto ? (
+                <button
+                  type="button"
+                  className="btn-details-mahasiswa red"
+                  onClick={handleDeleteFoto}
+                >
+                  <HiTrash size={16} />
+                  Hapus Foto
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  className="btn-details-mahasiswa blue"
+                  onClick={() => handleUpload(detailDosen, user)}
+                >
+                  <RiImageAddFill size={16} />
+                  Upload Foto
+                </button>
+              )}
             </div>
             <div className="area-profile-details">
               <AreaDetailsDosen />

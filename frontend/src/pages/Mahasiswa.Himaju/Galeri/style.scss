@@ -28,6 +28,7 @@
           width: 390px;
           height: 210px;
           object-fit: cover;
+          background-position: center;
           border-radius: 20px;
           transition: transform 0.3s ease-in-out;
 
@@ -55,8 +56,9 @@
           }
 
           .overlay-text {
+            text-align: center;
             color: #fff;
-            font-size: 18px; 
+            font-size: 18px;
             font-weight: 600;
           }
 
@@ -64,7 +66,6 @@
             width: 100%;
           }
         }
-
       }
 
       @media (max-width: 768px) {

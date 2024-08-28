@@ -1,0 +1,17 @@
+.card-menu {
+  width: 300px;
+  height: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #d2d2d2;
+  border-radius: 10px;
+  padding: 16px;
+  background-color: #fff;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: scale(1.07);
+  }
+}

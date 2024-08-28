@@ -3,39 +3,42 @@ import "./style.scss";
 import { BsDatabaseAdd } from "react-icons/bs";
 import { Field, Formik } from "formik";
 import * as Yup from "yup";
-import { useState, useRef } from "react";
+import { useState, useRef, useContext } from "react";
 import Swal from "sweetalert2";
 import axios from "axios";
 import { urlApi } from "../../config";
 import { Link } from "react-router-dom";
 import { MdRemoveRedEye } from "react-icons/md";
 import SignatureCanvas from "react-signature-canvas";
+import { MahasiswaContext } from "../../context/MahasiswaContext";
 
 const validationSchema = Yup.object().shape({
   tgl: Yup.string().required("Tanggal harus diisi"),
   kegiatan: Yup.string().required("Kegiatan Mahasiswa Saat ini harus diisi"),
   permasalahan: Yup.string().required("Permasalahan harus diisi"),
-  solusi: Yup.string().required("Solusi harus diisi"),
 });
 
 const BuatEvaluasi = () => {
   const [loading, setLoading] = useState(false);
   const sigCanvas = useRef(null);
+  const { result } = useContext(MahasiswaContext) || {};
+
+  const idMahasiswa = result ? result.id : null;
 
   const _handleSubmit = async (values, { resetForm }) => {
     setLoading(true);
-
+    
     try {
       const dataURL = sigCanvas.current.getTrimmedCanvas().toDataURL();
 
       const res = await axios.post(
-        `${urlApi}/evaluasi`,
+        `${urlApi}/evaluasimahasiswa`,
         {
           tgl: values.tgl,
           kegiatan: values.kegiatan,
           permasalahan: values.permasalahan,
-          solusi: values.solusi,
-          ttd: dataURL, // Menggunakan data URL dari tanda tangan
+          ttd: dataURL, 
+          idMahasiswa,
         },
         {
           headers: {
@@ -53,6 +56,9 @@ const BuatEvaluasi = () => {
 
       setLoading(false);
       resetForm();
+      setTimeout(() => {
+        window.location.reload();
+      }, 1500);
     } catch (err) {
       setLoading(false);
       Swal.fire({
@@ -73,7 +79,7 @@ const BuatEvaluasi = () => {
       <p className="title-buat-evaluasi">Buat Evaluasi</p>
 
       <Link
-        to="/mahasiswa/lihat/evaluasi/bimbingan"
+        to="/mahasiswa/lihat/data/evaluasi/bimbingan"
         className="lihat-file-evaluasi"
       >
         <MdRemoveRedEye size={18} />
@@ -85,7 +91,6 @@ const BuatEvaluasi = () => {
             tgl: "",
             kegiatan: "",
             permasalahan: "",
-            solusi: "",
             ttd: "",
           }}
           onSubmit={_handleSubmit}
@@ -138,20 +143,6 @@ const BuatEvaluasi = () => {
                   />
                   {touched.permasalahan && errors.permasalahan ? (
                     <div className="error-form">{errors.permasalahan}</div>
-                  ) : null}
-                </div>
-                <div className="form-group">
-                  <label htmlFor="solusi">
-                    Solusi <span className="important">*</span>
-                  </label>
-                  <Field
-                    type="text"
-                    id="solusi"
-                    name="solusi"
-                    onChange={handleChange}
-                  />
-                  {touched.solusi && errors.solusi ? (
-                    <div className="error-form">{errors.solusi}</div>
                   ) : null}
                 </div>
                 <div className="form-group">

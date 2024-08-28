@@ -17,7 +17,6 @@
       border-radius: 5px;
       border-width: 2px;
       font-size: 12px;
-      margin-right: 10px;
       flex-grow: 1;
 
       &:focus {
@@ -31,6 +30,10 @@
       fill: #888;
       position: absolute;
       right: 20px;
+    }
+
+    @media (max-width: 768px) {
+      width: 100%;
     }
   }
 
@@ -63,6 +66,14 @@
       position: absolute;
       right: 20px;
     }
+
+    @media (max-width: 768px) {
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 768px) {
+    flex-direction: column;
   }
 }
 
@@ -187,6 +198,17 @@
           &.blue {
             background-color: var(--blue-color);
             transition: all 0.3s ease;
+
+            &:hover {
+              background-color: #4c7cff;
+            }
+          }
+
+          &.grey {
+            background-color: #909090;
+            transition: all 0.3s ease;
+            cursor: not-allowed;
+            pointer-events: none;
 
             &:hover {
               background-color: #4c7cff;

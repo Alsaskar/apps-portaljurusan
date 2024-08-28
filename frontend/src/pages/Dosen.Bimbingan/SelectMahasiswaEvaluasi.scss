@@ -1,0 +1,38 @@
+.select-mahasiswa-evaluasi {
+  background-color: var(--secondary-color);
+  padding: 20px;
+  border-radius: 10px;
+
+  .title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-color-inverted);
+  }
+
+  .desc {
+    font-size: 13px;
+    color: var(--text-color-secondary);
+    margin-bottom: 20px;
+  }
+
+  .select-mahasiswa-list {
+    display: flex;
+    gap: 10px;
+
+    .select-mahasiswa-item {
+      border: 2px solid var(--border-color);
+      border-radius: 10px;
+      padding: 10px 20px;
+      cursor: pointer;
+      transition: all .3s ease-in-out;
+
+      &:hover {
+        transform: scale(1.04);
+      }
+
+      .name {
+        font-size: 13px;
+      }
+    }
+  }
+}

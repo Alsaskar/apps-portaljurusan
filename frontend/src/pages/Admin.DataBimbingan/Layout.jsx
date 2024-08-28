@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { MdSearch } from "react-icons/md";
 import "./style.scss";
 import axios from "axios";
-import { urlApi, urlStatic } from "../../config";
+import { urlApi, urlStaticAssets } from "../../config";
 import ReactPaginate from "react-paginate";
 import Swal from "sweetalert2";
 import { HiTrash } from "react-icons/hi2";
@@ -144,7 +144,7 @@ const Layout = () => {
                       <td>{val.mahasiswa.fullname}</td>
                       <td>{val.mahasiswa.nim}</td>
                       <td>
-                      {val.mahasiswa.foto === undefined ? "Loading..." : <img src={val.mahasiswa.foto === "" ? ProfilNoImage : `${urlStatic}/img-mahasiswa/${val.mahasiswa.foto}`} alt="profile-mahasiswa" className="img-mahasiswa" />}
+                      {val.mahasiswa.foto === undefined ? "Loading..." : <img src={val.mahasiswa.foto === "" || val.mahasiswa.foto === null ? ProfilNoImage : `${urlStaticAssets}/${val.mahasiswa.foto}`} alt="profile-mahasiswa" className="img-mahasiswa" />}
                       </td>
                       <td>{val.dosen.fullname}</td>
                       <td>{val.dosen.nip}</td>

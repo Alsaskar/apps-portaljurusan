@@ -1,0 +1,38 @@
+.file-mahasiswa {
+  .button-file {
+    padding: 8px 20px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    justify-content: center;
+    text-decoration: none;
+    color: #fff;
+    width: 270px;
+    font-size: 13px;
+    background-color: var(--blue-color);
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+      background-color: #47a0e8;
+    }
+  }
+
+  .no-file {
+    padding: 8px 20px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    gap: 5px;
+    color: #fff;
+    width: 270px;
+    font-size: 13px;
+    background-color: #909090;
+  }
+}

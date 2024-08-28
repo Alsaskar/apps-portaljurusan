@@ -9,8 +9,7 @@ const AdminDaftarRPS = () => {
     if (sessionStorage.getItem("role") !== "admin") {
       navigate(`/${sessionStorage.getItem("role")}`);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [navigate]);
 
   return (
     <>

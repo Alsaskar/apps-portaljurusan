@@ -10,8 +10,7 @@ const DosenAddRPS = () => {
     if (sessionStorage.getItem("role") !== "dosen") {
       navigate(`/${sessionStorage.getItem("role")}`);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [navigate]);
 
   return (
     <div>
