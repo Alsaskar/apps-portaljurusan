@@ -24,6 +24,7 @@ import Himaju from './routes/HimajuRoute';
 import SendEmail from './routes/SendEmailRoute';
 import Task from './routes/TaskRoute';
 import Galeri from './routes/GaleriRoute';
+import Kelas from './routes/KelasRoute';
 
 const app = express();
 const server = http.createServer(app);
@@ -59,6 +60,7 @@ app.use('/api/v1/himaju', Himaju);
 app.use('/api/v1/email', SendEmail);
 app.use('/api/v1/tasks', Task);
 app.use('/api/v1/galeri', Galeri);
+app.use('/api/v1/kelas', Kelas);
 
 // Jadwalkan notifikasi setiap 1 jam
 setInterval(notifyUpcomingEvents, 60 * 60 * 1000);
