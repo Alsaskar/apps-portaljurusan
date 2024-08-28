@@ -1,5 +1,4 @@
 import express from 'express';
-import multer from 'multer';
 import CekToken from '../middleware/CekToken';
 import upload from "../config/multer";
 import {

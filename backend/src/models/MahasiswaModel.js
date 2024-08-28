@@ -1,6 +1,7 @@
 import { DataTypes } from "sequelize";
 import db from '../config/database';
 import User from "./UserModel";
+import { EvaluasiMahasiswa, UploadedFile } from "./EvaluasiMahasiswaModel";
 
 const Mahasiswa = db.define('mahasiswa', {
     id: {
@@ -23,7 +24,7 @@ const Mahasiswa = db.define('mahasiswa', {
     tglTerdaftar: { type: DataTypes.STRING },
     statusMasukPt: { type: DataTypes.STRING },
     jurusan: { type: DataTypes.STRING },
-    prodi: { type: DataTypes.STRING },
+    prodi: { type: DataTypes.STRING, allowNull: true },
     foto: { type: DataTypes.STRING },
     statusHimaju: { type: DataTypes.STRING },
 }, {
@@ -56,8 +57,6 @@ const DetailMahasiswa = db.define('detailmahasiswa', {
     timestamps: false,
 })
 
-
-
 // Join table - mahasiswa to user
 User.hasMany(Mahasiswa);
 Mahasiswa.belongsTo(User)
@@ -65,6 +64,12 @@ Mahasiswa.belongsTo(User)
 // Join table - mahasiswa to detail mahasiswa
 Mahasiswa.hasMany(DetailMahasiswa);
 DetailMahasiswa.belongsTo(Mahasiswa)
+
+Mahasiswa.hasMany(EvaluasiMahasiswa, { foreignKey: 'idMahasiswa' });
+EvaluasiMahasiswa.belongsTo(Mahasiswa, { foreignKey: 'idMahasiswa' });
+
+Mahasiswa.hasMany(UploadedFile, { foreignKey: 'idMahasiswa' });
+UploadedFile.belongsTo(Mahasiswa, { foreignKey: 'idMahasiswa' });
 
 export {
     Mahasiswa,
