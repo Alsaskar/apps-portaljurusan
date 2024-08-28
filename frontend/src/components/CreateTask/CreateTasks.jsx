@@ -5,14 +5,18 @@ import toast from "react-hot-toast";
 import PropTypes from "prop-types";
 import { urlApi } from "../../config";
 
-const CreateTasks = ({ setTasks }) => {
+
+const CreateTasks = ({ setTasks, idMahasiswa }) => {
   const [task, setTask] = useState({
     name: "",
     status: "todo",
+    idMahasiswa: idMahasiswa,
   });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // console.log(idMahasiswa)
 
     if (task.name.length < 3)
       return toast.error("Task harus lebih dari 3 karakter");
@@ -36,6 +40,7 @@ const CreateTasks = ({ setTasks }) => {
       setTask({
         name: "",
         status: "todo",
+        idMahasiswa: idMahasiswa,
       });
     } catch (error) {
       console.error(
@@ -62,6 +67,7 @@ const CreateTasks = ({ setTasks }) => {
 
 CreateTasks.propTypes = {
   setTasks: PropTypes.func.isRequired,
+  idMahasiswa:  PropTypes.number.isRequired,
 };
 
 export default CreateTasks;

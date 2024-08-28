@@ -6,7 +6,7 @@ import { urlApi } from "../../config";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 
-const AdminAddBimbingan = () => {
+const Layout = () => {
   const [mahasiswa, setMahasiswa] = useState([]);
   const [dosen, setDosen] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -279,4 +279,4 @@ const AdminAddBimbingan = () => {
   );
 };
 
-export default AdminAddBimbingan;
+export default Layout;

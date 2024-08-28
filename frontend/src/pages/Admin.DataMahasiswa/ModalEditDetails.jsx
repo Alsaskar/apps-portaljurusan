@@ -153,28 +153,28 @@ const ModalEditDetails = ({ data, isOpen, handleClose }) => {
                         </div>
                         <div className="form-group">
                           <label htmlFor="tahunTamatSmta">
-                            Tahun Tamat Smta <span className="important">*</span>
+                            Tahun Tamat SMTA <span className="important">*</span>
                           </label>
                           <input type="text" id="tahunTamatSmta" name="tahunTamatSmta" onChange={handleChange} value={values.tahunTamatSmta} />
                           {touched.tahunTamatSmta && errors.tahunTamatSmta ? <div className="error-form">{errors.tahunTamatSmta}</div> : null}
                         </div>
                         <div className="form-group">
                           <label htmlFor="jurusanDiSmta">
-                            Jurusan Di Smta <span className="important">*</span>
+                            Jurusan Di SMTA <span className="important">*</span>
                           </label>
                           <input type="text" id="jurusanDiSmta" name="jurusanDiSmta" onChange={handleChange} value={values.jurusanDiSmta} />
                           {touched.jurusanDiSmta && errors.jurusanDiSmta ? <div className="error-form">{errors.jurusanDiSmta}</div> : null}
                         </div>
                         <div className="form-group">
                           <label htmlFor="tglIjazahSmta">
-                            Tanggal Ijazah Smta <span className="important">*</span>
+                            Tanggal Ijazah SMTA <span className="important">*</span>
                           </label>
                           <input type="date" id="tglIjazahSmta" name="tglIjazahSmta" onChange={handleChange} value={values.tglIjazahSmta} />
                           {touched.tglIjazahSmta && errors.tglIjazahSmta ? <div className="error-form">{errors.tglIjazahSmta}</div> : null}
                         </div>
                         <div className="form-group">
                           <label htmlFor="nilaiUjianAkhirSmta">
-                            Nilai Ujian Akhir Smta <span className="important">*</span>
+                            Nilai Ujian Akhir SMTA <span className="important">*</span>
                           </label>
                           <input type="text" id="nilaiUjianAkhirSmta" name="nilaiUjianAkhirSmta" onChange={handleChange} value={values.nilaiUjianAkhirSmta} />
                           {touched.nilaiUjianAkhirSmta && errors.nilaiUjianAkhirSmta ? <div className="error-form">{errors.nilaiUjianAkhirSmta}</div> : null}

@@ -1,69 +1,71 @@
-.lupa-password {
+.reset-password {
   width: 100%;
   height: 100vh;
   padding: 20px;
   background-color: #eef0f4;
-  
+
   display: flex;
   align-items: center;
   justify-content: center;
 
-  .lupa-password-container {
+  .reset-password-container {
     width: 380px;
-    height: 55vh;
+    height: auto;
     background-color: #fff;
     box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.06);
     border-radius: 20px;
-    padding: 20px;
-   
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    padding: 35px;
 
     @media (max-width: 768px) {
-      width: 100%; 
+      width: 100%;
     }
 
-    .bg-satu-lupa-password {
-      width: 80px;
-      height: 80px;
-      background-color: #eef0f4;
-      padding: 5px;
-      border-radius: 50%;
-
+    .icon-section {
       display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .bg-dua-lupa-password {
-      width: 50px;
-      height: 50px;
-      background-color: rgba(71, 91, 232, 0.3);
-      padding: 5px;
-      border-radius: 50%;
-
-      display: flex;
-      align-items: center;
       justify-content: center;
 
-      .icon-lock-lupa-password {
-        opacity: 1;
-        color: #475be8;
+      .bg-satu-reset-password {
+        width: 80px;
+        height: 80px;
+        background-color: #eef0f4;
+        padding: 5px;
+        border-radius: 50%;
+  
+        display: flex;
+        align-items: center;
+        justify-content: center;
+  
+        .bg-dua-reset-password {
+          width: 50px;
+          height: 50px;
+          background-color: rgba(71, 91, 232, 0.3);
+          padding: 5px;
+          border-radius: 50%;
+  
+          display: flex;
+          align-items: center;
+          justify-content: center;
+  
+          .icon-reset-password {
+            opacity: 1;
+            color: #475be8;
+          }
+        }
       }
     }
 
-    .lupa-password-title {
-      margin-top: 20px;
+    .title-reset-password {
+      margin-top: 10px;
       font-size: 30px;
+      font-weight: 600;
+      text-align: center;
 
       @media (max-width: 768px) {
         text-align: center;
       }
     }
 
-    .lupa-password-desc {
+    .reset-password-desc {
       text-align: center;
       font-weight: 400;
       font-size: 14px;
@@ -71,47 +73,62 @@
       color: #909090;
     }
 
-    .login-form-lupa-password {
+    .form-reset-password {
       width: 100%;
 
-      .form-group {
+      .form-content {
+        margin-top: 30px;
         margin-bottom: 10px;
-      }
 
-      .login-button {
+        .form-group {
+          .input-reset-password {
+            margin-top: 10px;
+            border: none;
+            width: 100%;
+            height: 45px;
+            padding: 20px;
+            border-radius: 10px;
+            outline: none;
+            background-color: #eef0f4;
+          }
 
-        .button-confirm-lupa-password {
-          width: 100%;
-          padding: 12px;
-          border: none;
-          border-radius: 10px;
-          background: rgb(71, 91, 232);
-          background: linear-gradient(121deg, rgba(71, 91, 232, 1) 0%, rgba(71, 160, 232, 1) 50%, rgba(0, 255, 244, 1) 100%);
-          transition: all 0.3s ease-in-out;
-          color: #fff;
-          font-weight: 500;
-          cursor: pointer;
+          .error-form {
+            margin-top: 5px;
+            font-size: 12px;
+            color: var(--red-color);
+            font-style: italic;
+          }
         }
       }
-    }
 
-    .login-form-lupa-password input {
-      margin-top: 20px;
-      border: none;
-      width: 100%;
-      height: 45px;
-      padding: 20px;
-      border-radius: 10px;
-      outline: none;
-      background-color: #eef0f4;
+      .btn-reset-password {
+        margin-top: 10px;
+        width: 100%;
+        padding: 12px;
+        border: none;
+        border-radius: 10px;
+        background: rgb(71, 91, 232);
+        background: linear-gradient(
+          121deg,
+          rgba(71, 91, 232, 1) 0%,
+          rgba(71, 160, 232, 1) 50%,
+          rgba(0, 255, 244, 1) 100%
+        );
+        transition: all 0.3s ease-in-out;
+        color: #fff;
+        font-weight: 500;
+        cursor: pointer;
+      }
     }
 
     .login-link {
+      display: flex;
+      justify-content: center;
       color: #909090;
       text-decoration: underline;
       margin-top: 20px;
       font-size: 14px;
-      transition: all .3s ease-in-out;
+      transition: all 0.3s ease-in-out;
 
       &:hover {
         color: #475be8;

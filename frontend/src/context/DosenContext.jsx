@@ -17,7 +17,6 @@ export const DosenProvider = ({ children }) => {
       });
 
       setDosen(res.data);
-      console.log(res.data);
     };
 
     _dataUser();

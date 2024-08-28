@@ -1,6 +1,6 @@
 .card-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   margin-top: 12px;
   gap: 16px;
 
@@ -10,5 +10,27 @@
 
   @media (max-width: 576px) {
     grid-template-columns: 100%;
+  }
+}
+
+.cal-chart {
+  display: flex;
+
+  .calender {
+    height: auto; /* Atur tinggi sesuai kebutuhan */
+  }
+
+  .ip-chart {
+    margin-left: 20px;
+    flex: 1;
+    width: 100%;
+
+    @media (max-width: 768px) {
+      margin-left: 0;
+    }
+  }
+
+  @media (max-width: 768px) {
+    flex-direction: column;
   }
 }

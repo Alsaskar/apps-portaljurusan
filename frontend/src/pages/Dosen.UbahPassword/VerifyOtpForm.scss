@@ -1,0 +1,60 @@
+.form-input-otp {
+  .label-masukan-otp {
+    font-size: 14px;
+    color: var(--text-color-inverted);
+    margin-bottom: 5px;
+    display: block;
+    margin-top: 20px;
+  }
+
+  label::after {
+    content: '*';
+    color: var(--red-color);
+  }
+
+  input {
+    width: 100%;
+    padding: 8px;
+    border: 2px solid var(--input-form-color);
+    border-radius: 4px;
+    background-color: var(--input-form-color);
+    color: var(--text-color-inverted);
+    margin-bottom: 20px;
+
+    &:focus {
+      border: 2px solid var(--blue-color);
+      outline: none;
+    }
+
+    @media (max-width: 768px) {
+      width: calc(100%);
+    }
+  }
+
+  .otp-expiry {
+    text-align: center;
+    font-size: 13px;
+    color: #909090;
+  }
+
+  .btn-verify-otp {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+
+    width: 100%;
+    margin-top: 20px;
+    padding: 8px 30px;
+    background-color: var(--blue-color);
+    border-radius: 12px;
+    transition: var(--default-transition);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #458bf5;
+    }
+  }
+}

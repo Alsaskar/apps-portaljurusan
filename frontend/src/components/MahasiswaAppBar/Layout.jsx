@@ -1,25 +1,70 @@
 import Logo from "../../assets/images/logo_white.png";
 import Right from "../../assets/images/right.png";
-import ProfileMahasiswa from "../../assets/images/foto.jpg";
+import ProfileNoImage from "../../assets/images/profile_no_image.png";
 import { FaUserCircle } from "react-icons/fa";
 import { RiMenu4Fill } from "react-icons/ri";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useCallback } from "react";
 import { SidebarContext } from "../../context/SidebarContext";
 import { useUser } from "../../hooks/userHooks";
 import { MahasiswaContext } from "../../context/MahasiswaContext";
+import axios from "axios";
+import { urlApi, urlStaticAssets } from "../../config";
 import "./style.scss";
+import { useLoading } from "../../context/LoadingContext";
+import LoadingAnimation from "../LoadingAnimation/LoadingAnimation";
+
+// Fungsi delay
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const Layout = () => {
   const { openSidebar } = useContext(SidebarContext);
   const { user } = useUser();
   const { result } = useContext(MahasiswaContext) || {};
   const [detailMahasiswa, setDetailMahasiswa] = useState(null);
+  const [hasFoto, setHasFoto] = useState(false);
+  const { setLoading, loading } = useLoading();
+
+  const fetchMahasiswaWithDosen = useCallback(async (id) => {
+    try {
+      const res = await axios.get(
+        `${urlApi}/bimbingan/dosen-mahasiswa/${id}/dosen`,
+        {
+          headers: {
+            Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+          },
+        }
+      );
+      setDetailMahasiswa((prevState) => ({
+        ...prevState,
+        dosenWali: res.data.mahasiswa.dosenWali,
+      }));
+      setHasFoto(result?.foto); // Menggunakan optional chaining
+    } catch (error) {
+      console.error("Error fetching mahasiswa with dosen:", error);
+    }
+  }, [result?.foto]);
 
   useEffect(() => {
-    if (result && result.detailmahasiswas) {
-      setDetailMahasiswa(result.detailmahasiswas[0]);
-    }
-  }, [result]);
+    const fetchData = async () => {
+      setLoading(true); // Menandakan bahwa data sedang dimuat
+      if (result) {
+        if (result.detailmahasiswas) {
+          setDetailMahasiswa(result.detailmahasiswas[0]);
+        }
+        if (result.id) {
+          await fetchMahasiswaWithDosen(result.id);
+        }
+      }
+      await delay(1500); // Tambahkan delay sebelum menyetel loading menjadi false
+      setLoading(false);
+    };
+
+    fetchData();
+  }, [result, fetchMahasiswaWithDosen, setLoading]);
+
+  if (loading) {
+    return <LoadingAnimation />;
+  }
 
   if (!detailMahasiswa) {
     return null;
@@ -59,7 +104,9 @@ const Layout = () => {
         <div className="app-bar-details-mahasiswa">
           <div className="app-bar-details-info-mahasiswa">
             <img
-              src={ProfileMahasiswa}
+              src={
+                hasFoto ? `${urlStaticAssets}/${result?.foto}` : ProfileNoImage
+              }
               alt="profile mahasiswa"
               className="profile-mahasiswa"
             />
@@ -71,7 +118,7 @@ const Layout = () => {
               </div>
               <div className="app-bar-status">
                 <span className="app-bar-border-status">
-                  {detailMahasiswa.statusMahasiswa ?? "Loading..."}
+                  {detailMahasiswa?.statusMahasiswa ?? "Loading..."}
                 </span>
               </div>
             </div>
@@ -88,8 +135,10 @@ const Layout = () => {
                 ))}
               </div>
               <p className="app-bar-dosenwali">
-                Dosen Wali
-                <span className="app-bar-dosenwali-name"> Masukan Nama Dosen Wali</span>
+                Dosen Pembimbing
+                <span className="app-bar-dosenwali-name">
+                  {detailMahasiswa?.dosenWali ?? "Belum ada dosen wali"}
+                </span>
               </p>
             </div>
           </div>

@@ -22,6 +22,7 @@ import { SidebarContext } from "../../context/SidebarContext";
 import { MdOutlineClose } from "react-icons/md";
 import "./Sidebar.scss";
 import { MahasiswaContext } from "../../context/MahasiswaContext";
+import ModalUbahPassword from "../../pages/Mahasiswa.UbahPassword/ModalUbahPassword";
 
 const Sidebar = () => {
   const [activeMenu, setActiveMenu] = useState(null);
@@ -31,6 +32,15 @@ const Sidebar = () => {
   const [dataHiamjuSubMenuOpen, setDataHimajuSubMenuOpen] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const [statusHimaju, setStatusHimaju] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
+  const handleModal = () => {
+    setShowModal(true);
+  };
 
   const { isSidebarOpen, closeSidebar, handleSubmenuClick } =
     useContext(SidebarContext);
@@ -149,223 +159,133 @@ const Sidebar = () => {
 
   if (statusHimaju !== null) {
     return (
-      <div className={`sidebar-mahasiswa ${isSidebarOpen ? "open" : ""}`}>
-        {isSidebarOpen && (
-          <div className="sidebar-overlay" onClick={closeSidebar}></div>
-        )}
-        <div
-          className={`sidebar-content-mahasiswa ${
-            isSidebarOpen ? "sidebar-mahasiswa-show" : ""
-          } ${isExpanded ? "expanded" : ""}`}
-          ref={navbarRef}
-        >
+      <>
+        {/* Modal */}
+        <ModalUbahPassword isOpen={showModal} handleClose={handleCloseModal} />
+        <div className={`sidebar-mahasiswa ${isSidebarOpen ? "open" : ""}`}>
+          {isSidebarOpen && (
+            <div className="sidebar-overlay" onClick={closeSidebar}></div>
+          )}
           <div
-            className={`sidebar-head-menu ${isExpanded ? "head-expanded" : ""}`}
+            className={`sidebar-content-mahasiswa ${
+              isSidebarOpen ? "sidebar-mahasiswa-show" : ""
+            } ${isExpanded ? "expanded" : ""}`}
+            ref={navbarRef}
           >
-            <p
-              className={`sidebar-title-menu ${
-                isExpanded ? "menu-expanded" : ""
+            <div
+              className={`sidebar-head-menu ${
+                isExpanded ? "head-expanded" : ""
               }`}
             >
-              Menu
-            </p>
-            <button className="btn-expanded" onClick={handleExpandToggle}>
-              {isExpanded ? (
-                <MdKeyboardDoubleArrowRight
-                  className="menu-icon-bar"
-                  size={18}
-                />
-              ) : (
-                <MdKeyboardDoubleArrowLeft
-                  className="menu-icon-bar"
-                  size={18}
-                />
-              )}
-            </button>
-            <button className="sidebar-close-btn" onClick={closeSidebar}>
-              <MdOutlineClose size={14} />
-            </button>
-          </div>
+              <p
+                className={`sidebar-title-menu ${
+                  isExpanded ? "menu-expanded" : ""
+                }`}
+              >
+                Menu
+              </p>
+              <button className="btn-expanded" onClick={handleExpandToggle}>
+                {isExpanded ? (
+                  <MdKeyboardDoubleArrowRight
+                    className="menu-icon-bar"
+                    size={18}
+                  />
+                ) : (
+                  <MdKeyboardDoubleArrowLeft
+                    className="menu-icon-bar"
+                    size={18}
+                  />
+                )}
+              </button>
+              <button className="sidebar-close-btn" onClick={closeSidebar}>
+                <MdOutlineClose size={14} />
+              </button>
+            </div>
 
-          {/* Sidebar menu */}
-          <div className="sidebar-body-mahasiswa">
-            <div className="sidebar-menu-mahasiswa">
-              <ul className="menu-list-mahasiswa">
-                {/* Dashboard */}
-                <li className="menu-item-mahasiswa">
-                  <Link
-                    to="/mahasiswa"
-                    className={`menu-link-mahasiswa ${
-                      activeMenu === "dashboard" ? "active" : ""
-                    }`}
-                    onClick={() => {
-                      handleSetActiveMenu("dashboard");
-                      handleSubmenuClick("Dashboard");
-                    }}
-                  >
-                    <span className="menu-link-icon-mahasiswa">
-                      <RiDashboardHorizontalFill size={18} />
-                    </span>
-                    <span
-                      className={`menu-link-text-mahasiswa ${
-                        isExpanded ? "menu-list-expanded" : ""
-                      }`}
-                    >
-                      Beranda
-                    </span>
-                  </Link>
-                </li>
-
-                {/* Profile Mahasiswa */}
-                <li className="menu-item-mahasiswa">
-                  <Link
-                    to="/mahasiswa/profile"
-                    className={`menu-link-mahasiswa ${
-                      activeMenu === "mahasiswa" ? "active" : ""
-                    }`}
-                    onClick={() => {
-                      handleSetActiveMenu("mahasiswa");
-                      handleSubmenuClick("Mahasiswa");
-                    }}
-                  >
-                    <span className="menu-link-icon-mahasiswa">
-                      <PiStudentFill size={20} />
-                    </span>
-                    <span
-                      className={`menu-link-text-mahasiswa ${
-                        isExpanded ? "menu-list-expanded" : ""
-                      }`}
-                    >
-                      Profile Mahasiswa
-                    </span>
-                  </Link>
-                </li>
-
-                {/* Bimbingan */}
-                <li className="menu-item-mahasiswa">
-                  <div
-                    className={`menu-link-mahasiswa ${
-                      activeMenu === "bimbingan" ? "active" : ""
-                    }`}
-                    onClick={() => {
-                      handleSetActiveMenu("bimbingan");
-                      toggleBimbingaSubMenu();
-                    }}
-                  >
-                    <span className="menu-link-icon-mahasiswa">
-                      <HiChatBubbleLeftRight size={20} />
-                    </span>
-                    <span
-                      className={`menu-link-text-mahasiswa ${
-                        isExpanded ? "menu-list-expanded" : ""
-                      }`}
-                    >
-                      Bimbingan Dosen Wali
-                    </span>
-                    <span
-                      className={`submenu-arrow-mahasiswa ${
-                        bimbinganSubMenuOpen ? "open" : ""
-                      } ${isExpanded ? "menu-list-expanded" : ""}`}
-                    >
-                      <MdKeyboardArrowRight
-                        size={18}
-                        style={{
-                          transform: bimbinganSubMenuOpen
-                            ? "rotate(90deg)"
-                            : "none",
-                          transition: "transform 0.3s ease",
-                        }}
-                      />
-                    </span>
-                  </div>
-                  {/* Tampilkan submenu jika himajuSubMenuOpen true */}
-                  <ul
-                    className={`submenu-list-mahasiswa ${
-                      bimbinganSubMenuOpen ? "open" : ""
-                    }`}
-                  >
-                    <div className="divider-list-mahasiswa"></div>
-                    <li className="submenu-item-mahasiswa">
-                      <Link
-                        to="/mahasiswa/bimbingan/dosenwali"
-                        className="submenu-link-mahasiswa"
-                      >
-                        <span className="submenu-link-icon-mahasiswa">
-                          <FaDotCircle size={12} />
-                        </span>
-                        Chat Dosen
-                      </Link>
-                    </li>
-                    <li className="submenu-item-mahasiswa">
-                      <Link
-                        to="/mahasiswa/buat/evaluasi"
-                        className="submenu-link-mahasiswa"
-                      >
-                        <span className="submenu-link-icon-mahasiswa">
-                          <FaDotCircle size={12} />
-                        </span>
-                        Buat Evaluasi
-                      </Link>
-                    </li>
-                  </ul>
-                </li>
-
-                {/* Himaju */}
-                <li className="menu-item-mahasiswa">
-                  <Link
-                    to="/mahasiswa/hme"
-                    className={`menu-link-mahasiswa ${
-                      activeMenu === "himaju" ? "active" : ""
-                    }`}
-                    onClick={() => {
-                      handleSetActiveMenu("himaju");
-                      handleSubmenuClick("Himaju");
-                    }}
-                  >
-                    <span className="menu-link-icon-mahasiswa">
-                      <FaPeopleRoof size={20} />
-                    </span>
-                    <span
-                      className={`menu-link-text-mahasiswa ${
-                        isExpanded ? "menu-list-expanded" : ""
-                      }`}
-                    >
-                      HME
-                    </span>
-                  </Link>
-                </li>
-
-                {/* Data Himaju */}
-                {statusHimaju === "ketua" && (
+            {/* Sidebar menu */}
+            <div className="sidebar-body-mahasiswa">
+              <div className="sidebar-menu-mahasiswa">
+                <ul className="menu-list-mahasiswa">
+                  {/* Dashboard */}
                   <li className="menu-item-mahasiswa">
-                    <div
+                    <Link
+                      to="/mahasiswa"
                       className={`menu-link-mahasiswa ${
-                        activeMenu === "data-himaju" ? "active" : ""
+                        activeMenu === "dashboard" ? "active" : ""
                       }`}
                       onClick={() => {
-                        handleSetActiveMenu("data-himaju");
-                        toggleDataHimajuSubMenu();
+                        handleSetActiveMenu("dashboard");
+                        handleSubmenuClick("Dashboard");
                       }}
                     >
                       <span className="menu-link-icon-mahasiswa">
-                        <RiFunctionAddFill size={20} />
+                        <RiDashboardHorizontalFill size={18} />
                       </span>
                       <span
                         className={`menu-link-text-mahasiswa ${
                           isExpanded ? "menu-list-expanded" : ""
                         }`}
                       >
-                        Data HME
+                        Beranda
+                      </span>
+                    </Link>
+                  </li>
+
+                  {/* Profile Mahasiswa */}
+                  <li className="menu-item-mahasiswa">
+                    <Link
+                      to="/mahasiswa/profile"
+                      className={`menu-link-mahasiswa ${
+                        activeMenu === "mahasiswa" ? "active" : ""
+                      }`}
+                      onClick={() => {
+                        handleSetActiveMenu("mahasiswa");
+                        handleSubmenuClick("Mahasiswa");
+                      }}
+                    >
+                      <span className="menu-link-icon-mahasiswa">
+                        <PiStudentFill size={20} />
+                      </span>
+                      <span
+                        className={`menu-link-text-mahasiswa ${
+                          isExpanded ? "menu-list-expanded" : ""
+                        }`}
+                      >
+                        Profile Mahasiswa
+                      </span>
+                    </Link>
+                  </li>
+
+                  {/* Bimbingan */}
+                  <li className="menu-item-mahasiswa">
+                    <div
+                      className={`menu-link-mahasiswa ${
+                        activeMenu === "bimbingan" ? "active" : ""
+                      }`}
+                      onClick={() => {
+                        handleSetActiveMenu("bimbingan");
+                        toggleBimbingaSubMenu();
+                      }}
+                    >
+                      <span className="menu-link-icon-mahasiswa">
+                        <HiChatBubbleLeftRight size={20} />
+                      </span>
+                      <span
+                        className={`menu-link-text-mahasiswa ${
+                          isExpanded ? "menu-list-expanded" : ""
+                        }`}
+                      >
+                        Bimbingan Dosen Wali
                       </span>
                       <span
                         className={`submenu-arrow-mahasiswa ${
-                          dataHiamjuSubMenuOpen ? "open" : ""
+                          bimbinganSubMenuOpen ? "open" : ""
                         } ${isExpanded ? "menu-list-expanded" : ""}`}
                       >
                         <MdKeyboardArrowRight
                           size={18}
                           style={{
-                            transform: dataHiamjuSubMenuOpen
+                            transform: bimbinganSubMenuOpen
                               ? "rotate(90deg)"
                               : "none",
                             transition: "transform 0.3s ease",
@@ -376,204 +296,296 @@ const Sidebar = () => {
                     {/* Tampilkan submenu jika himajuSubMenuOpen true */}
                     <ul
                       className={`submenu-list-mahasiswa ${
-                        dataHiamjuSubMenuOpen ? "open" : ""
+                        bimbinganSubMenuOpen ? "open" : ""
                       }`}
                     >
                       <div className="divider-list-mahasiswa"></div>
                       <li className="submenu-item-mahasiswa">
                         <Link
-                          to="/mahasiswa/profile/hme"
+                          to="/mahasiswa/bimbingan/dosenwali"
                           className="submenu-link-mahasiswa"
                         >
                           <span className="submenu-link-icon-mahasiswa">
                             <FaDotCircle size={12} />
                           </span>
-                          Profile HME
+                          Chat Dosen
                         </Link>
                       </li>
                       <li className="submenu-item-mahasiswa">
                         <Link
-                          to="/mahasiswa/data/hme"
+                          to="/mahasiswa/buat/evaluasi"
                           className="submenu-link-mahasiswa"
                         >
                           <span className="submenu-link-icon-mahasiswa">
                             <FaDotCircle size={12} />
                           </span>
-                          Data Mahasiswa HME
-                        </Link>
-                      </li>
-                      <li className="submenu-item-mahasiswa">
-                        <Link
-                          to="/mahasiswa/buat/program/kerja/hme"
-                          className="submenu-link-mahasiswa"
-                        >
-                          <span className="submenu-link-icon-mahasiswa">
-                            <FaDotCircle size={12} />
-                          </span>
-                          Program Kerja HME
-                        </Link>
-                      </li>
-                      <li className="submenu-item-mahasiswa">
-                        <Link
-                          to="/mahasiswa/galeri/hme"
-                          className="submenu-link-mahasiswa"
-                        >
-                          <span className="submenu-link-icon-mahasiswa">
-                            <FaDotCircle size={12} />
-                          </span>
-                          Galeri
+                          Buat Evaluasi
                         </Link>
                       </li>
                     </ul>
                   </li>
-                )}
 
-                {/* Jadwal */}
-                <li className="menu-item-mahasiswa">
-                  <div
-                    className={`menu-link-mahasiswa ${
-                      activeMenu === "jadwal" ? "active" : ""
-                    }`}
-                    onClick={() => {
-                      handleSetActiveMenu("jadwal");
-                      toggleJadwalSubMenu();
-                    }}
-                  >
-                    <span className="menu-link-icon-mahasiswa">
-                      <AiFillSchedule size={20} />
-                    </span>
-                    <span
-                      className={`menu-link-text-mahasiswa ${
-                        isExpanded ? "menu-list-expanded" : ""
+                  {/* Himaju */}
+                  <li className="menu-item-mahasiswa">
+                    <Link
+                      to="/mahasiswa/hme"
+                      className={`menu-link-mahasiswa ${
+                        activeMenu === "himaju" ? "active" : ""
                       }`}
+                      onClick={() => {
+                        handleSetActiveMenu("himaju");
+                        handleSubmenuClick("Himaju");
+                      }}
                     >
-                      Jadwal Kuliah
-                    </span>
-                    <span
-                      className={`submenu-arrow-mahasiswa ${
-                        jadwalSubMenuOpen ? "open" : ""
-                      } ${isExpanded ? "menu-list-expanded" : ""}`}
-                    >
-                      <MdKeyboardArrowRight
-                        size={18}
-                        style={{
-                          transform: jadwalSubMenuOpen
-                            ? "rotate(90deg)"
-                            : "none",
-                          transition: "transform 0.3s ease",
+                      <span className="menu-link-icon-mahasiswa">
+                        <FaPeopleRoof size={20} />
+                      </span>
+                      <span
+                        className={`menu-link-text-mahasiswa ${
+                          isExpanded ? "menu-list-expanded" : ""
+                        }`}
+                      >
+                        HME
+                      </span>
+                    </Link>
+                  </li>
+
+                  {/* Data Himaju */}
+                  {statusHimaju === "ketua" && (
+                    <li className="menu-item-mahasiswa">
+                      <div
+                        className={`menu-link-mahasiswa ${
+                          activeMenu === "data-himaju" ? "active" : ""
+                        }`}
+                        onClick={() => {
+                          handleSetActiveMenu("data-himaju");
+                          toggleDataHimajuSubMenu();
                         }}
-                      />
-                    </span>
-                  </div>
-                  {/* Tampilkan submenu jika himajuSubMenuOpen true */}
-                  <ul
-                    className={`submenu-list-mahasiswa ${
-                      jadwalSubMenuOpen ? "open" : ""
-                    }`}
-                  >
-                    <div className="divider-list-mahasiswa"></div>
-                    <li className="submenu-item-mahasiswa">
-                      <Link
-                        to="/mahasiswa/pilih/kelas"
-                        className="submenu-link-mahasiswa"
                       >
-                        <span className="submenu-link-icon-mahasiswa">
-                          <FaDotCircle size={12} />
+                        <span className="menu-link-icon-mahasiswa">
+                          <RiFunctionAddFill size={20} />
                         </span>
-                        Jadwal
-                      </Link>
-                    </li>
-                    <li className="submenu-item-mahasiswa">
-                      <Link
-                        to="/mahasiswa/jadwalku"
-                        className="submenu-link-mahasiswa"
+                        <span
+                          className={`menu-link-text-mahasiswa ${
+                            isExpanded ? "menu-list-expanded" : ""
+                          }`}
+                        >
+                          Data HME
+                        </span>
+                        <span
+                          className={`submenu-arrow-mahasiswa ${
+                            dataHiamjuSubMenuOpen ? "open" : ""
+                          } ${isExpanded ? "menu-list-expanded" : ""}`}
+                        >
+                          <MdKeyboardArrowRight
+                            size={18}
+                            style={{
+                              transform: dataHiamjuSubMenuOpen
+                                ? "rotate(90deg)"
+                                : "none",
+                              transition: "transform 0.3s ease",
+                            }}
+                          />
+                        </span>
+                      </div>
+                      {/* Tampilkan submenu jika himajuSubMenuOpen true */}
+                      <ul
+                        className={`submenu-list-mahasiswa ${
+                          dataHiamjuSubMenuOpen ? "open" : ""
+                        }`}
                       >
-                        <span className="submenu-link-icon-mahasiswa">
-                          <FaDotCircle size={12} />
-                        </span>
-                        Jadwal Ku
-                      </Link>
+                        <div className="divider-list-mahasiswa"></div>
+                        <li className="submenu-item-mahasiswa">
+                          <Link
+                            to="/mahasiswa/profile/hme"
+                            className="submenu-link-mahasiswa"
+                          >
+                            <span className="submenu-link-icon-mahasiswa">
+                              <FaDotCircle size={12} />
+                            </span>
+                            Profile HME
+                          </Link>
+                        </li>
+                        <li className="submenu-item-mahasiswa">
+                          <Link
+                            to="/mahasiswa/data/hme"
+                            className="submenu-link-mahasiswa"
+                          >
+                            <span className="submenu-link-icon-mahasiswa">
+                              <FaDotCircle size={12} />
+                            </span>
+                            Data Mahasiswa HME
+                          </Link>
+                        </li>
+                        <li className="submenu-item-mahasiswa">
+                          <Link
+                            to="/mahasiswa/buat/program/kerja/hme"
+                            className="submenu-link-mahasiswa"
+                          >
+                            <span className="submenu-link-icon-mahasiswa">
+                              <FaDotCircle size={12} />
+                            </span>
+                            Program Kerja HME
+                          </Link>
+                        </li>
+                        <li className="submenu-item-mahasiswa">
+                          <Link
+                            to="/mahasiswa/galeri/hme"
+                            className="submenu-link-mahasiswa"
+                          >
+                            <span className="submenu-link-icon-mahasiswa">
+                              <FaDotCircle size={12} />
+                            </span>
+                            Galeri
+                          </Link>
+                        </li>
+                      </ul>
                     </li>
-                  </ul>
-                </li>
+                  )}
 
-                {/* Absensi */}
-                <li className="menu-item-mahasiswa">
-                  <Link
-                    to="/mahasiswa/absensi"
-                    className={`menu-link-mahasiswa ${
-                      activeMenu === "absensi" ? "active" : ""
-                    }`}
-                    onClick={() => {
-                      handleSetActiveMenu("absensi");
-                      handleSubmenuClick("Absensi");
-                    }}
+                  {/* Jadwal */}
+                  <li className="menu-item-mahasiswa">
+                    <div
+                      className={`menu-link-mahasiswa ${
+                        activeMenu === "jadwal" ? "active" : ""
+                      }`}
+                      onClick={() => {
+                        handleSetActiveMenu("jadwal");
+                        toggleJadwalSubMenu();
+                      }}
+                    >
+                      <span className="menu-link-icon-mahasiswa">
+                        <AiFillSchedule size={20} />
+                      </span>
+                      <span
+                        className={`menu-link-text-mahasiswa ${
+                          isExpanded ? "menu-list-expanded" : ""
+                        }`}
+                      >
+                        Jadwal Kuliah
+                      </span>
+                      <span
+                        className={`submenu-arrow-mahasiswa ${
+                          jadwalSubMenuOpen ? "open" : ""
+                        } ${isExpanded ? "menu-list-expanded" : ""}`}
+                      >
+                        <MdKeyboardArrowRight
+                          size={18}
+                          style={{
+                            transform: jadwalSubMenuOpen
+                              ? "rotate(90deg)"
+                              : "none",
+                            transition: "transform 0.3s ease",
+                          }}
+                        />
+                      </span>
+                    </div>
+                    {/* Tampilkan submenu jika himajuSubMenuOpen true */}
+                    <ul
+                      className={`submenu-list-mahasiswa ${
+                        jadwalSubMenuOpen ? "open" : ""
+                      }`}
+                    >
+                      <div className="divider-list-mahasiswa"></div>
+                      <li className="submenu-item-mahasiswa">
+                        <Link
+                          to="/mahasiswa/jadwal"
+                          className="submenu-link-mahasiswa"
+                        >
+                          <span className="submenu-link-icon-mahasiswa">
+                            <FaDotCircle size={12} />
+                          </span>
+                          Jadwal
+                        </Link>
+                      </li>
+                      <li className="submenu-item-mahasiswa">
+                        <Link
+                          to="/mahasiswa/jadwalku"
+                          className="submenu-link-mahasiswa"
+                        >
+                          <span className="submenu-link-icon-mahasiswa">
+                            <FaDotCircle size={12} />
+                          </span>
+                          Jadwal Ku
+                        </Link>
+                      </li>
+                    </ul>
+                  </li>
+
+                  {/* Absensi */}
+                  <li className="menu-item-mahasiswa">
+                    <Link
+                      to="/mahasiswa/absensi"
+                      className={`menu-link-mahasiswa ${
+                        activeMenu === "absensi" ? "active" : ""
+                      }`}
+                      onClick={() => {
+                        handleSetActiveMenu("absensi");
+                        handleSubmenuClick("Absensi");
+                      }}
+                    >
+                      <span className="menu-link-icon-mahasiswa">
+                        <HiMiniClipboardDocumentCheck size={20} />
+                      </span>
+                      <span
+                        className={`menu-link-text-mahasiswa ${
+                          isExpanded ? "menu-list-expanded" : ""
+                        }`}
+                      >
+                        Absensi
+                      </span>
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+
+              <div className="sidebar-menu-mahasiswa2">
+                <ul className="menu-list-mahasiswa">
+                  {/* Ubah Password */}
+                  <li className="menu-item-mahasiswa ubah-password-mahasiswa">
+                    <div
+                      className={`menu-link-mahasiswa`}
+                      onClick={() => {
+                        handleModal(true);
+                      }}
+                    >
+                      <span className="menu-link-icon-mahasiswa">
+                        <TbPasswordMobilePhone size={20} />
+                      </span>
+                      <span
+                        className={`menu-link-text-mahasiswa ${
+                          isExpanded ? "menu-list-expanded" : ""
+                        }`}
+                      >
+                        Ubah Password
+                      </span>
+                    </div>
+                  </li>
+
+                  {/* Logout */}
+                  <li
+                    className="menu-item-mahasiswa logout-mahasiswa"
+                    onClick={handleLogout}
                   >
-                    <span className="menu-link-icon-mahasiswa">
-                      <HiMiniClipboardDocumentCheck size={20} />
-                    </span>
-                    <span
-                      className={`menu-link-text-mahasiswa ${
-                        isExpanded ? "menu-list-expanded" : ""
-                      }`}
-                    >
-                      Absensi
-                    </span>
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-            <div className="sidebar-menu-mahasiswa2">
-              <ul className="menu-list-mahasiswa">
-                {/* Ubah Password */}
-                <li className="menu-item-mahasiswa ubah-password-mahasiswa">
-                  <Link
-                    to="/mahasiswa/ubah/password"
-                    className={`menu-link-mahasiswa ${
-                      activeMenu === "password" ? "active" : ""
-                    }`}
-                    onClick={() => {
-                      handleSetActiveMenu("password");
-                      handleSubmenuClick("Password");
-                    }}
-                  >
-                    <span className="menu-link-icon-mahasiswa">
-                      <TbPasswordMobilePhone size={20} />
-                    </span>
-                    <span
-                      className={`menu-link-text-mahasiswa ${
-                        isExpanded ? "menu-list-expanded" : ""
-                      }`}
-                    >
-                      Ubah Password
-                    </span>
-                  </Link>
-                </li>
-
-                {/* Logout */}
-                <li
-                  className="menu-item-mahasiswa logout-mahasiswa"
-                  onClick={handleLogout}
-                >
-                  <div className={`menu-link-mahasiswa`}>
-                    <span className="menu-link-icon-mahasiswa">
-                      <IoLogOut size={20} />
-                    </span>
-                    <span
-                      className={`menu-link-text-mahasiswa logout-text ${
-                        isExpanded ? "logout-expanded" : ""
-                      }`}
-                    >
-                      Logout
-                    </span>
-                  </div>
-                </li>
-              </ul>
+                    <div className={`menu-link-mahasiswa`}>
+                      <span className="menu-link-icon-mahasiswa">
+                        <IoLogOut size={20} />
+                      </span>
+                      <span
+                        className={`menu-link-text-mahasiswa logout-text ${
+                          isExpanded ? "logout-expanded" : ""
+                        }`}
+                      >
+                        Logout
+                      </span>
+                    </div>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </>
     );
   } else {
     return null;

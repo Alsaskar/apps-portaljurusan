@@ -2,7 +2,7 @@ import "./detailsMahasiswa.scss";
 import ProfilNoImage from "../../assets/images/profile_no_image.png";
 import Swal from "sweetalert2";
 import axios from "axios";
-import { urlApi, urlStatic } from "../../config";
+import { urlApi, urlStaticAssets } from "../../config";
 import { Field, Formik } from "formik";
 import * as Yup from "yup";
 import { useEffect, useState, useCallback } from "react";
@@ -59,7 +59,6 @@ const AdminDetailsMahasiswa = () => {
       setUser(res.data.result.user);
       setDetailMahasiswa(res.data.result.detailmahasiswas[0]);
       setCekDetail(res.data.result.detailmahasiswas.length);
-      console.log(res.data.result);
     } catch (err) {
       console.log(err);
     }
@@ -120,7 +119,7 @@ const AdminDetailsMahasiswa = () => {
   return (
     <div className="detail-mahasiswa">
       <div className="profile-mahasiswa">
-        {mahasiswa.foto === undefined ? "Loading..." : <img src={mahasiswa.foto === "" ? ProfilNoImage : `${urlStatic}/img-mahasiswa/${mahasiswa.foto}`} alt="profile-mahasiswa" className="img-mahasiswa" />}
+        {mahasiswa.foto === undefined ? "Loading..." : <img src={mahasiswa.foto === null ? ProfilNoImage : `${urlStaticAssets}/${mahasiswa.foto}`} alt="profile-mahasiswa" className="img-mahasiswa" />}
 
         <div className="profile-content">
           <div className="profile-detail">
@@ -163,7 +162,7 @@ const AdminDetailsMahasiswa = () => {
       <div className="details-mahasiswa">
         <div className="form-add">
           <div className="form-add-container">
-            <h3>Details Mahasiswa</h3>
+            <h3>Detail Mahasiswa</h3>
 
             {cekDetail > 0 ? ( // jika data sudah ada
               <form method="post" className="form-add-mahasiswa">
@@ -181,7 +180,7 @@ const AdminDetailsMahasiswa = () => {
                   </div>
                   <div className="form-group">
                     <label htmlFor="tahunTamatSmta">
-                      Tahun Tamat Smta <span className="important">*</span>
+                      Tahun Tamat SMTA <span className="important">*</span>
                     </label>
                     <input type="text" id="tahunTamatSmta" name="tahunTamatSmta" onChange={() => {}} value={detailMahasiswa.tahunTamatSmta} disabled />
                   </div>
@@ -193,13 +192,13 @@ const AdminDetailsMahasiswa = () => {
                   </div>
                   <div className="form-group">
                     <label htmlFor="tglIjazahSmta">
-                      Tanggal Ijazah Smta <span className="important">*</span>
+                      Tanggal Ijazah SMTA <span className="important">*</span>
                     </label>
                     <input type="date" id="tglIjazahSmta" name="tglIjazahSmta" onChange={() => {}} value={detailMahasiswa.tglIjazahSmta} disabled />
                   </div>
                   <div className="form-group">
                     <label htmlFor="nilaiUjianAkhirSmta">
-                      Nilai Ujian Akhir Smta <span className="important">*</span>
+                      Nilai Ujian Akhir SMTA <span className="important">*</span>
                     </label>
                     <input type="text" id="nilaiUjianAkhirSmta" name="nilaiUjianAkhirSmta" onChange={() => {}} value={detailMahasiswa.nilaiUjianAkhirSmta} disabled />
                   </div>
@@ -289,7 +288,7 @@ const AdminDetailsMahasiswa = () => {
                       </div>
                       <div className="form-group">
                         <label htmlFor="tahunTamatSmta">
-                          Tahun Tamat Smta <span className="important">*</span>
+                          Tahun Tamat SMTA <span className="important">*</span>
                         </label>
                         <Field type="text" id="tahunTamatSmta" name="tahunTamatSmta" onChange={handleChange} />
                         {touched.tahunTamatSmta && errors.tahunTamatSmta ? <div className="error-form">{errors.tahunTamatSmta}</div> : null}
@@ -303,14 +302,14 @@ const AdminDetailsMahasiswa = () => {
                       </div>
                       <div className="form-group">
                         <label htmlFor="tglIjazahSmta">
-                          Tanggal Ijazah Smta <span className="important">*</span>
+                          Tanggal Ijazah SMTA <span className="important">*</span>
                         </label>
                         <Field type="date" id="tglIjazahSmta" name="tglIjazahSmta" onChange={handleChange} />
                         {touched.tglIjazahSmta && errors.tglIjazahSmta ? <div className="error-form">{errors.tglIjazahSmta}</div> : null}
                       </div>
                       <div className="form-group">
                         <label htmlFor="nilaiUjianAkhirSmta">
-                          Nilai Ujian Akhir Smta <span className="important">*</span>
+                          Nilai Ujian Akhir SMTA <span className="important">*</span>
                         </label>
                         <Field type="text" id="nilaiUjianAkhirSmta" name="nilaiUjianAkhirSmta" onChange={handleChange} />
                         {touched.nilaiUjianAkhirSmta && errors.nilaiUjianAkhirSmta ? <div className="error-form">{errors.nilaiUjianAkhirSmta}</div> : null}

@@ -1,0 +1,15 @@
+.tv-home {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Full viewport height */
+
+    .card-section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px; /* Space between cards */
+  }
+  }
+  
+  

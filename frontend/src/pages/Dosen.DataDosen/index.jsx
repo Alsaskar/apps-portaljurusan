@@ -10,13 +10,12 @@ const DosenDataDosen = () => {
     if(sessionStorage.getItem('role') !== 'dosen'){
       navigate(`/${sessionStorage.getItem('role')}`)
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [navigate])
 
   return (
     <div>
        <Helmet>
-        <title>Profile Mahasiswa</title>
+        <title>Profile Dosen</title>
       </Helmet>
       <AreaTopProfile />
     </div>

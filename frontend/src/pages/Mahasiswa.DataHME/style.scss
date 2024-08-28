@@ -26,7 +26,7 @@
         border-radius: 5px;
         border-width: 2px;
         font-size: 12px;
-        margin-right: 10px;
+        // margin-right: 10px;
         flex-grow: 1;
   
         &:focus {
@@ -40,6 +40,10 @@
         fill: #888;
         position: absolute;
         right: 20px;
+      }
+
+      @media (max-width: 768px) {
+        width: 100%;
       }
     }
   
@@ -72,6 +76,14 @@
         position: absolute;
         right: 20px;
       }
+
+      @media (max-width: 768px) {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 768px) {
+      flex-direction: column;
     }
   }
   

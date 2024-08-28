@@ -26,7 +26,7 @@
       border-radius: 5px;
       border-width: 2px;
       font-size: 12px;
-      margin-right: 10px;
+      // margin-right: 10px;
       flex-grow: 1;
 
       &:focus {
@@ -34,12 +34,17 @@
         border-color: var(--blue-color);
         border-width: 2px;
       }
+      
     }
 
     .search-icon {
       fill: #888;
       position: absolute;
       right: 20px;
+    }
+
+    @media (max-width: 768px) {
+      width: 100%;
     }
   }
 
@@ -72,6 +77,13 @@
       position: absolute;
       right: 20px;
     }
+
+    @media (max-width: 768px) {
+      width: 100%;
+    }
+  }
+  @media (max-width: 768px) {
+    flex-direction: column;
   }
 }
 
@@ -140,6 +152,9 @@
         }
 
         .galeri-image {
+          background-position: center;
+          background-size: cover;
+          background-repeat: no-repeat;
           width: 150px;
           border-radius: 10px;
         }

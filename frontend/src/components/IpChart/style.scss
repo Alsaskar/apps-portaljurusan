@@ -1,0 +1,101 @@
+.ip-bar-chart {
+  background-color: var(--secondary-color);
+  padding: 16px 16px 6px 16px;
+  border-radius: 10px;
+  box-shadow: var(--light-shadow1);
+  position: relative;
+  margin-top: 20px;
+  width: 100%;
+  
+  // overflow-x: auto; 
+  // -webkit-overflow-scrolling: touch; 
+  // white-space: nowrap; 
+  
+  @media (max-width: 768px) {
+    padding: 20px;
+  }
+  
+  .ip-bar-chart-wrapper {
+    width: 100%;
+    height: auto;
+    // display: inline-block;
+    
+    // recharts customization
+    .recharts-wrapper {
+      @media (max-width: 1400px) {
+        margin-left: -10px;
+      }
+    }
+
+    .no-data {
+        color: var(--text-color-secondary);
+        font-style: italic;
+        font-size: 14px;
+    }
+  }
+
+  .ip-bar-chart-info {
+   
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .ip-bar-chart-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text-color-inverted);
+    }
+  
+   
+
+    .year-selector {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      column-gap: 5px;
+
+      .btn-year {
+        color: var(--blue-color);
+      }
+
+      .year {
+        margin-bottom: 5px;
+        font-size: 18px;
+        font-weight: 600;
+        color: var(--text-color-inverted);
+      }
+    }
+
+    @media (max-width:768px) {
+      align-items: start;
+    }
+  }
+
+  .ip-bar-chart-subtitle {
+    margin-bottom: 12px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--blue-color);
+    margin-bottom: 32px;
+
+    display: flex;
+    align-items: center;
+  }
+
+  
+
+  // customization of recharts - bar chart
+  .recharts-default-legend {
+    position: absolute;
+    top: -60px;
+    right: -12px;
+    font-size: 13px;
+  }
+
+  .recharts-tooltip-label {
+    color: var(--text-color-inverted);
+    font-size: 14px;
+    font-weight: 600;
+  }
+}

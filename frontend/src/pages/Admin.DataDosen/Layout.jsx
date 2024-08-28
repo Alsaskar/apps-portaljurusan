@@ -66,6 +66,7 @@ const Layout = () => {
       );
 
       setDosen(res.data.result);
+      console.log(res.data.result)
       setPages(res.data.totalPage);
       setRows(res.data.totalRows);
       setPage(res.data.page);

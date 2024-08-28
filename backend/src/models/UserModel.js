@@ -16,6 +16,13 @@ const User = db.define(
     password: { type: DataTypes.STRING },
     role: { type: DataTypes.STRING },
     prodiAdmin: { type: DataTypes.STRING },
+    otp: { type: DataTypes.STRING, allowNull: true },
+    otpExpires: { type: DataTypes.DATE, allowNull: true },
+    attempts: { type: DataTypes.INTEGER, defaultValue: 0 },
+    lockout: { type: DataTypes.BOOLEAN, defaultValue: false },
+    lockoutTime: { type: DataTypes.DATE, allowNull: true },
+    resetOtp: { type: DataTypes.STRING, allowNull: true },
+    resetOtpExpires: { type: DataTypes.DATE, allowNull: true },
   },
   {
     freezeTableName: true,

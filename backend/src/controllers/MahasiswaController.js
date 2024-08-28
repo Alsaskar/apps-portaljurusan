@@ -3,6 +3,10 @@ import { validateEmail, validateNumberPhone } from "../config/hooks";
 import { Mahasiswa, DetailMahasiswa } from "../models/MahasiswaModel";
 import User from "../models/UserModel";
 import { Op } from "sequelize";
+import { UploadedFile } from "../models/EvaluasiMahasiswaModel";
+import mahasiswaUpload from "../config/multerMahasiswa";
+import fs from "fs";
+import path from "path";
 
 export const add = async (req, res) => {
   // User - data login
@@ -60,12 +64,14 @@ export const add = async (req, res) => {
       .status(500)
       .json({ message: "Angkatan tidak boleh kosong", success: false });
   } else if (tglTerdaftar === "") {
+    return res.status(500).json({
+      message: "Tanggal Terdaftar tidak boleh kosong",
+      success: false,
+    });
+  } else if (statusMasukPt === "") {
     return res
       .status(500)
-      .json({
-        message: "Tanggal Terdaftar tidak boleh kosong",
-        success: false,
-      });
+      .json({ message: "Status Masuk PT tidak boleh kosong", success: false });
   } else if (jurusan === "") {
     return res
       .status(500)
@@ -191,6 +197,27 @@ export const list = async (req, res) => {
   }
 };
 
+//get jumlah mahasiswa berdasarkan prodi admin
+export const getMahasiswaCount = async (req, res) => {
+  const prodiAdmin = req.query.prodiAdmin;
+
+  if (!prodiAdmin) {
+    return res.status(400).json({ message: "ProdiAdmin tidak diberikan" });
+  }
+
+  try {
+    console.log('ProdiAdmin:', prodiAdmin);
+    const totalMahasiswa = await Mahasiswa.count({
+      where: { prodi: prodiAdmin },
+    });
+
+    res.json({ totalMahasiswa });
+  } catch (error) {
+    console.error('Error fetching mahasiswa count:', error.message); // Debugging log
+    res.status(500).json({ message: error.message });
+  }
+}
+
 export const getById = async (req, res) => {
   const id = req.params.id;
 
@@ -226,6 +253,34 @@ export const getMahasiswaWithDetails = async (req, res) => {
         {
           model: DetailMahasiswa,
           attributes: ["emailWali"],
+        },
+        {
+          model: UploadedFile,
+          attributes: ["fileName", "fileUrl"],
+        },
+      ],
+    });
+
+    if (!mahasiswa) {
+      return res.status(404).json({ message: "Mahasiswa tidak ditemukan" });
+    }
+
+    return res.status(200).json({ result: mahasiswa });
+  } catch (err) {
+    return res.status(500).json({ message: err.message });
+  }
+};
+
+export const getMahasiswaWithFiles = async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    const mahasiswa = await Mahasiswa.findOne({
+      where: { id: id },
+      include: [
+        {
+          model: UploadedFile,
+          attributes: ["fileName"],
         },
       ],
     });
@@ -297,12 +352,10 @@ export const edit = async (req, res) => {
       .status(500)
       .json({ message: "Angkatan tidak boleh kosong", success: false });
   } else if (tglTerdaftar === "") {
-    return res
-      .status(500)
-      .json({
-        message: "Tanggal Terdaftar tidak boleh kosong",
-        success: false,
-      });
+    return res.status(500).json({
+      message: "Tanggal Terdaftar tidak boleh kosong",
+      success: false,
+    });
   } else if (jurusan === "") {
     return res
       .status(500)
@@ -402,13 +455,11 @@ export const updatePassword = async (req, res) => {
       }
     );
 
-    return res
-      .status(200)
-      .json({
-        message:
-          "Password berhasil diubah. Password sesuai tanggal lahir Mahasiswa ",
-        success: true,
-      });
+    return res.status(200).json({
+      message:
+        "Password berhasil diubah. Password sesuai tanggal lahir Mahasiswa ",
+      success: true,
+    });
   } catch (err) {
     return res.status(500).json({ message: err.message });
   }
@@ -537,13 +588,124 @@ export const removeKetuaHimaju = async (req, res) => {
       }
     );
 
-    return res
-      .status(200)
-      .json({
-        message: "Status sebagai ketua himaju telah digantikan",
-        success: true,
-      });
+    return res.status(200).json({
+      message: "Status sebagai ketua himaju telah digantikan",
+      success: true,
+    });
   } catch (err) {
     return res.status(500).json({ message: err.message });
+  }
+};
+
+//upload foto dari mahasiswa
+export const uploadFoto = async (req, res) => {
+  mahasiswaUpload.single("foto")(req, res, async (err) => {
+    if (err) {
+      return res.status(400).json({ message: err.message });
+    }
+
+    try {
+      const mahasiswaId = req.body.mahasiswaId;
+      const fotoPath = req.file ? req.file.filename : null;
+
+      if (!mahasiswaId || !fotoPath) {
+        return res
+          .status(400)
+          .json({ message: "ID Mahasiswa atau foto tidak ditemukan" });
+      }
+
+      const mahasiswa = await Mahasiswa.findByPk(mahasiswaId);
+      if (!mahasiswa) {
+        return res.status(404).json({ message: "Mahasiswa tidak ditemukan" });
+      }
+
+      mahasiswa.foto = `${fotoPath}`;
+      await mahasiswa.save();
+
+      res.status(200).json({ message: "Foto berhasil diupload" });
+    } catch (err) {
+      res.status(500).json({
+        message: "Terjadi kesalahan saat meng-upload foto",
+        error: err.message,
+      });
+    }
+  });
+};
+
+//hapus foto dari mahasiswa
+export const deleteFoto = async (req, res) => {
+  const mahasiswaId = req.params.id;
+
+  try {
+    // Temukan mahasiswa berdasarkan ID
+    const mahasiswa = await Mahasiswa.findByPk(mahasiswaId);
+    if (!mahasiswa) {
+      console.error(`Mahasiswa dengan ID ${mahasiswaId} tidak ditemukan.`);
+      return res.status(404).json({ message: "Mahasiswa tidak ditemukan" });
+    }
+
+    // Ambil nama file foto dari database
+    const fotoPath = mahasiswa.foto;
+    if (!fotoPath) {
+      console.warn(`Mahasiswa dengan ID ${mahasiswaId} tidak memiliki foto.`);
+      return res.status(404).json({ message: "Foto tidak ditemukan" });
+    }
+
+    // Hapus nama foto dari database dengan string kosong
+    mahasiswa.foto = ""; // Mengosongkan string jika kolom tidak mengizinkan null
+    await mahasiswa.save();
+    console.log(
+      `Data foto mahasiswa dengan ID ${mahasiswaId} telah dihapus dari database.`
+    );
+
+    // Hapus file foto dari server
+    const filePath = path.join(
+      __dirname,
+      "..",
+      "assets",
+      "img",
+      "mahasiswa",
+      fotoPath
+    );
+    fs.unlink(filePath, (err) => {
+      if (err) {
+        console.error(
+          `Gagal menghapus file foto di path ${filePath}: ${err.message}`
+        );
+        return res
+          .status(500)
+          .json({ message: "Gagal menghapus file foto", error: err.message });
+      }
+
+      console.log(`File foto di path ${filePath} berhasil dihapus.`);
+      res.status(200).json({ message: "Foto berhasil dihapus" });
+    });
+  } catch (err) {
+    console.error(`Terjadi kesalahan saat menghapus foto: ${err.message}`);
+    res.status(500).json({
+      message: "Terjadi kesalahan saat menghapus foto",
+      error: err.message,
+    });
+  }
+};
+
+export const getMahasiswaById = async (req, res) => {
+  const mahasiswaId = parseInt(req.params.mahasiswaId, 10);
+
+  if (isNaN(mahasiswaId)) {
+    return res.status(400).json({ error: 'Invalid Mahasiswa ID' });
+  }
+
+  try {
+    const mahasiswa = await Mahasiswa.findByPk(mahasiswaId);
+
+    if (!mahasiswa) {
+      return res.status(404).json({ error: 'Mahasiswa not found' });
+    }
+
+    res.json(mahasiswa);
+  } catch (error) {
+    console.error('Error fetching mahasiswa data:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 };

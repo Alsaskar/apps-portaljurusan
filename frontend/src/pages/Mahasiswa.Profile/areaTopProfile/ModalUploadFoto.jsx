@@ -1,62 +1,69 @@
 import PropTypes from "prop-types";
 import { IoIosClose } from "react-icons/io";
 import { BsDatabaseAdd } from "react-icons/bs";
-import { Formik, Field } from "formik";
+import { Formik } from "formik";
 import * as Yup from "yup";
 import "./modal.scss";
 import "./EditForm.scss";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import Swal from "sweetalert2";
 import axios from "axios";
 import { urlApi } from "../../../config";
 import info_foto from "../../../assets/images/info-foto.png";
+import { MahasiswaContext } from "../../../context/MahasiswaContext";
 
 const validationSchema = Yup.object().shape({
-  fotoProfile: Yup.string().required("Foto harus diisi"),
+  foto: Yup.mixed().required("Foto harus diisi"),
 });
 
-const ModalEdit = ({ isOpen, handleClose }) => {
+const ModalUploadFoto = ({ isOpen, handleClose }) => {
   const [loading, setLoading] = useState(false);
-
-  
+  const { result } = useContext(MahasiswaContext) || {};
 
   const _handleSubmit = async (values, { resetForm }) => {
     setLoading(true);
-
-    setTimeout(async () => {
-      try {
-        const res = await axios.post(
-          `${urlApi}/mahasiswa`,
-          {
-            fotoProfile: values.fotoProfile,
+  
+    try {
+      const formData = new FormData();
+      formData.append('foto', values.foto);
+      formData.append('mahasiswaId', result.id); // Menyertakan ID mahasiswa
+  
+      const res = await axios.post(
+        `${urlApi}/mahasiswa/upload-foto`,
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ${sessionStorage.getItem("token")}`,
           },
-          {
-            headers: {
-              Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-            },
-          }
-        );
-
-        Swal.fire({
-          title: "Berhasil",
-          text: res.data.message,
-          icon: "success",
-          confirmButtonText: "Ok",
-        });
-
-        setLoading(false);
-        resetForm();
-      } catch (err) {
-        setLoading(false);
-        Swal.fire({
-          title: "Gagal",
-          text: err.response.data.message,
-          icon: "error",
-          confirmButtonText: "Ok",
-        });
-      }
-    }, 1500);
+        }
+      );
+  
+      Swal.fire({
+        title: "Berhasil",
+        text: res.data.message,
+        icon: "success",
+        confirmButtonText: "Ok",
+      }).then(() => {
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500);
+      });
+  
+      setLoading(false);
+      resetForm();
+      handleClose();
+    } catch (err) {
+      setLoading(false);
+      Swal.fire({
+        title: "Gagal",
+        text: err.response?.data?.message || 'Terjadi Kesalahan',
+        icon: "error",
+        confirmButtonText: "Ok",
+      });
+    }
   };
+  
 
   return (
     <>
@@ -77,12 +84,13 @@ const ModalEdit = ({ isOpen, handleClose }) => {
 
                 <Formik
                   initialValues={{
-                    fotoProfile: "",
+                    foto: null,
                   }}
                   onSubmit={_handleSubmit}
                   validationSchema={validationSchema}
+                  encType="multipart/form-data"
                 >
-                  {({ errors, touched, handleSubmit, handleChange }) => (
+                  {({ errors, touched, handleSubmit, setFieldValue }) => (
                     <form
                       method="post"
                       onSubmit={handleSubmit}
@@ -90,18 +98,18 @@ const ModalEdit = ({ isOpen, handleClose }) => {
                     >
                       <div className="form-content-upload">
                         <div className="form-group">
-                          <label htmlFor="fotoProfile">
+                          <label htmlFor="foto">
                             Foto <span className="important">*</span>
                           </label>
-                          <Field
+                          <input
                             type="file"
-                            id="fotoProfile"
-                            name="fotoProfile"
-                            onChange={handleChange}
+                            id="foto"
+                            name="foto"
+                            onChange={(event) => setFieldValue("foto", event.currentTarget.files[0])}
                           />
-                          {touched.fotoProfile && errors.fotoProfile ? (
+                          {touched.foto && errors.foto ? (
                             <div className="error-form">
-                              {errors.fotoProfile}
+                              {errors.foto}
                             </div>
                           ) : null}
                         </div>
@@ -140,9 +148,9 @@ const ModalEdit = ({ isOpen, handleClose }) => {
   );
 };
 
-ModalEdit.propTypes = {
+ModalUploadFoto.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
 };
 
-export default ModalEdit;
+export default ModalUploadFoto;

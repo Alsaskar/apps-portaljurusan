@@ -33,9 +33,6 @@ const Layout = () => {
                   </div>
                   <div className="jadwal-lab">
                     <p className="jadwal-text-lab">Lab. Pemograman Web</p>
-                    {/*<div className="jadwal-lab-icon">
-                    <TiLocation size={12} />
-                  </div>*/}
                   </div>
                 </div>
               </td>
@@ -54,9 +51,6 @@ const Layout = () => {
                   </div>
                   <div className="jadwal-lab">
                     <p className="jadwal-text-lab">Lab. Pemograman Web</p>
-                    {/*<div className="jadwal-lab-icon">
-                    <TiLocation size={12} />
-                  </div>*/}
                   </div>
                 </div>
               </td>
@@ -75,9 +69,6 @@ const Layout = () => {
                   </div>
                   <div className="jadwal-lab">
                     <p className="jadwal-text-lab">Lab. Pemograman Web</p>
-                    {/*<div className="jadwal-lab-icon">
-                    <TiLocation size={12} />
-                  </div>*/}
                   </div>
                 </div>
               </td>
@@ -96,9 +87,6 @@ const Layout = () => {
                   </div>
                   <div className="jadwal-lab">
                     <p className="jadwal-text-lab">Lab. Pemograman Web</p>
-                    {/*<div className="jadwal-lab-icon">
-                    <TiLocation size={12} />
-                  </div>*/}
                   </div>
                 </div>
               </td>
@@ -117,9 +105,6 @@ const Layout = () => {
                   </div>
                   <div className="jadwal-lab">
                     <p className="jadwal-text-lab">Lab. Pemograman Web</p>
-                    {/*<div className="jadwal-lab-icon">
-                    <TiLocation size={12} />
-                  </div>*/}
                   </div>
                 </div>
               </td>
@@ -141,9 +126,6 @@ const Layout = () => {
                   </div>
                   <div className="jadwal-lab">
                     <p className="jadwal-text-lab">Lab. Pemograman Web</p>
-                    {/*<div className="jadwal-lab-icon">
-                    <TiLocation size={12} />
-                  </div>*/}
                   </div>
                 </div>
               </td>
@@ -163,9 +145,6 @@ const Layout = () => {
                   </div>
                   <div className="jadwal-lab">
                     <p className="jadwal-text-lab">Lab. Pemograman Web</p>
-                    {/*<div className="jadwal-lab-icon">
-                    <TiLocation size={12} />
-                  </div>*/}
                   </div>
                 </div>
               </td>
@@ -184,9 +163,6 @@ const Layout = () => {
                   </div>
                   <div className="jadwal-lab">
                     <p className="jadwal-text-lab">Lab. Pemograman Web</p>
-                    {/*<div className="jadwal-lab-icon">
-                    <TiLocation size={12} />
-                  </div>*/}
                   </div>
                 </div>
               </td>
@@ -219,9 +195,6 @@ const Layout = () => {
                   </div>
                   <div className="jadwal-lab">
                     <p className="jadwal-text-lab">Lab. Pemograman Web</p>
-                    {/*<div className="jadwal-lab-icon">
-                    <TiLocation size={12} />
-                  </div>*/}
                   </div>
                 </div>
               </td>
@@ -241,9 +214,6 @@ const Layout = () => {
                   </div>
                   <div className="jadwal-lab">
                     <p className="jadwal-text-lab">Lab. Pemograman Web</p>
-                    {/*<div className="jadwal-lab-icon">
-                    <TiLocation size={12} />
-                  </div>*/}
                   </div>
                 </div>
               </td>
@@ -262,9 +232,6 @@ const Layout = () => {
                   </div>
                   <div className="jadwal-lab">
                     <p className="jadwal-text-lab">Lab. Pemograman Web</p>
-                    {/*<div className="jadwal-lab-icon">
-                    <TiLocation size={12} />
-                  </div>*/}
                   </div>
                 </div>
               </td>

@@ -22,6 +22,7 @@ const Dosen = db.define(
     pns: { type: DataTypes.STRING },
     jurusan: { type: DataTypes.STRING },
     prodi: { type: DataTypes.STRING },
+    foto: { type: DataTypes.STRING },
   },
   {
     freezeTableName: true,
@@ -59,5 +60,4 @@ Dosen.belongsTo(User);
 // Join table - dosen to detail dosen
 Dosen.hasMany(DetailDosen);
 DetailDosen.belongsTo(Dosen);
-
 export { Dosen, DetailDosen };
