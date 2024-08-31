@@ -30,6 +30,7 @@ export const add = async (req, res) => {
   const statusMasukPt = req.body.statusMasukPt;
   const jurusan = req.body.jurusan;
   const prodi = req.body.prodi;
+  const kelas = req.body.kelas;
 
   if (fullname === "") {
     return res
@@ -80,6 +81,10 @@ export const add = async (req, res) => {
     return res
       .status(500)
       .json({ message: "Prodi tidak boleh kosong", success: false });
+  }else if (kelas === "") {
+    return res
+      .status(500)
+      .json({ message: "Kelas tidak boleh kosong", success: false });
   } else {
     if (validateEmail(email)) {
       // jika email valid
@@ -126,6 +131,7 @@ export const add = async (req, res) => {
                 statusMasukPt: statusMasukPt,
                 jurusan: jurusan,
                 prodi: prodi,
+                kelas: kelas,
               });
 
               return res

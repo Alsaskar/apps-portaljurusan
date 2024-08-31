@@ -13,8 +13,6 @@ import cron from 'node-cron';
 
 dotenv.config();
 
-import { notifyUpcomingEvents } from './controllers/HimajuController';
-
 // Router
 import Auth from './routes/AuthRoute';
 import Mahasiswa from './routes/MahasiswaRoute';
@@ -25,6 +23,8 @@ import SendEmail from './routes/SendEmailRoute';
 import Task from './routes/TaskRoute';
 import Galeri from './routes/GaleriRoute';
 import Kelas from './routes/KelasRoute';
+import Matkul from "./routes/MatkulRoute";
+import Jadwal from "./routes/JadwalRoute";
 
 const app = express();
 const server = http.createServer(app);
@@ -61,6 +61,8 @@ app.use('/api/v1/email', SendEmail);
 app.use('/api/v1/tasks', Task);
 app.use('/api/v1/galeri', Galeri);
 app.use('/api/v1/kelas', Kelas);
+app.use('/api/v1/matkul', Matkul);
+app.use('/api/v1/jadwal', Jadwal);
 
 // Jadwalkan notifikasi setiap 1 jam
 setInterval(notifyUpcomingEvents, 60 * 60 * 1000);

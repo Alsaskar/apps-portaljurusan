@@ -9,6 +9,7 @@ import {
     updatePassword,
     uploadFoto,
     deleteFoto,
+    listAll,
 } from '../controllers/DosenController';
 
 const router = express.Router();
@@ -18,6 +19,7 @@ router.post('/upload-foto', CekToken, uploadFoto);
 
 router.get('/', CekToken, list);
 router.get('/:id', CekToken, getById);
+router.get('/list-all/:prodi', CekToken, listAll);
 
 router.put('/:userId', CekToken, edit);
 router.put('/update-pass/:id', CekToken, updatePassword);

@@ -521,57 +521,73 @@ export const uploadFoto = async (req, res) => {
 
 //hapus foto dari dosen
 export const deleteFoto = async (req, res) => {
-    const dosenId = req.params.id;
-  
-    try {
-      // Temukan dosen berdasarkan ID
-      const dosen = await Dosen.findByPk(dosenId);
-      if (!dosen) {
-        console.error(`Dosen dengan ID ${dosenId} tidak ditemukan.`);
-        return res.status(404).json({ message: "Dosen tidak ditemukan" });
-      }
-  
-      // Ambil nama file foto dari database
-      const fotoPath = dosen.foto;
-      if (!fotoPath) {
-        console.warn(`Dosen dengan ID ${dosenId} tidak memiliki foto.`);
-        return res.status(404).json({ message: "Foto tidak ditemukan" });
-      }
-  
-      // Hapus nama foto dari database dengan string kosong
-      dosen.foto = ""; // Mengosongkan string jika kolom tidak mengizinkan null
-      await dosen.save();
-      console.log(
-        `Data foto dosen dengan ID ${dosenId} telah dihapus dari database.`
-      );
-  
-      // Hapus file foto dari server
-      const filePath = path.join(
-        __dirname,
-        "..",
-        "assets",
-        "img",
-        "dosen",
-        fotoPath
-      );
-      fs.unlink(filePath, (err) => {
-        if (err) {
-          console.error(
-            `Gagal menghapus file foto di path ${filePath}: ${err.message}`
-          );
-          return res
-            .status(500)
-            .json({ message: "Gagal menghapus file foto", error: err.message });
-        }
-  
-        console.log(`File foto di path ${filePath} berhasil dihapus.`);
-        res.status(200).json({ message: "Foto berhasil dihapus" });
-      });
-    } catch (err) {
-      console.error(`Terjadi kesalahan saat menghapus foto: ${err.message}`);
-      res.status(500).json({
-        message: "Terjadi kesalahan saat menghapus foto",
-        error: err.message,
-      });
+  const dosenId = req.params.id;
+
+  try {
+    // Temukan dosen berdasarkan ID
+    const dosen = await Dosen.findByPk(dosenId);
+    if (!dosen) {
+      console.error(`Dosen dengan ID ${dosenId} tidak ditemukan.`);
+      return res.status(404).json({ message: "Dosen tidak ditemukan" });
     }
-  };
+
+    // Ambil nama file foto dari database
+    const fotoPath = dosen.foto;
+    if (!fotoPath) {
+      console.warn(`Dosen dengan ID ${dosenId} tidak memiliki foto.`);
+      return res.status(404).json({ message: "Foto tidak ditemukan" });
+    }
+
+    // Hapus nama foto dari database dengan string kosong
+    dosen.foto = ""; // Mengosongkan string jika kolom tidak mengizinkan null
+    await dosen.save();
+    console.log(
+      `Data foto dosen dengan ID ${dosenId} telah dihapus dari database.`
+    );
+
+    // Hapus file foto dari server
+    const filePath = path.join(
+      __dirname,
+      "..",
+      "assets",
+      "img",
+      "dosen",
+      fotoPath
+    );
+    fs.unlink(filePath, (err) => {
+      if (err) {
+        console.error(
+          `Gagal menghapus file foto di path ${filePath}: ${err.message}`
+        );
+        return res
+          .status(500)
+          .json({ message: "Gagal menghapus file foto", error: err.message });
+      }
+
+      console.log(`File foto di path ${filePath} berhasil dihapus.`);
+      res.status(200).json({ message: "Foto berhasil dihapus" });
+    });
+  } catch (err) {
+    console.error(`Terjadi kesalahan saat menghapus foto: ${err.message}`);
+    res.status(500).json({
+      message: "Terjadi kesalahan saat menghapus foto",
+      error: err.message,
+    });
+  }
+};
+
+// dipakai untuk select option
+export const listAll = async (req, res) => {
+  const prodi = req.params.prodi;
+
+  try{
+    const result = await Dosen.findAll({
+      where: { prodi: prodi },
+      order: [["fullname", "asc"]],
+    })
+
+    return res.status(200).json({ result: result })
+  }catch(err){
+    return res.status(500).json({ message: err.message })
+  }
+}
