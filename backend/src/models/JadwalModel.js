@@ -1,5 +1,7 @@
 import { DataTypes } from "sequelize";
 import db from "../config/database";
+import Matkul from "./MatkulModels";
+import Kelas from "./KelasModel";
 
 const Jadwal = db.define(
   "jadwal",
@@ -22,5 +24,13 @@ const Jadwal = db.define(
     timestamps: false,
   }
 );
+
+// Join table
+Matkul.hasMany(Jadwal, { foreignKey: "id" });
+Jadwal.belongsTo(Matkul, {foreignKey: "idMatkul" });
+
+// Join table
+Kelas.hasMany(Jadwal, { foreignKey: "id" });
+Jadwal.belongsTo(Kelas, {foreignKey: "idKelas" });
 
 export default Jadwal;
