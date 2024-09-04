@@ -1,7 +1,10 @@
-import { EvaluasiMahasiswa, UploadedFile } from "../models/EvaluasiMahasiswaModel";
-import Bimbingan from '../models/BimbinganModel'; 
-import path from 'path';
-import fs from 'fs';
+import {
+  EvaluasiMahasiswa,
+  UploadedFile,
+} from "../models/EvaluasiMahasiswaModel";
+import Bimbingan from "../models/BimbinganModel";
+import path from "path";
+import fs from "fs";
 import { Mahasiswa } from "../models/MahasiswaModel";
 
 // Creat Evaluasi
@@ -45,7 +48,6 @@ export const getAllEvaluasi = async (req, res) => {
     });
 
     return res.status(200).json({ evaluations });
-    
   } catch (err) {
     return res.status(500).json({ message: err.message });
   }
@@ -76,7 +78,6 @@ export const deleteEvaluasi = async (req, res) => {
   }
 };
 
-
 //upload file
 export const uploadFile = async (req, res) => {
   const file = req.file;
@@ -84,18 +85,20 @@ export const uploadFile = async (req, res) => {
   const idMahasiswa = req.body.idMahasiswa;
 
   if (!file || !fileName || !idMahasiswa) {
-    return res.status(400).json({ message: 'File, file name, atau ID mahasiswa tidak disediakan' });
+    return res
+      .status(400)
+      .json({ message: "File, file name, atau ID mahasiswa tidak disediakan" });
   }
 
   // Tentukan ekstensi file dari file yang diupload
   const fileExtension = path.extname(file.originalname);
-  
+
   // Gabungkan nama file dari pengguna dengan ekstensi file
   const uploadFileName = `${fileName}${fileExtension}`;
-  
+
   // Menentukan path upload menggunakan nama file yang diinputkan
-  const uploadPath = path.join(__dirname, '../uploads/', uploadFileName);
-  
+  const uploadPath = path.join(__dirname, "../uploads/", uploadFileName);
+
   // Memindahkan  file ke path upload yang baru
   fs.renameSync(file.path, uploadPath);
 
@@ -104,22 +107,19 @@ export const uploadFile = async (req, res) => {
 
   try {
     const newFile = await UploadedFile.create({
-      fileName: uploadFileName, 
-      fileUrl: fileUrl,          
+      fileName: uploadFileName,
+      fileUrl: fileUrl,
       idMahasiswa: idMahasiswa,
     });
 
     res.status(201).json({
-      message: 'File berhasil diupload',
-      file: newFile
+      message: "File berhasil diupload",
+      file: newFile,
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
-
-
-
 
 //hapus file dan unlink dari folder uploads
 export const deleteFileByStudentId = async (req, res) => {
@@ -134,13 +134,21 @@ export const deleteFileByStudentId = async (req, res) => {
     });
 
     if (!files.length) {
-      return res.status(404).json({ message: 'Tidak ada file yang ditemukan untuk ID mahasiswa ini' });
+      return res
+        .status(404)
+        .json({
+          message: "Tidak ada file yang ditemukan untuk ID mahasiswa ini",
+        });
     }
 
     // Hapus setiap file dari direktori uploads
     files.forEach(async (file) => {
-      const filePath = path.join(__dirname, '../uploads', path.basename(file.fileUrl));
-      
+      const filePath = path.join(
+        __dirname,
+        "../uploads",
+        path.basename(file.fileUrl)
+      );
+
       // Hapus file dari sistem berkas
       fs.unlink(filePath, (err) => {
         if (err) {
@@ -156,12 +164,11 @@ export const deleteFileByStudentId = async (req, res) => {
       });
     });
 
-    res.status(200).json({ message: 'Semua file berhasil dihapus' });
+    res.status(200).json({ message: "Semua file berhasil dihapus" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
-
 
 //cek file jika ada
 export const checkFileExistence = async (req, res) => {
@@ -182,68 +189,79 @@ export const checkFileExistence = async (req, res) => {
   }
 };
 
-
 export const getFileById = async (req, res) => {
   const { idMahasiswa } = req.params;
 
   try {
     // Temukan informasi file berdasarkan ID mahasiswa
-    const file = await UploadedFile.findOne({ where: { idMahasiswa: idMahasiswa } });
+    const file = await UploadedFile.findOne({
+      where: { idMahasiswa: idMahasiswa },
+    });
 
     if (!file) {
-      return res.status(404).json({ message: 'File tidak ditemukan' });
+      return res.status(404).json({ message: "File tidak ditemukan" });
     }
 
-    const filePath = path.join(__dirname, '../uploads', path.basename(file.fileUrl));
-    
+    const filePath = path.join(
+      __dirname,
+      "../uploads",
+      path.basename(file.fileUrl)
+    );
+
     // Periksa apakah file ada di direktori uploads
     if (!fs.existsSync(filePath)) {
-      return res.status(404).json({ message: 'File tidak tersedia' });
+      return res.status(404).json({ message: "File tidak tersedia" });
     }
 
     // Kirim file sebagai response
     res.sendFile(filePath);
-
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-
 export const getEvaluasiForDosen = async (req, res) => {
   const { idDosen } = req.params;
 
-  console.log('ID Dosen:', idDosen);  // Cek nilai ID Dosen
+  console.log("ID Dosen:", idDosen); // Cek nilai ID Dosen
 
   if (!idDosen) {
-    return res.status(400).json({ message: 'ID Dosen tidak disediakan' });
+    return res.status(400).json({ message: "ID Dosen tidak disediakan" });
   }
 
   try {
     const bimbingan = await Bimbingan.findAll({
       where: { idDosen },
-      attributes: ['idMahasiswa']
+      attributes: ["idMahasiswa"],
     });
 
     if (!bimbingan.length) {
-      return res.status(404).json({ message: 'Tidak ada mahasiswa yang dibimbing oleh dosen ini' });
+      return res
+        .status(404)
+        .json({ message: "Tidak ada mahasiswa yang dibimbing oleh dosen ini" });
     }
 
-    const mahasiswaIds = bimbingan.map(b => b.idMahasiswa);
+    const mahasiswaIds = bimbingan.map((b) => b.idMahasiswa);
 
-    console.log('Mahasiswa IDs:', mahasiswaIds); // Debugging mahasiswaIds
+    console.log("Mahasiswa IDs:", mahasiswaIds); // Debugging mahasiswaIds
 
     const evaluasi = await EvaluasiMahasiswa.findAll({
       where: { idMahasiswa: mahasiswaIds },
-      attributes: ['id', 'tgl', 'kegiatan', 'permasalahan', 'solusi', 'ttd'],  // Include 'id'
-      include: [{
-        model: Mahasiswa,
-        attributes: ['fullname', 'nim']
-      }]
+      attributes: ["id", "tgl", "kegiatan", "permasalahan", "solusi", "ttd"], // Include 'id'
+      include: [
+        {
+          model: Mahasiswa,
+          attributes: ["fullname", "nim"],
+        },
+      ],
     });
 
     if (!evaluasi.length) {
-      return res.status(404).json({ message: 'Evaluasi tidak ditemukan untuk mahasiswa yang dibimbing' });
+      return res
+        .status(404)
+        .json({
+          message: "Evaluasi tidak ditemukan untuk mahasiswa yang dibimbing",
+        });
     }
 
     res.status(200).json({ evaluasi });
@@ -273,53 +291,50 @@ export const getEvaluasiForMahasiswa = async (req, res) => {
   }
 };
 
-
-
-
-
 export const updateSolusi = async (req, res) => {
   try {
     const { id } = req.params;
     const { solusi } = req.body;
 
-    console.log('Update ID:', id);  // Debugging ID
-    console.log('New Solusi:', solusi); // Debugging new solusi
+    console.log("Update ID:", id); // Debugging ID
+    console.log("New Solusi:", solusi); // Debugging new solusi
 
     const evaluasi = await EvaluasiMahasiswa.findByPk(id);
 
     if (!evaluasi) {
-      return res.status(404).json({ message: 'Evaluasi tidak ditemukan' });
+      return res.status(404).json({ message: "Evaluasi tidak ditemukan" });
     }
 
     evaluasi.solusi = solusi;
     await evaluasi.save();
 
-    res.json({ message: 'Solusi berhasil diperbarui', evaluasi });
+    res.json({ message: "Solusi berhasil diperbarui", evaluasi });
   } catch (error) {
-    res.status(500).json({ message: 'Terjadi kesalahan', error: error.message });
+    res
+      .status(500)
+      .json({ message: "Terjadi kesalahan", error: error.message });
   }
 };
-
 
 export const getFilesByDosen = async (req, res) => {
   const { idDosen } = req.params;
 
   if (!idDosen) {
-    return res.status(400).json({ message: 'ID Dosen tidak disediakan' });
+    return res.status(400).json({ message: "ID Dosen tidak disediakan" });
   }
 
   try {
     // Temukan mahasiswa bimbingan berdasarkan ID dosen
     const bimbingan = await Bimbingan.findAll({
       where: { idDosen },
-      attributes: ['idMahasiswa'] // Ambil ID mahasiswa
+      attributes: ["idMahasiswa"], // Ambil ID mahasiswa
     });
 
     if (!bimbingan.length) {
       return res.status(200).json({ files: [] }); // Return empty array if no students are found
     }
 
-    const mahasiswaIds = bimbingan.map(b => b.idMahasiswa);
+    const mahasiswaIds = bimbingan.map((b) => b.idMahasiswa);
 
     // Temukan file berdasarkan ID mahasiswa
     const files = await UploadedFile.findAll({
@@ -328,7 +343,7 @@ export const getFilesByDosen = async (req, res) => {
 
     res.status(200).json({ files }); // Return the files, even if it's an empty array
   } catch (error) {
-    console.error('Error:', error.message);
+    console.error("Error:", error.message);
     res.status(500).json({ message: error.message });
   }
 };

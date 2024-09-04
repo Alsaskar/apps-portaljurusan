@@ -30,6 +30,7 @@ export const add = async (req, res) => {
   const statusMasukPt = req.body.statusMasukPt;
   const jurusan = req.body.jurusan;
   const prodi = req.body.prodi;
+  const kelas = req.body.kelas;
 
   if (fullname === "") {
     return res
@@ -80,6 +81,10 @@ export const add = async (req, res) => {
     return res
       .status(500)
       .json({ message: "Prodi tidak boleh kosong", success: false });
+  } else if (kelas === "") {
+    return res
+      .status(500)
+      .json({ message: "Kelas tidak boleh kosong", success: false });
   } else {
     if (validateEmail(email)) {
       // jika email valid
@@ -126,6 +131,7 @@ export const add = async (req, res) => {
                 statusMasukPt: statusMasukPt,
                 jurusan: jurusan,
                 prodi: prodi,
+                kelas: kelas,
               });
 
               return res
@@ -206,17 +212,17 @@ export const getMahasiswaCount = async (req, res) => {
   }
 
   try {
-    console.log('ProdiAdmin:', prodiAdmin);
+    console.log("ProdiAdmin:", prodiAdmin);
     const totalMahasiswa = await Mahasiswa.count({
       where: { prodi: prodiAdmin },
     });
 
     res.json({ totalMahasiswa });
   } catch (error) {
-    console.error('Error fetching mahasiswa count:', error.message); // Debugging log
+    console.error("Error fetching mahasiswa count:", error.message); // Debugging log
     res.status(500).json({ message: error.message });
   }
-}
+};
 
 export const getById = async (req, res) => {
   const id = req.params.id;
@@ -364,7 +370,7 @@ export const edit = async (req, res) => {
     return res
       .status(500)
       .json({ message: "Prodi tidak boleh kosong", success: false });
-  }else if (kelas === "") {
+  } else if (kelas === "") {
     return res
       .status(500)
       .json({ message: "Kelas tidak boleh kosong", success: false });
@@ -693,19 +699,19 @@ export const getMahasiswaById = async (req, res) => {
   const mahasiswaId = parseInt(req.params.mahasiswaId, 10);
 
   if (isNaN(mahasiswaId)) {
-    return res.status(400).json({ error: 'Invalid Mahasiswa ID' });
+    return res.status(400).json({ error: "Invalid Mahasiswa ID" });
   }
 
   try {
     const mahasiswa = await Mahasiswa.findByPk(mahasiswaId);
 
     if (!mahasiswa) {
-      return res.status(404).json({ error: 'Mahasiswa not found' });
+      return res.status(404).json({ error: "Mahasiswa not found" });
     }
 
     res.json(mahasiswa);
   } catch (error) {
-    console.error('Error fetching mahasiswa data:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    console.error("Error fetching mahasiswa data:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };

@@ -24,6 +24,20 @@ export const list = async (req, res) => {
     }
 }
 
+export const getByName = async (req, res) => {
+    const namaKelas = req.params.namaKelas;
+
+    try{
+        const dataKelas = await Kelas.findAll({
+            where: { namaKelas: namaKelas }
+        });
+
+        return res.status(200).json({ result: dataKelas })
+    }catch(err){
+        return res.status(500).json({ message: err.message })
+    }
+}
+
 export const remove = async (req, res) => {
     const id = req.params.id;
 

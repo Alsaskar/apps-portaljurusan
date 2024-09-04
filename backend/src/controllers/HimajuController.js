@@ -2,6 +2,7 @@ import { Mahasiswa } from "../models/MahasiswaModel";
 import { Himaju, ProfilHimaju, ProkerHimaju } from "../models/HimajuModel";
 import { Op } from "sequelize";
 import transporter from "../config/email";
+import User from "../models/UserModel";
 
 // jadikan mahasiswa sebagai himaju
 export const add = async (req, res) => {
@@ -306,19 +307,17 @@ export const deleteProker = async (req, res) => {
   }
 };
 
-// Notifikasi Email Satu Jam Sebelumnya
+// Notifikasi Email Satu Hari Sebelumnya
 export const notifyUpcomingEvents = async () => {
   const now = new Date();
-  const oneHourLater = new Date(now.getTime() + 60 * 60 * 1000);
+  const oneDayLater = new Date(now.getTime() + 24 * 60 * 60 * 1000);
 
   try {
-    // Langkah 1: Ambil semua Himaju dengan status 'terima'
     const acceptedHimaju = await Himaju.findAll({
       where: { status: "terima" },
       attributes: ["idMahasiswa"],
     });
 
-    // Ambil idMahasiswa dari hasil query
     const acceptedMahasiswaIds = acceptedHimaju.map((h) => h.idMahasiswa);
 
     if (acceptedMahasiswaIds.length === 0) {
@@ -326,47 +325,75 @@ export const notifyUpcomingEvents = async () => {
       return;
     }
 
-    // Langkah 2: Ambil acara yang dimulai dalam satu jam ke depan
     const events = await ProkerHimaju.findAll({
       where: {
         tglPelaksanaan: {
-          [Op.eq]: now.toISOString().split("T")[0], // Hari ini
+          [Op.eq]: oneDayLater.toISOString().split("T")[0],
         },
         jamMulai: {
           [Op.between]: [
-            now.toTimeString().split(" ")[0].substring(0, 5),
-            oneHourLater.toTimeString().split(" ")[0].substring(0, 5),
+            "00:00", // Mulai dari tengah malam
+            "23:59", // Sampai akhir hari
           ],
         },
+        notifikasiDikirim: false, // Hanya ambil acara yang belum dikirim notifikasinya
       },
     });
 
     if (events.length === 0) {
-      console.log("Tidak ada acara yang akan datang.");
+      console.log("Tidak ada acara yang akan datang dalam 1 hari.");
       return;
     }
 
-    // Langkah 3: Kirim notifikasi
-    events.forEach((event) => {
-      const mailOptions = {
-        from: "oswaldtanlee44@gmail.com",
-        to: "oswaldtanlee444@gmail.com",
-        subject: `Pengingat: ${event.namaKegiatan} akan dimulai dalam 1 jam`,
-        text: `Halo,
-                \n\nIni adalah pengingat bahwa acara "${event.namaKegiatan}" akan dimulai dalam 1 jam.
-                \n\nDetail:
-                \nDeskripsi: ${event.description}
-                \nTanggal: ${event.tglPelaksanaan}
-                \nJam Mulai: ${event.jamMulai}
-                \nJam Selesai: ${event.jamSelesai}
-                \nLokasi: ${event.lokasi}`,
-      };
+    const mahasiswaWithEmails = await Mahasiswa.findAll({
+      where: {
+        id: {
+          [Op.in]: acceptedMahasiswaIds,
+        },
+      },
+      include: [
+        {
+          model: User,
+          attributes: ["email"],
+        },
+      ],
+    });
 
-      transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-          console.error("Error saat mengirim email:", error);
-        } else {
-          console.log("Email terkirim:", info.response);
+    console.log("Mahasiswa with associated User data:", mahasiswaWithEmails);
+
+    const emails = mahasiswaWithEmails
+      .map((mahasiswa) => mahasiswa.user && mahasiswa.user.email) // Periksa apakah user ada dan ambil emailnya
+      .filter(Boolean); // Hapus nilai falsy (undefined atau null)
+
+    console.log("Extracted emails:", emails);
+
+    if (emails.length === 0) {
+      console.log("Tidak ada email yang ditemukan.");
+      return;
+    }
+
+    events.forEach(async (event) => {
+      emails.forEach(async (email) => {
+        const mailOptions = {
+          from: process.env.EMAIL_FROM,
+          to: email,
+          subject: `Pengingat: ${event.namaKegiatan} akan dimulai dalam 1 hari`,
+          text: `Halo,\n\nIni adalah pengingat bahwa acara "${event.namaKegiatan}" akan dimulai dalam 1 hari.\n\nDetail:\nDeskripsi: ${event.description}\nTanggal: ${event.tglPelaksanaan}\nJam Mulai: ${event.jamMulai}\nJam Selesai: ${event.jamSelesai}\nLokasi: ${event.lokasi}`,
+        };
+
+        try {
+          await transporter.sendMail(mailOptions);
+          console.log(
+            `Email terkirim ke ${email} untuk acara ${event.namaKegiatan}`
+          );
+
+          // Update field notifikasiDikirim setelah email terkirim
+          await ProkerHimaju.update(
+            { notifikasiDikirim: true },
+            { where: { id: event.id } }
+          );
+        } catch (error) {
+          console.error(`Error saat mengirim email ke ${email}:`, error);
         }
       });
     });
@@ -374,3 +401,5 @@ export const notifyUpcomingEvents = async () => {
     console.error("Error saat mengambil data acara:", err);
   }
 };
+
+

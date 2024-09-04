@@ -23,13 +23,17 @@ function setupSocket(server) {
 
     // Handle sending messages
     socket.on("sendMessage", async (data, callback) => {
+      console.log("Send message event received:", data);
+    
       try {
         const { senderId, recipientId, senderRole, recipientRole, message } = data;
         const newMessage = await saveMessage(senderId, recipientId, senderRole, recipientRole, message);
-
-        // Format timestamp
+    
+        // Log for debugging
+        console.log("Message saved, emitting to clients:", newMessage);
+    
         const timestamp = moment(newMessage.timestamp).format('YYYY-MM-DDTHH:mm:ss');
-
+    
         // Emit the new message to the sender and recipient
         const recipientSocketId = userSocketMap[recipientId];
         const senderSocketId = userSocketMap[senderId];
@@ -41,9 +45,10 @@ function setupSocket(server) {
             recipientId,
             message,
             timestamp,
+            senderRole
           });
         }
-
+    
         if (senderSocketId) {
           io.to(senderSocketId).emit("receiveMessage", {
             id: newMessage.id,
@@ -51,15 +56,17 @@ function setupSocket(server) {
             recipientId,
             message,
             timestamp,
+            senderRole
           });
         }
-
+    
         callback({ success: true, id: newMessage.id });
       } catch (error) {
         console.error("Error handling sendMessage event:", error);
         callback({ success: false, message: error.message });
       }
     });
+    
 
     // Handle deleting messages
     socket.on("deleteMessage", async (messageId, callback) => {

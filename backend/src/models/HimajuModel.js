@@ -54,6 +54,10 @@ const ProkerHimaju = db.define(
     jamMulai: { type: DataTypes.STRING },
     jamSelesai: { type: DataTypes.STRING },
     lokasi: { type: DataTypes.STRING },
+    notifikasiDikirim: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
   },
   {
     freezeTableName: true,

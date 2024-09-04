@@ -1,9 +1,15 @@
-import ChatMessage from '../models/MessageModel';
-import { Op } from 'sequelize';
-import moment from 'moment';
+import ChatMessage from "../models/MessageModel";
+import { Op } from "sequelize";
+import moment from "moment";
 
 // Menyimpan pesan chat ke database
-export const saveMessage = async (senderId, recipientId, senderRole, recipientRole, message) => {
+export const saveMessage = async (
+  senderId,
+  recipientId,
+  senderRole,
+  recipientRole,
+  message
+) => {
   try {
     const newMessage = await ChatMessage.create({
       senderId,
@@ -11,11 +17,11 @@ export const saveMessage = async (senderId, recipientId, senderRole, recipientRo
       senderRole,
       recipientRole,
       message,
-      timestamp: new Date() // Simpan timestamp standar
+      timestamp: new Date(), // Simpan timestamp standar
     });
     return newMessage;
   } catch (error) {
-    console.error('Error saving message:', error);
+    console.error("Error saving message:", error);
     throw error;
   }
 };
@@ -26,20 +32,30 @@ export const getMessagesDosen = async (senderId, recipientId) => {
     const messages = await ChatMessage.findAll({
       where: {
         [Op.or]: [
-          { senderId, recipientId, senderRole: 'mahasiswa', recipientRole: 'dosen' },
-          { senderId: recipientId, recipientId: senderId, senderRole: 'dosen', recipientRole: 'mahasiswa' }
-        ]
+          {
+            senderId,
+            recipientId,
+            senderRole: "mahasiswa",
+            recipientRole: "dosen",
+          },
+          {
+            senderId: recipientId,
+            recipientId: senderId,
+            senderRole: "dosen",
+            recipientRole: "mahasiswa",
+          },
+        ],
       },
-      order: [['timestamp', 'ASC']],
+      order: [["timestamp", "ASC"]],
     });
 
     // Format timestamp untuk setiap pesan
-    return messages.map(msg => ({
+    return messages.map((msg) => ({
       ...msg.toJSON(),
-      timestamp: moment(msg.timestamp).format('YYYY-MM-DDTHH:mm:ss') // Format waktu dengan tanggal
+      timestamp: moment(msg.timestamp).format("YYYY-MM-DDTHH:mm:ss"), // Format waktu dengan tanggal
     }));
   } catch (error) {
-    console.error('Error fetching chat messages:', error);
+    console.error("Error fetching chat messages:", error);
     throw error;
   }
 };
@@ -50,20 +66,30 @@ export const getMessagesMahasiswa = async (senderId, recipientId) => {
     const messages = await ChatMessage.findAll({
       where: {
         [Op.or]: [
-          { senderId, recipientId, senderRole: 'dosen', recipientRole: 'mahasiswa' },
-          { senderId: recipientId, recipientId: senderId, senderRole: 'mahasiswa', recipientRole: 'dosen' }
-        ]
+          {
+            senderId,
+            recipientId,
+            senderRole: "dosen",
+            recipientRole: "mahasiswa",
+          },
+          {
+            senderId: recipientId,
+            recipientId: senderId,
+            senderRole: "mahasiswa",
+            recipientRole: "dosen",
+          },
+        ],
       },
-      order: [['timestamp', 'ASC']],
+      order: [["timestamp", "ASC"]],
     });
 
     // Format timestamp untuk setiap pesan
-    return messages.map(msg => ({
+    return messages.map((msg) => ({
       ...msg.toJSON(),
-      timestamp: moment(msg.timestamp).format('YYYY-MM-DDTHH:mm:ss') // Format waktu dengan tanggal
+      timestamp: moment(msg.timestamp).format("YYYY-MM-DDTHH:mm:ss"), // Format waktu dengan tanggal
     }));
   } catch (error) {
-    console.error('Error fetching chat messages:', error);
+    console.error("Error fetching chat messages:", error);
     throw error;
   }
 };
@@ -72,17 +98,21 @@ export const getMessagesMahasiswa = async (senderId, recipientId) => {
 export const deleteMessage = async (messageId) => {
   try {
     const result = await ChatMessage.destroy({
-      where: { id: messageId }
+      where: { id: messageId },
     });
-    
+
     if (result === 0) {
       // Jika hasil penghapusan adalah 0, berarti tidak ada baris yang terhapus
-      throw new Error('Message not found');
+      throw new Error("Message not found");
     }
-    
-    return { success: true, message: 'Message successfully deleted', affectedRows: result };
+
+    return {
+      success: true,
+      message: "Message successfully deleted",
+      affectedRows: result,
+    };
   } catch (error) {
-    console.error('Error deleting message:', error);
+    console.error("Error deleting message:", error);
     throw error;
   }
 };
@@ -100,24 +130,24 @@ export const deleteOldMessages = async () => {
     const messagesToDelete = await ChatMessage.findAll({
       where: {
         timestamp: {
-          [Op.lt]: twentyDaysAgo
-        }
-      }
+          [Op.lt]: twentyDaysAgo,
+        },
+      },
     });
-    console.log('Messages to delete:', messagesToDelete);
+    console.log("Messages to delete:", messagesToDelete);
 
     const result = await ChatMessage.destroy({
       where: {
         timestamp: {
-          [Op.lt]: twentyDaysAgo
-        }
-      }
+          [Op.lt]: twentyDaysAgo,
+        },
+      },
     });
 
     console.log(`Deleted ${result} old messages.`);
     return result; // Mengembalikan jumlah pesan yang dihapus
   } catch (error) {
-    console.error('Error deleting old messages:', error);
+    console.error("Error deleting old messages:", error);
     throw error;
   }
 };
