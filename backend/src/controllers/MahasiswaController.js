@@ -81,10 +81,6 @@ export const add = async (req, res) => {
     return res
       .status(500)
       .json({ message: "Prodi tidak boleh kosong", success: false });
-  } else if (kelas === "") {
-    return res
-      .status(500)
-      .json({ message: "Kelas tidak boleh kosong", success: false });
   } else {
     if (validateEmail(email)) {
       // jika email valid
