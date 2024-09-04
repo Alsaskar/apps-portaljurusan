@@ -4,7 +4,7 @@ import { ThemeContext } from "../../context/ThemeContext";
 import { LIGHT_THEME, DARK_THEME } from "../../constants/themeConstants";
 import { MdOutlineClose, MdKeyboardArrowRight, MdWbSunny, MdFormatListBulletedAdd } from "react-icons/md";
 import { IoDocumentAttachSharp, IoDocumentText, IoLogOut } from "react-icons/io5";
-import { HiDocumentPlus, HiChatBubbleLeftRight, HiMiniClipboardDocumentCheck, HiDocumentText } from "react-icons/hi2";
+import { HiDocumentPlus, HiChatBubbleLeftRight, HiMiniClipboardDocumentCheck, HiDocumentText, HiMiniHome } from "react-icons/hi2";
 import { HiUserAdd } from "react-icons/hi";
 import { PiStudentFill, PiUsersThreeFill, PiMonitorFill  } from "react-icons/pi";
 import { AiFillSchedule, AiFillMessage } from "react-icons/ai";
@@ -236,6 +236,14 @@ const AdminSidebar = () => {
                       <div className={`submenu-link-text`}>Data Mahasiswa</div>
                     </Link>
                   </li>
+                  <li className="submenu-item">
+                    <Link to="/admin/data/kelas" className="submenu-link" onClick={() => handleSubmenuClick("Data Kelas")}>
+                      <span className="menu-link-icon">
+                        <HiMiniHome size={20} />
+                      </span>
+                      <div className={`submenu-link-text`}>Data Kelas</div>
+                    </Link>
+                  </li>
                 </ul>
               )}
             </li>
@@ -410,6 +418,14 @@ const AdminSidebar = () => {
                         <RiCalendarScheduleFill size={20} />
                       </span>
                       <div className={`submenu-link-text`}>Jadwal</div>
+                    </Link>
+                  </li>
+                  <li className="submenu-item">
+                    <Link to="/admin/data/matkul" className="submenu-link" onClick={() => handleSubmenuClick("Mata Kuliah")}>
+                      <span className="menu-link-icon">
+                        <RiCalendarScheduleFill size={20} />
+                      </span>
+                      <div className={`submenu-link-text`}>Data Matkul</div>
                     </Link>
                   </li>
                 </ul>

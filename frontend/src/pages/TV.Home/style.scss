@@ -1,15 +1,22 @@
 .tv-home {
+
+  .text-section {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh; /* Full viewport height */
+    background-color: #fff;
+    border-radius: 20px;
+    padding: 10px 40px;
+    transition: all .3s ease-in-out;
 
-    .card-section {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 16px; /* Space between cards */
+    &:hover {
+      transform: scale(1.05);
+    }
+
+    .text {
+      font-size: 20;
+      font-weight: 600;
+      color: var(--blue-color);
+    }
   }
-  }
-  
-  
+}

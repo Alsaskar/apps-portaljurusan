@@ -2,7 +2,7 @@ import "./style.scss";
 import { BsDatabaseAdd } from "react-icons/bs";
 import { Field, Formik } from "formik";
 import * as Yup from "yup";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 import axios from "axios";
 import { urlApi } from "../../config";
@@ -27,11 +27,31 @@ const validationSchema = Yup.object().shape({
   tglTerdaftar: Yup.string().required("Tanggal Terdaftar harus diisi"),
   statusMasukPt: Yup.string().required("Status Masuk PT harus diisi"),
   jurusan: Yup.string().required("Jurusan harus diisi"),
+  kelas: Yup.string().required("Kelas harus diisi"),
   agama: Yup.string().required("Agama harus diisi"),
 });
 
 const Layout = () => {
   const [loading, setLoading] = useState(false);
+  const [kelas, setKelas] = useState([]);
+
+  const _listDataKelas = async () => {
+    try {
+      const res = await axios.get(`${urlApi}/kelas`, {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+        },
+      });
+
+      setKelas(res.data.result);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    _listDataKelas();
+  }, []);
 
   const _handleSubmit = async (values, { resetForm }) => {
     setLoading(true);
@@ -58,6 +78,7 @@ const Layout = () => {
             tglTerdaftar: values.tglTerdaftar,
             statusMasukPt: values.statusMasukPt,
             jurusan: values.jurusan,
+            kelas: values.kelas,
             agama: values.agama,
           },
           {
@@ -112,6 +133,7 @@ const Layout = () => {
             tglTerdaftar: "",
             statusMasukPt: "",
             jurusan: "",
+            kelas: "",
             agama: "",
           }}
           onSubmit={_handleSubmit}
@@ -377,6 +399,25 @@ const Layout = () => {
                   />
                   {touched.jurusan && errors.jurusan ? (
                     <div className="error-form">{errors.jurusan}</div>
+                  ) : null}
+                </div>
+                <div className="form-group">
+                  <label htmlFor="kelas">
+                    Kelas <span className="important">*</span>
+                  </label>
+                  <Field
+                    as="select"
+                    id="kelas"
+                    name="kelas"
+                    onChange={handleChange}
+                  >
+                    <option value="">...</option>
+                    {kelas.map((val, key) => {
+                      return <option key={key}>{val.namaKelas}</option>;
+                    })}
+                  </Field>
+                  {touched.kelas && errors.kelas ? (
+                    <div className="error-form">{errors.kelas}</div>
                   ) : null}
                 </div>
                 <div className="form-group">

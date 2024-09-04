@@ -116,12 +116,12 @@ const ModalUploadFoto = ({ isOpen, handleClose }) => {
                       </div>
                       <div className="button-simkel">
                         {loading ? (
-                          <button disabled>
+                          <button disabled className="btn-loading">
                             <BsDatabaseAdd size={16} />
                             <span>Loading...</span>
                           </button>
                         ) : (
-                          <button type="submit">
+                          <button type="submit" className="btn-upload-foto">
                             <BsDatabaseAdd size={16} />
                             <span>Simpan</span>
                           </button>

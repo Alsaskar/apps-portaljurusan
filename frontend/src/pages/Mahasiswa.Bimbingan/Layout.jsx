@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext, useRef, useCallback } from "react";
-import ProfileNoImage from "../../assets/images/profile_no_image.png";
+import ProfileNoImage from "../../assets/images/profile_image_black.png";
 import "./style.scss";
 import { BsSendFill } from "react-icons/bs";
 import { TbSquareRoundedArrowDownFilled } from "react-icons/tb";
@@ -11,6 +11,7 @@ import ModalDeleteChat from "./ModalDeleteChat";
 import { useSocket } from "../../context/useSocket";
 import getDateLabel from "../../utils/getDateLabel";
 import moment from "moment";
+import Swal from "sweetalert2";
 
 const LayoutMahasiswa = () => {
   const { result } = useContext(MahasiswaContext) || {};
@@ -22,57 +23,64 @@ const LayoutMahasiswa = () => {
   const [recipientId, setRecipientId] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [messageToDelete, setMessageToDelete] = useState(null);
+  const [truncatedNamaDosen, setTruncatedNamaDosen] = useState(namaDosen);
   const chatContainerRef = useRef(null);
 
   useEffect(() => {
-    if (result?.id && socket) {
+    if (result?.id) {
       fetchMahasiswaWithDosen(result.id);
-      socket.emit("register", result.id);
 
-      const handleReceiveMessage = (message) => {
-        setMessages((prevMessages) => {
-          const formattedTimestamp = moment(message.timestamp).format("HH:mm");
-          const dateLabel = getDateLabel(message.timestamp);
+      if (socket) {
+        socket.emit("register", result.id);
 
-          const newMessages = {
-            ...prevMessages,
-            [dateLabel]: [
-              ...(prevMessages[dateLabel] || []),
-              {
-                ...message,
-                timestamp: formattedTimestamp,
+        const handleReceiveMessage = (message) => {
+          // console.log(`Received message: ${JSON.stringify(message)}`);
+          setMessages((prevMessages) => {
+            const formattedTimestamp = moment(message.timestamp).format(
+              "HH:mm"
+            );
+            const dateLabel = getDateLabel(message.timestamp);
+
+            const newMessages = {
+              ...prevMessages,
+              [dateLabel]: [
+                ...(prevMessages[dateLabel] || []),
+                {
+                  ...message,
+                  timestamp: formattedTimestamp,
+                },
+              ],
+            };
+            return newMessages;
+          });
+        };
+
+        const handleDeleteMessage = (messageId) => {
+          setMessages((prevMessages) => {
+            const newMessages = Object.keys(prevMessages).reduce(
+              (acc, dateLabel) => {
+                const filteredMessages = prevMessages[dateLabel].filter(
+                  (msg) => msg.id !== messageId
+                );
+                if (filteredMessages.length > 0) {
+                  acc[dateLabel] = filteredMessages;
+                }
+                return acc;
               },
-            ],
-          };
-          return newMessages;
-        });
-      };
+              {}
+            );
+            return newMessages;
+          });
+        };
 
-      const handleDeleteMessage = (messageId) => {
-        setMessages((prevMessages) => {
-          const newMessages = Object.keys(prevMessages).reduce(
-            (acc, dateLabel) => {
-              const filteredMessages = prevMessages[dateLabel].filter(
-                (msg) => msg.id !== messageId
-              );
-              if (filteredMessages.length > 0) {
-                acc[dateLabel] = filteredMessages;
-              }
-              return acc;
-            },
-            {}
-          );
-          return newMessages;
-        });
-      };
+        socket.on("receiveMessage", handleReceiveMessage);
+        socket.on("deleteMessage", handleDeleteMessage);
 
-      socket.on("receiveMessage", handleReceiveMessage);
-      socket.on("deleteMessage", handleDeleteMessage);
-
-      return () => {
-        socket.off("receiveMessage", handleReceiveMessage);
-        socket.off("deleteMessage", handleDeleteMessage);
-      };
+        return () => {
+          socket.off("receiveMessage", handleReceiveMessage);
+          socket.off("deleteMessage", handleDeleteMessage);
+        };
+      }
     }
   }, [result, socket]);
 
@@ -96,7 +104,7 @@ const LayoutMahasiswa = () => {
       setRecipientId(mahasiswa.dosenId);
       fetchMessages(id, mahasiswa.dosenId);
     } catch (error) {
-      console.error("Error fetching mahasiswa with dosen:", error);
+      console.error(error);
       setNamaDosen("Nama Dosen Pembimbing");
     }
   };
@@ -139,7 +147,17 @@ const LayoutMahasiswa = () => {
   };
 
   const handleSendMessage = useCallback(() => {
-    if (!messageText.trim() || !result?.id || !recipientId) {
+    if (!recipientId) {
+      Swal.fire({
+        icon: "warning",
+        title: "Pemberitahuan",
+        text: "Anda belum memiliki dosen pembimbing. Silakan hubungi administrasi.",
+        confirmButtonText: "OK",
+      });
+      return;
+    }
+
+    if (!messageText.trim() || !result?.id) {
       console.error("Message text, senderId, or recipientId is missing");
       return;
     }
@@ -169,7 +187,9 @@ const LayoutMahasiswa = () => {
 
   const handleDeleteMessage = useCallback(() => {
     if (!messageToDelete || !result?.id || !recipientId) {
-      console.error("Message ID to delete, result.id, or recipientId is missing");
+      console.error(
+        "Message ID to delete, result.id, or recipientId is missing"
+      );
       return;
     }
 
@@ -195,21 +215,40 @@ const LayoutMahasiswa = () => {
     }
   };
 
+  useEffect(() => {
+    const handleReize = () => {
+      if (window.innerWidth <= 768) {
+        setTruncatedNamaDosen(truncateText(namaDosen, 20));
+      } else {
+        setTruncatedNamaDosen(namaDosen);
+      }
+    };
+
+    handleReize();
+    window.addEventListener("resize", handleReize);
+
+    return () => {
+      window.removeEventListener("resize", handleReize);
+    };
+  }, [namaDosen]);
+
   const truncateText = (text, maxLength) => {
     if (text.length > maxLength) {
-      return text.slice(0, maxLength) + '...';
+      return text.slice(0, maxLength) + "...";
     }
     return text;
   };
-
-  const truncatedNamaDosen = truncateText(namaDosen, 20);
 
   return (
     <div className="chat-mahasiswa">
       <div className="header-chat-mahasiswa">
         <div className="profile-section">
           <img
-            src={dosenFoto ? `${urlStaticAssetsDosen}/${dosenFoto}` : ProfileNoImage}
+            src={
+              dosenFoto
+                ? `${urlStaticAssetsDosen}/${dosenFoto}`
+                : ProfileNoImage
+            }
             alt="dosen-img"
             className="dosen-img"
           />
@@ -225,9 +264,9 @@ const LayoutMahasiswa = () => {
           {Object.keys(messages).map((dateLabel) => (
             <div key={dateLabel} className="date-section">
               <p className="date-label">{dateLabel}</p>
-              {messages[dateLabel].map((message) => (
+              {messages[dateLabel].map((message, index) => (
                 <div
-                  key={message.id}
+                  key={`${message.id}-${index}`}
                   className={`chat-message ${
                     message.senderRole === "mahasiswa"
                       ? "user-message"

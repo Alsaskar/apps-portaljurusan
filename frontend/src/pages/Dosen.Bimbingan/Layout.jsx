@@ -11,7 +11,6 @@ import File from "./File";
 import { AiFillSignature } from "react-icons/ai";
 import { HiTrash } from "react-icons/hi2";
 import Swal from "sweetalert2";
-import { tr } from "date-fns/locale";
 
 const Layout = () => {
   const dosenContext = useContext(DosenContext);
@@ -35,9 +34,6 @@ const Layout = () => {
   };
 
   useEffect(() => {
-    console.log("idMahasiswa:", idMahasiswa);
-    console.log("idDosen:", idDosen);
-
     if (!idDosen || !idMahasiswa) return;
 
     const fetchEvaluasi = async () => {
@@ -50,9 +46,14 @@ const Layout = () => {
             },
           }
         );
-        setEvaluasi(res.data.evaluasi);
-      } catch (error) {
-        console.error("Error fetching evaluasi:", error);
+        if (Array.isArray(res.data.evaluasi)) {
+          setEvaluasi(res.data.evaluasi);
+        } else {
+          setEvaluasi([]);
+        }
+      } catch (err) {
+        console.error(err);
+        setEvaluasi([]);
       }
     };
 
@@ -69,11 +70,10 @@ const Layout = () => {
         if (res.data.signatures.length > 0) {
           setTtdDosen(res.data.signatures[0]?.signatureUrl);
         } else {
-          setTtdDosen(null); // Set TTD menjadi null jika tidak ada data
+          setTtdDosen(null);
         }
       } catch (error) {
-        if (error.response && error.response.status === 404) {
-          // Jika TTD tidak ditemukan, set TTD menjadi null
+        if (error.res && error.res.status === 404) {
           setTtdDosen(null);
         } else {
           console.error("Error fetching TTD dosen:", error);

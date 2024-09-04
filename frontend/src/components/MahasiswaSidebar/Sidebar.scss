@@ -1,5 +1,4 @@
 .sidebar-mahasiswa {
-
   .sidebar-content-mahasiswa {
     background-color: #fff;
     position: relative;
@@ -8,7 +7,7 @@
     border-radius: 10px;
     overflow-y: scroll;
     overflow: hidden;
-    transition: all .1s ease-in-out;
+    transition: all 0.1s ease-in-out;
 
     overflow-y: scroll;
 
@@ -44,7 +43,7 @@
         display: flex;
         flex-direction: column;
         z-index: 999;
-        transition: var(--default-transition);
+        // transition: var(--default-transition);
         overflow-y: scroll;
 
         &::-webkit-scrollbar {
@@ -73,6 +72,7 @@
       z-index: 999;
       transform: translateX(-600px);
       height: 100vh;
+
 
       border-radius: 0px 10px 10px 0px;
 
@@ -111,7 +111,6 @@
         overflow: hidden;
         transition: all 0.3s ease-in-out;
         font-size: 14px;
-
 
         &.menu-expanded {
           width: 0px;
@@ -190,7 +189,7 @@
                 font-size: 14px;
                 font-weight: 600;
                 overflow: hidden;
-                transition: all .3s ease-in-out;
+                transition: all 0.3s ease-in-out;
 
                 &.menu-list-expanded {
                   width: 0px;
@@ -212,7 +211,7 @@
                 margin-top: 10px;
                 margin-right: 16px;
                 overflow: hidden;
-                transition: all .3s ease-in-out;
+                transition: all 0.3s ease-in-out;
 
                 &.menu-list-expanded {
                   width: 0px;
@@ -299,7 +298,7 @@
                 font-size: 14px;
                 font-weight: 600;
                 overflow: hidden;
-                transition: all .3s ease-in-out;
+                transition: all 0.3s ease-in-out;
 
                 &.menu-list-expanded {
                   width: 0px;
@@ -307,7 +306,7 @@
 
                 &.logout-text {
                   overflow: hidden;
-                  transition: all .3s ease-in-out;
+                  transition: all 0.3s ease-in-out;
                 }
 
                 &.logout-expanded {

@@ -1,0 +1,65 @@
+.hero {
+  width: 100%;
+  height: 400px;
+  background-image: url("../../../assets/images/banner_hme.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+
+  .container-himaju {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 400px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .overlay-himaju {
+      position: absolute;
+      z-index: 0;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(3, 9, 24, 0.9);
+    }
+
+    .title-section {
+      position: absolute;
+      top: 145px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      .title {
+        text-align: center;
+        color: #fff;
+        font-size: 45px;
+        font-weight: 600;
+
+        @media (max-width: 768px) {
+          font-size: 30px;
+          max-width: 340px;
+        }
+      }
+
+      @media (max-width: 768px) {
+       top: 95px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      height: 350px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    height: 350px;
+  }
+}

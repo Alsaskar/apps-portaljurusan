@@ -1,16 +1,18 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import PrivateRoutes from "./pages/PrivateRoutes";
-import { Toaster } from 'react-hot-toast';
+import { Toaster } from "react-hot-toast";
 
 import AdminLayout from "./layout/AdminLayout";
 import AdminDashboard from "./pages/Admin.Dashboard";
 import AdminAddMahasiswa from "./pages/Admin.AddMahasiswa";
 import AdminDataMahasiswa from "./pages/Admin.DataMahasiswa";
+import AdminDataKelas from "./pages/Admin.DataKelas";
 import AdminAddDosen from "./pages/Admin.AddDosen";
 import AdminDataDosen from "./pages/Admin.DataDosen";
 import AdminAddRPS from "./pages/Admin.AddRPS";
 import AdminDaftarRPS from "./pages/Admin.DaftarRPS";
 import AdminAddJadwal from "./pages/Admin.AddJadwal";
+import AdminDataJadwal from "./pages/Admin.DataJadwal";
 import AdminDetailsMahasiswa from "./pages/Admin.DataMahasiswa/detailsMahasiswa";
 import AdminDetailsDosen from "./pages/Admin.DataDosen/detailsDosen";
 import AdminAddBimbingan from "./pages/Admin.AddBimbingan";
@@ -24,6 +26,9 @@ import AdminAnggotaHME from "./pages/Admin.AnggotaHME";
 import AdminKegiatanHME from "./pages/Admin.KegiatanHME";
 import AdminMonitoringLogin from "./pages/Admin.MonitoringLogin";
 import AdminDaftarIP from "./pages/Admin.DaftarIP";
+import AdminDataMatkul from "./pages/Admin.DataMatkul";
+import AdminJadwal from "./pages/Admin.Jadwal";
+
 
 import MahasiswaLayout from "./layout/MahasiswaLayout";
 import MahasiswaDashboard from "./pages/Mahasiswa.Dashboard";
@@ -78,7 +83,11 @@ import TVLayout from "./layout/TVLayout";
 import TVHome from "./pages/TV.Home";
 import TVHomeMenu from "./pages/TV.HomeMenu";
 import { LoadingProvider } from "./context/LoadingContext";
-
+import TVProfile from "./pages/TV.Profile";
+import TVAbsensi from "./pages/TV.Absensi";
+import TVHME from "./pages/TV.HME";
+import TVJadwal from "./pages/TV.Jadwal";
+import HimajuLayoutDosen from "./layout/HimajuLayoutDosen";
 const App = () => {
   return (
     <LoadingProvider>
@@ -105,6 +114,20 @@ const App = () => {
                 exact
               />
 
+              <Route
+                element={<AdminDataJadwal />}
+                path="/admin/data/jadwal"
+                exact
+              />
+
+              <Route
+                element={<AdminDataMatkul />}
+                path="/admin/data/matkul"
+                exact
+              />
+
+              <Route element={<AdminJadwal />} path="/admin/jadwal" exact />
+
               {/*Management Mahasiswa*/}
               <Route
                 element={<AdminAddMahasiswa />}
@@ -119,6 +142,11 @@ const App = () => {
               <Route
                 element={<AdminDetailsMahasiswa />}
                 path="/admin/details/mahasiswa/:id"
+                exact
+              />
+              <Route
+                element={<AdminDataKelas />}
+                path="/admin/data/kelas"
                 exact
               />
 
@@ -345,6 +373,7 @@ const App = () => {
 
             {/*Layout Himaju*/}
             <Route element={<HimajuLayout />} path="/mahasiswa/hme"></Route>
+            <Route element={<HimajuLayoutDosen />} path="/dosen/hme"></Route>
             <Route
               element={<DepartmentDetail />}
               path="/departemen/hme/:title"
@@ -363,6 +392,10 @@ const App = () => {
           <Route element={<TVLayout />}>
             <Route element={<TVHome />} path="/tv/home" />
             <Route element={<TVHomeMenu />} path="/tv/home/menu" />
+            <Route element={<TVProfile />} path="/tv/profile" />
+            <Route element={<TVAbsensi />} path="/tv/absensi" />
+            <Route element={<TVHME />} path="/tv/hme" />
+            <Route element={<TVJadwal />} path="/tv/jadwal" />
           </Route>
         </Routes>
       </Router>

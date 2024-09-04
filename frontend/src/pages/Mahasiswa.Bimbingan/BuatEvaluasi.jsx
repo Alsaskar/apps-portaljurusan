@@ -1,7 +1,7 @@
 import "./BuatEvaluasi.scss";
 import "./style.scss";
 import { BsDatabaseAdd } from "react-icons/bs";
-import { Field, Formik } from "formik";
+import { Field, Formik, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useState, useRef, useContext } from "react";
 import Swal from "sweetalert2";
@@ -16,6 +16,7 @@ const validationSchema = Yup.object().shape({
   tgl: Yup.string().required("Tanggal harus diisi"),
   kegiatan: Yup.string().required("Kegiatan Mahasiswa Saat ini harus diisi"),
   permasalahan: Yup.string().required("Permasalahan harus diisi"),
+  ttd: Yup.string().required("Tanda tangan diperlukan"),
 });
 
 const BuatEvaluasi = () => {
@@ -27,7 +28,7 @@ const BuatEvaluasi = () => {
 
   const _handleSubmit = async (values, { resetForm }) => {
     setLoading(true);
-    
+
     try {
       const dataURL = sigCanvas.current.getTrimmedCanvas().toDataURL();
 
@@ -37,7 +38,7 @@ const BuatEvaluasi = () => {
           tgl: values.tgl,
           kegiatan: values.kegiatan,
           permasalahan: values.permasalahan,
-          ttd: dataURL, 
+          ttd: dataURL,
           idMahasiswa,
         },
         {
@@ -70,8 +71,9 @@ const BuatEvaluasi = () => {
     }
   };
 
-  const clearSignature = () => {
+  const clearSignature = (setFieldValue) => {
     sigCanvas.current.clear();
+    setFieldValue("ttd", ""); // Clear Formik field value
   };
 
   return (
@@ -96,7 +98,7 @@ const BuatEvaluasi = () => {
           onSubmit={_handleSubmit}
           validationSchema={validationSchema}
         >
-          {({ errors, touched, handleSubmit, handleChange }) => (
+          {({ errors, touched, handleSubmit, handleChange, setFieldValue }) => (
             <form
               method="post"
               onSubmit={handleSubmit}
@@ -157,15 +159,26 @@ const BuatEvaluasi = () => {
                         canvasProps={{
                           className: "sigCanvas",
                         }}
+                        onEnd={() => {
+                          const dataURL = sigCanvas.current
+                            .getTrimmedCanvas()
+                            .toDataURL();
+                          setFieldValue("ttd", dataURL);
+                        }}
                       />
                     </div>
                     <button
                       type="button"
-                      onClick={clearSignature}
+                      onClick={() => clearSignature(setFieldValue)}
                       className="btn-clear-signature"
                     >
                       Clear
                     </button>
+                  </div>
+                  <div className="error-message">
+                    <ErrorMessage name="ttd">
+                      {(msg) => <span className="error-text">{msg}</span>}
+                    </ErrorMessage>
                   </div>
                 </div>
               </div>

@@ -18,7 +18,6 @@ import {
   HiMiniClipboardDocumentCheck,
   HiDocumentText,
 } from "react-icons/hi2";
-import { PiNetworkFill } from "react-icons/pi";
 import { AiFillSchedule, AiFillMessage } from "react-icons/ai";
 import {
   MdWorkspaces,
@@ -192,7 +191,10 @@ const DosenSidebar = () => {
   return (
     <>
       {/* Modal */}
-      <ModalUbahPasswordDosen isOpen={showModal} handleClose={handleCloseModal} />
+      <ModalUbahPasswordDosen
+        isOpen={showModal}
+        handleClose={handleCloseModal}
+      />
       <nav
         className={`sidebar ${isSidebarOpen ? "sidebar-show" : ""}`}
         ref={navbarRef}
@@ -432,32 +434,12 @@ const DosenSidebar = () => {
                 {himajuSubmenuOpen && (
                   <ul className={`submenu ${himajuSubmenuOpen ? "open" : ""}`}>
                     <li className="submenu-item">
-                      <div className="submenu-link">
+                      <Link to="/dosen/hme" className="submenu-link">
                         <span className="menu-link-icon">
                           <MdWorkspaces size={20} />
                         </span>
-                        <Link
-                          to="/admin-bukti-pembayaran-ukt"
-                          className={`submenu-link-text`}
-                          onClick={() => handleSubmenuClick("Data Himaju")}
-                        >
-                          Data Himaju
-                        </Link>
-                      </div>
-                    </li>
-                    <li className="submenu-item">
-                      <div className="submenu-link">
-                        <span className="menu-link-icon">
-                          <PiNetworkFill size={20} />
-                        </span>
-                        <Link
-                          to="/admin/bimbingan"
-                          className={`submenu-link-text`}
-                          onClick={() => handleSubmenuClick("Himaju")}
-                        >
-                          Himaju
-                        </Link>
-                      </div>
+                        <div className={`submenu-link-text`}>HME</div>
+                      </Link>
                     </li>
                   </ul>
                 )}
@@ -591,10 +573,7 @@ const DosenSidebar = () => {
 
               {/*Ubah Password*/}
               <li className={`menu-item`}>
-                <div
-                  className={`menu-link`}
-                  onClick={handleModal}
-                >
+                <div className={`menu-link`} onClick={handleModal}>
                   <span className="menu-link-icon">
                     <TbPasswordMobilePhone size={20} />
                   </span>

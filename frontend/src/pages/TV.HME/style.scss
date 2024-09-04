@@ -1,0 +1,351 @@
+.struktur {
+  .container {
+    .content {
+      display: flex;
+      overflow-x: scroll;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+
+      &::-webkit-scrollbar {
+        height: 0px;
+        width: 0px;
+      }
+      .title {
+        text-align: center;
+        font-size: 35px;
+        font-weight: 600;
+        color: #fff;
+      }
+
+      // Struktur Organisasi Utama
+      .tree {
+        margin-top: 40px;
+        width: 100%;
+        height: auto;
+        text-align: center;
+
+        ul {
+          padding-top: 20px;
+          position: relative;
+          transition: 0.5s;
+
+          li {
+            display: inline-table;
+            text-align: center;
+            list-style-type: none;
+            position: relative;
+            padding: 10px;
+            transition: 0.5s;
+
+            &::before,
+            &::after {
+              content: "";
+              position: absolute;
+              top: 0;
+              right: 50%;
+              border-top: 1px solid #ccc;
+              width: 51%;
+              height: 10px;
+            }
+
+            &::after {
+              right: auto;
+              left: 50%;
+              border-left: 1px solid #ccc;
+            }
+
+            &:only-child {
+              padding-top: 0;
+
+              &::before,
+              &::after {
+                display: none;
+              }
+            }
+
+            &:first-child::before,
+            &:last-child::after {
+              border: 0 none;
+            }
+
+            &:last-child::before {
+              border-right: 1px solid #ccc;
+              border-radius: 0 5px 0 0;
+            }
+
+            &:first-child::after {
+              border-radius: 5px 0 0 0;
+            }
+
+            ul ul::before {
+              content: "";
+              position: absolute;
+              top: 0;
+              left: 50%;
+              width: 0;
+              height: 20px;
+            }
+
+            .body-section {
+              border: 1px solid #ccc;
+              padding: 10px;
+              display: inline-grid;
+              border-radius: 5px;
+              text-decoration: none;
+              transition: 0.5s;
+
+              .icon-profile-user-departemen {
+                width: 50px;
+                height: 50px;
+                margin-bottom: 10px !important;
+                border-radius: 50%;
+                margin: auto;
+                background-color: var(--blue-color);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: #fff;
+              }
+
+              .title-departemen {
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                color: #fff;
+                padding: 8px;
+                font-size: 13px;
+                font-weight: 500;
+              }
+
+              &:hover {
+                background: #eaf5ff;
+                color: #000;
+                border: 1px solid #94a0b4;
+                box-shadow: 0 0 8px -5px #5f5f5f;
+
+                & + ul li .body-section {
+                  background: #eaf5ff;
+                  color: #000;
+                  border: 1px solid #94a0b4;
+                }
+
+                & + ul li:after,
+                & + ul li:before,
+                & + ul:before,
+                & + ul ul:before {
+                  border-color: #94a0b4;
+                }
+              }
+            }
+          }
+        }
+      }
+
+      // Struktur Organisasi Kedua
+      .tree_dua {
+        width: 100%;
+        height: auto;
+        text-align: center;
+        margin-top: -40px;
+
+        ul {
+          position: relative;
+          transition: 0.5s;
+
+          li {
+            display: inline-table;
+            text-align: center;
+            list-style-type: none;
+            position: relative;
+            padding: 10px;
+            transition: 0.5s;
+
+            &::before,
+            &::after {
+              content: "";
+              position: absolute;
+              top: 0;
+              right: 50%;
+              border-top: 1px solid #ccc;
+              width: 51%;
+              height: 10px;
+            }
+
+            &::after {
+              right: auto;
+              left: 50%;
+              border-left: 1px solid #ccc;
+            }
+
+            &:only-child {
+              padding-top: 0;
+
+              &::before,
+              &::after {
+                display: none;
+              }
+            }
+
+            &:first-child::before,
+            &:last-child::after {
+              border: 0 none;
+            }
+
+            &:last-child::before {
+              border-right: 1px solid #ccc;
+              border-radius: 0 5px 0 0;
+            }
+
+            &:first-child::after {
+              border-radius: 5px 0 0 0;
+            }
+
+            ul ul::before {
+              content: "";
+              position: absolute;
+              top: 0;
+              left: 50%;
+              width: 0;
+              height: 20px;
+            }
+
+            .body-section {
+              border: 1px solid #ccc;
+              padding: 10px;
+              display: inline-grid;
+              border-radius: 5px;
+              text-decoration: none;
+              transition: 0.5s;
+
+              .icon-profile-user-departemen {
+                width: 50px;
+                height: 50px;
+                margin-bottom: 10px !important;
+                border-radius: 50%;
+                margin: auto;
+                background-color: var(--purple-color);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: #fff;
+              }
+
+              .title-departemen {
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                color: #fff;
+                padding: 8px;
+                font-size: 13px;
+                font-weight: 500;
+              }
+
+              &:hover {
+                background: #eaf5ff;
+                color: #000;
+                border: 1px solid #94a0b4;
+                box-shadow: 0 0 8px -5px #5f5f5f;
+
+                & + ul li .body-section {
+                  background: #eaf5ff;
+                  color: #000;
+                  border: 1px solid #94a0b4;
+                }
+
+                & + ul li:after,
+                & + ul li:before,
+                & + ul:before,
+                & + ul ul:before {
+                  border-color: #94a0b4;
+                }
+              }
+            }
+          }
+        }
+      }
+
+      @media (max-width: 1200px) {
+        .tree,
+        .tree_dua {
+          .body-section {
+            padding: 8px;
+            font-size: 12px;
+
+            .icon-profile-user-departemen {
+              width: 40px;
+              height: 40px;
+              margin-bottom: 8px !important;
+            }
+
+            .title-departemen {
+              font-size: 11px;
+              padding: 6px;
+            }
+          }
+
+          ul {
+            padding-top: 5px;
+            li {
+              display: block; // Stack items vertically
+              padding: 5px;
+
+              &::before,
+              &::after {
+                border: 0; // Remove lines connecting items
+              }
+
+              ul ul::before {
+                border: 0; // Remove lines connecting nested items
+              }
+
+              .body-section {
+                width: 250px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.struktur .slides {
+  display: flex;
+  width: 300%;
+  scroll-snap-type: x mandatory;
+}
+
+.struktur .slide {
+  scroll-snap-align: start;
+  flex: none;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  //   padding: 100px;
+}
+
+.struktur .slide .title {
+  font-size: 24px;
+  margin-bottom: 60px;
+}
+
+.struktur .slide .visi-misi {
+  margin-top: 20px;
+}
+.struktur .slide .proker {
+  margin-top: 20px;
+}
+
+.struktur .visi-misi {
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 10px;
+  width: 80%;
+}
+
+.struktur .proker {
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 10px;
+  width: 80%;
+}

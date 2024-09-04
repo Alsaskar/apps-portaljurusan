@@ -132,6 +132,14 @@
             }
           }
         }
+
+        .error-message {
+          .error-text {
+            color: var(--red-color);
+            font-style: italic;
+            font-size: 12px;
+          }
+        }
       }
 
       .btn-buat-evaluasi {

@@ -279,6 +279,7 @@ const Layout = () => {
                 <th>Nama</th>
                 <th>NIM</th>
                 <th>Email</th>
+                <th>Kelas</th>
                 <th>Prodi</th>
                 <th>No Telp</th>
                 <th>Jenis Kelamin</th>
@@ -295,6 +296,7 @@ const Layout = () => {
                       <td>{val.fullname}</td>
                       <td>{val.nim}</td>
                       <td>{val.user.email}</td>
+                      <td>{val.kelas}</td>
                       <td>{val.prodi}</td>
                       <td>{val.user.noHp}</td>
                       <td>{val.jenisKelamin}</td>

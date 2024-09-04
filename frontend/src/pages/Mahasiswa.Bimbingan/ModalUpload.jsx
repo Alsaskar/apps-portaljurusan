@@ -133,12 +133,12 @@ const ModalUpload = ({ isOpen, handleClose }) => {
                       </div>
                       <div className="button-simkel">
                         {loading ? (
-                          <button disabled>
+                          <button disabled className="btn-loading-upload">
                             <BsDatabaseAdd size={16} />
                             <span>Loading...</span>
                           </button>
                         ) : (
-                          <button type="submit">
+                          <button type="submit" className="btn-upload">
                             <BsDatabaseAdd size={16} />
                             <span>Upload</span>
                           </button>

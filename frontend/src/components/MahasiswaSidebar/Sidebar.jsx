@@ -98,8 +98,6 @@ const Sidebar = () => {
       text: "Apakah Anda Yakin Ingin Keluar?",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
       confirmButtonText: "Ya",
       cancelButtonText: "Tidak",
     }).then((result) => {

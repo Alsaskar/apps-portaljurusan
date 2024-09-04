@@ -71,11 +71,36 @@
       display: flex;
       column-gap: 5px;
 
+      .btn-loading-upload {
+        @media (max-width: 768px) {
+          width: 100%;
+
+          display: flex;
+          justify-content: center;
+        }
+      }
+
+      .btn-upload {
+        @media (max-width: 768px) {
+          width: 100%;
+
+          display: flex;
+          justify-content: center;
+        }
+      }
+
       .button-keluar {
         background-color: var(--red-color);
 
         &:hover {
           background-color: rgb(221, 80, 80);
+        }
+
+        @media (max-width: 768px) {
+          width: 100%;
+
+          display: flex;
+          justify-content: center;
         }
       }
     }

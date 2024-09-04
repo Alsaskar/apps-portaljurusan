@@ -299,43 +299,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
   },
-  isi_empat: {
-    // padding: 10,
-    width: 65,
-    textAlign: "center",
-    borderRight: "1 solid black",
-    fontSize: 8,
-  },
-  isi_title_cpmk: {
-    fontFamily: "Poppins",
-    textAlign: "left",
-    paddingHorizontal: 10,
-    height: 25,
-    borderBottom: "1 solid black",
-  },
-  isi_cpmk_empat: {
-    display: "flex",
-    alignItems: "center",
-    flexDirection: "row",
-  },
-  isi_capaian_empat: {
-    display: "flex",
-    alignItems: "center",
-    flexDirection: "row",
-  },
-  isi_capaian_cpmk: {
-    width: 65,
-    textAlign: "center",
-    borderRight: "1 solid black",
-    fontSize: 8,
-  },
-  isi_cpmk: {
-    height: 25,
-    fontFamily: "Poppins",
-    borderBottom: "1 solid black",
-    textAlign: "left",
-    paddingHorizontal: 10,
-  },
+
 });
 
 export default styles;

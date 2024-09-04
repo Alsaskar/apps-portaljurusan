@@ -1,0 +1,85 @@
+.about {
+  width: 100%;
+
+  .container {
+    .quick-link {
+      display: flex;
+      align-items: center;
+      column-gap: 5px;
+
+      .text-home-portal {
+        font-size: 14px;
+        color: #808191;
+
+        display: flex;
+        align-items: center;
+        column-gap: 5px;
+      }
+
+      .garing {
+        font-size: 13px;
+        color: #808191;
+      }
+
+      .text-profile-himaju {
+        font-size: 14px;
+        font-weight: 600;
+        color: #292929;
+      }
+    }
+    .content {
+      .logo {
+        display: flex;
+        justify-content: center;
+
+        margin-top: 60px;
+        margin-bottom: 60px;
+
+        .logo-img {
+          width: 350px;
+        }
+      }
+
+      .body {
+        margin-top: 150px;
+
+        display: flex;
+        align-items: center;
+
+        .text-profile {
+          width: 100%;
+
+          .title {
+            margin-top: 10px;
+            font-size: 35px;
+            font-weight: 600;
+            color: #292929;
+            text-align: center;
+            width: 100%;
+          }
+
+          .text-desc {
+            display: flex;
+            justify-content: center;
+
+            .desc {
+              text-align: center;
+              margin-top: 50px;
+              font-size: 14px;
+              max-width: 80%;
+            }
+          }
+
+          .no-data-center {
+            margin-top: 50px;
+            text-align: center;
+          }
+        }
+
+        @media (max-width: 768px) {
+          flex-direction: column;
+        }
+      }
+    }
+  }
+}

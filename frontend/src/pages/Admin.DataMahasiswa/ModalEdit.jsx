@@ -5,7 +5,7 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import "./modal.scss";
 import "./EditForm.scss";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import Swal from "sweetalert2";
 import axios from "axios";
 import { urlApi } from "../../config";
@@ -15,6 +15,7 @@ const validationSchema = Yup.object().shape({
   email: Yup.string().required("Email harus diisi").email("Email tidak valid"),
   noHp: Yup.string().required("No HP harus diisi"),
   nim: Yup.string().required("NIM harus diisi"),
+  kelas: Yup.string().required("Kelas harus diisi"),
   jenisKelamin: Yup.string().required("Jenis Kelamin harus diisi"),
   kota: Yup.string().required("Kota tidak valid"),
   tglLahir: Yup.string().required("Tanggal Lahir harus diisi"),
@@ -31,6 +32,26 @@ const validationSchema = Yup.object().shape({
 const ModalEdit = ({ data, dataUser, isOpen, handleClose }) => {
   const [loading, setLoading] = useState(false);
 
+  const [kelas, setKelas] = useState([]);
+
+  const _listDataKelas = async () => {
+    try {
+      const res = await axios.get(`${urlApi}/kelas`, {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+        },
+      });
+
+      setKelas(res.data.result);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    _listDataKelas();
+  }, []);
+
   const dataDefault = useMemo(() => {
     if (!data) return {};
 
@@ -40,6 +61,7 @@ const ModalEdit = ({ data, dataUser, isOpen, handleClose }) => {
       email: dataUser.email,
       noHp: dataUser.noHp,
       nim: data.nim,
+      kelas: data.kelas,
       jenisKelamin: data.jenisKelamin,
       kota: data.kota,
       tglLahir: data.tglLahir,
@@ -69,6 +91,7 @@ const ModalEdit = ({ data, dataUser, isOpen, handleClose }) => {
             email: values.email,
             noHp: values.noHp,
             nim: values.nim,
+            kelas: values.kelas,
             jenisKelamin: values.jenisKelamin,
             kotaLahir: values.kotaLahir,
             tglLahir: values.tglLahir,
@@ -112,7 +135,6 @@ const ModalEdit = ({ data, dataUser, isOpen, handleClose }) => {
         });
       }
     }, 1500);
-    console.log(_handleSubmit);
   };
 
   return (
@@ -134,6 +156,7 @@ const ModalEdit = ({ data, dataUser, isOpen, handleClose }) => {
                     email: dataDefault.email,
                     noHp: dataDefault.noHp,
                     nim: dataDefault.nim,
+                    kelas: dataDefault.kelas,
                     jenisKelamin: dataDefault.jenisKelamin,
                     kota: dataDefault.kota,
                     tglLahir: dataDefault.tglLahir,
@@ -232,6 +255,28 @@ const ModalEdit = ({ data, dataUser, isOpen, handleClose }) => {
                           />
                           {touched.noHp && errors.noHp ? (
                             <div className="error-form">{errors.noHp}</div>
+                          ) : null}
+                        </div>
+                        <div className="form-group">
+                          <label htmlFor="kelas">
+                            Kelas <span className="important">*</span>
+                          </label>
+                          <select
+                            id="kelas"
+                            name="kelas"
+                            onChange={handleChange}
+                            value={values.kelas}
+                          >
+                            {touched.kelas && errors.kelas ? (
+                              <div className="error-form">{errors.kelas}</div>
+                            ) : null}
+                            <option value="">...</option>
+                            {kelas.map((val, key) => {
+                              return <option key={key}>{val.namaKelas}</option>;
+                            })}
+                          </select>
+                          {touched.kelas && errors.kelas ? (
+                            <div className="error-form">{errors.kelas}</div>
                           ) : null}
                         </div>
                         <div className="form-group">
@@ -353,9 +398,15 @@ const ModalEdit = ({ data, dataUser, isOpen, handleClose }) => {
                             <option value="D4 Teknik Informatika">
                               D4 Teknik Informatika
                             </option>
-                            <option value="D3 Teknik Komputer">D3 Teknik Komputer</option>
-                            <option value="D4 Teknik Listrik">D4 Teknik Listrik</option>
-                            <option value="D3 Teknik Listrik">D3 Teknik Listrik</option>
+                            <option value="D3 Teknik Komputer">
+                              D3 Teknik Komputer
+                            </option>
+                            <option value="D4 Teknik Listrik">
+                              D4 Teknik Listrik
+                            </option>
+                            <option value="D3 Teknik Listrik">
+                              D3 Teknik Listrik
+                            </option>
                           </select>
                           {touched.prodi && errors.prodi ? (
                             <div className="error-form">{errors.prodi}</div>

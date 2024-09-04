@@ -4,14 +4,26 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid #d2d2d2;
+  flex-direction: column;
   border-radius: 10px;
+  border: 2px solid #fff;
   padding: 16px;
-  background-color: #fff;
+  background: linear-gradient(135deg, rgba(255, 2555, 255, 0.1), rgba(255, 255, 255, 0));
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   cursor: pointer;
   transition: transform 0.3s ease;
 
   &:hover {
     transform: scale(1.07);
+  }
+
+  .icon {
+    font-size: 20px;
+    color: #fff;
+  }
+
+  .title-card-menu {
+    color: #fff;
   }
 }

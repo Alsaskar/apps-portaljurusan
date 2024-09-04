@@ -7,6 +7,9 @@ import Poppins from '../../assets/font/Poppins Regular 400.ttf';
 import Poppins600 from '../../assets/font/Poppins SemiBold 600.ttf';
 import Poppins500 from '../../assets/font/Poppins Medium 500.ttf';
 import Poppins600Italic from '../../assets/font/Poppins SemiBold Italic 600.ttf';
+import HalTigaRPS from "../ContentRPS/halTiga";
+import HalTigaDPRPS from "../ContentRPS/halTigaDP";
+import HalEmpatRPS from "../ContentRPS/halEmpat";
 
 Font.register({ family: 'Poppins', src: Poppins });
 Font.register({ family: 'Poppins600', src: Poppins600 });
@@ -39,6 +42,27 @@ const PDFDocument = () => {
 
             {/* Capaian RPS */}
             <CapaianRPS />
+            <HalTigaRPS />
+          </View>
+        </Page>
+
+
+        <Page size="A4" orientation="landscape" style={styles.page}>
+          <View style={styles.body}>
+            {/* Header RPS */}
+            <HeaderRPS />
+
+            <HalTigaDPRPS />
+          </View>
+        </Page>
+
+        {/*Hal 4*/}
+        <Page size="A4" orientation="landscape" style={styles.page}>
+          <View style={styles.body}>
+            {/* Header RPS */}
+            <HeaderRPS />
+
+            <HalEmpatRPS />
           </View>
         </Page>
       </Document>

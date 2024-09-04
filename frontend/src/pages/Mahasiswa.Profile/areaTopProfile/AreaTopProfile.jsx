@@ -8,7 +8,7 @@ import { MahasiswaContext } from "../../../context/MahasiswaContext";
 import { RiImageAddFill } from "react-icons/ri";
 import { HiTrash } from "react-icons/hi2";
 import ModalUploadFoto from "./ModalUploadFoto";
-import axios from "axios"; // Pastikan axios diinstal jika menggunakan axios
+import axios from "axios";
 import { urlApi, urlStaticAssets } from "../../../config";
 import Swal from "sweetalert2";
 
@@ -63,10 +63,10 @@ const AreaTopProfile = () => {
   };
 
   useEffect(() => {
-    if (dataMahasiswa !== null) {
+    if (dataMahasiswa && dataMahasiswa.result) {
       const mahasiswaDetail = dataMahasiswa.result.detailmahasiswas[0];
       setDetailMahasiswa(mahasiswaDetail);
-      setHasFoto(dataMahasiswa.result.foto ? true : false);
+      setHasFoto(Boolean(dataMahasiswa.result.foto)); // Set based on existence of foto
     }
   }, [dataMahasiswa]);
 

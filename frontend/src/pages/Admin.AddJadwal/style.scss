@@ -198,6 +198,20 @@
           display: flex;
           column-gap: 10px;
 
+          .btn-loading {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-top: 10px;
+            padding: 8px 30px;
+            background-color: var(--blue-color);
+            border-radius: 12px;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+          }
+
           .button-simpan-rps {
             margin-bottom: 10px;
             display: flex;

@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext, useRef, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import "./style.scss";
-import ProfileNoImage from "../../assets/images/profile_no_image.png";
+import ProfileNoImage from "../../assets/images/profile_image_black.png";
 import { BsSendFill } from "react-icons/bs";
 import { TbSquareRoundedArrowDownFilled } from "react-icons/tb";
 import { HiDotsHorizontal } from "react-icons/hi";
@@ -12,6 +12,7 @@ import { useSocket } from "../../context/useSocket";
 import ModalDeleteChat from "./ModalDeleteChat";
 import getDateLabel from "../../utils/getDateLabel";
 import moment from "moment";
+import Swal from "sweetalert2";
 
 const LayoutDosen = () => {
   const { result } = useContext(DosenContext) || {};
@@ -23,6 +24,7 @@ const LayoutDosen = () => {
   const [messageText, setMessageText] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [messageToDelete, setMessageToDelete] = useState(null);
+  const [truncatedNamaMahasiswa, setTruncatedNamaMahasiswa] = useState(namaMahasiswa);
   const chatContainerRef = useRef(null);
 
   useEffect(() => {
@@ -126,7 +128,17 @@ const LayoutDosen = () => {
   };
 
   const handleSendMessage = useCallback(() => {
-    if (!messageText.trim() || !result?.id || !mahasiswaId) {
+    if (!mahasiswaId) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Pemberitahuan',
+        text: 'Anda belum memiliki dosen pembimbing. Silakan hubungi administrasi.',
+        confirmButtonText: 'OK'
+      });
+      return;
+    }
+
+    if (!messageText.trim() || !result?.id) {
       console.error("Message text, senderId, or recipientId is missing");
       return;
     }
@@ -184,14 +196,29 @@ const LayoutDosen = () => {
     }
   };
 
-  const truncateText = (text, maxLength) => {
-    if (text.length > maxLength) {
-      return text.slice(0, maxLength) + "...";
+  useEffect(() => {
+    const handleReize = () => {
+      if (window.innerWidth <= 768) {
+        setTruncatedNamaMahasiswa(truncateText(namaMahasiswa, 20));
+      } else {
+        setTruncatedNamaMahasiswa(namaMahasiswa);
+      }
     }
+
+    handleReize();
+    window.addEventListener("resize", handleReize);
+
+    return () => {
+      window.removeEventListener("resize", handleReize);
+    };
+  }, [namaMahasiswa]);
+
+  const truncateText = (text, maxLength) => {
+   if (text.length > maxLength) {
+    return text.slice(0, maxLength) + "...";
+   }
     return text;
   };
-
-  const truncatedNamaMahasiswa = truncateText(namaMahasiswa, 20);
 
   return (
     <div className="chat-dosen">
@@ -210,9 +237,9 @@ const LayoutDosen = () => {
           {Object.keys(messages).map((dateLabel) => (
             <div key={dateLabel} className="date-section">
               <p className="date-label">{dateLabel}</p>
-              {messages[dateLabel].map((message) => (
+              {messages[dateLabel].map((message, index) => (
                 <div
-                  key={message.id}
+                key={`${message.id}-${index}`}
                   className={`chat-message ${
                     message.senderRole === "dosen"
                       ? "user-message"
