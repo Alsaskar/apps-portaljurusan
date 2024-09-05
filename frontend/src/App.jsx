@@ -28,7 +28,7 @@ import AdminMonitoringLogin from "./pages/Admin.MonitoringLogin";
 import AdminDaftarIP from "./pages/Admin.DaftarIP";
 import AdminDataMatkul from "./pages/Admin.DataMatkul";
 import AdminJadwal from "./pages/Admin.Jadwal";
-
+import AdminLihatJadwalKelas from "./pages/Admin.LihatJadwalKelas";
 
 import MahasiswaLayout from "./layout/MahasiswaLayout";
 import MahasiswaDashboard from "./pages/Mahasiswa.Dashboard";
@@ -65,6 +65,8 @@ import DosenInputRPS from "./pages/Dosen.InputRPS";
 import DosenDataDosen from "./pages/Dosen.DataDosen";
 import DosenBimbinganChat from "./pages/Dosen.BimbinganChat";
 import DosenBimbingan from "./pages/Dosen.Bimbingan";
+import DosenJadwal from "./pages/Dosen.Jadwal";
+import Jadwal from "./pages/Dosen.Jadwal/Jadwal";
 import SelectMahasiswa from "./pages/Dosen.BimbinganChat/SelectMahasiswa";
 import SelectMahasiswaEvaluasi from "./pages/Dosen.Bimbingan/SelectMahasiswaEvaluasi";
 
@@ -88,6 +90,12 @@ import TVAbsensi from "./pages/TV.Absensi";
 import TVHME from "./pages/TV.HME";
 import TVJadwal from "./pages/TV.Jadwal";
 import HimajuLayoutDosen from "./layout/HimajuLayoutDosen";
+import RPSTest from "./pages/RPS";
+
+// import AdminBesarLayout from "./layout/AdminBesarLayout";
+// import AdminBesarDashboard from "./pages/Admin.BesarDashboard";
+// import AdminAddAdminProdi from "./pages/Admin.AddAdminProdi";
+// import AdminDataAdminProdi from "./pages/Admin.DataAdminProdi";
 const App = () => {
   return (
     <LoadingProvider>
@@ -95,6 +103,31 @@ const App = () => {
       <Router>
         <Routes>
           <Route element={<PrivateRoutes />}>
+            {/*Layout Admin Besar*/}
+            {/* <Route element={<AdminBesarLayout />}>
+              <Route
+                element={<AdminBesarDashboard />}
+                path="/admin/jurusan"
+                exact
+              />
+              <Route
+                element={<AdminAddAdminProdi />}
+                path="/add/admin/prodi"
+                exact
+              />
+              <Route
+                element={<AdminDataAdminProdi />}
+                path="/data/admin/prodi"
+                exact
+              />
+
+              <Route
+                element={<AdminMonitoringLogin />}
+                path="/admin/jurusan/monitoring/login"
+                exact
+              />
+            </Route> */}
+
             {/*Layout Admin*/}
             <Route element={<AdminLayout />}>
               <Route element={<AdminDashboard />} path="/admin" exact />
@@ -127,6 +160,11 @@ const App = () => {
               />
 
               <Route element={<AdminJadwal />} path="/admin/jadwal" exact />
+              <Route
+                element={<AdminLihatJadwalKelas />}
+                path="/admin/lihat/jadwal/kelas/:namaKelas"
+                exact
+              />
 
               {/*Management Mahasiswa*/}
               <Route
@@ -357,6 +395,15 @@ const App = () => {
                 path="/dosen/data/dosen"
                 exact
               />
+
+              {/*Jadwal*/}
+              <Route element={<DosenJadwal />} path="/dosen/jadwal" exact />
+
+              <Route
+                element={<Jadwal />}
+                path="/dosen/lihat/jadwal/kelas/:namaKelas"
+                exact
+              />
             </Route>
 
             {/*Layout Kaprodi*/}
@@ -387,6 +434,7 @@ const App = () => {
           <Route element={<LupaPassword />} path="/lupa/password" />
           <Route element={<Surat />} path="/surat" />
           <Route element={<RpsSurat />} path="/rps-surat" />
+          <Route element={<RPSTest />} path="/rps" />
 
           {/*TV Layout*/}
           <Route element={<TVLayout />}>

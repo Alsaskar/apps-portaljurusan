@@ -1,0 +1,55 @@
+.content-lihat-jadwal {
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    width: 0px;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: var(--scroll-track-bg-color);
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 100vh !important;
+    background-color: var(--scroll-thumb-bg-color);
+    outline: 1px solid rgba(0, 0, 0, 0.02);
+    outline-offset: -1px;
+  }
+
+  .content-lihat-jadwal-container {
+    .text-section {
+      .title-lihat-jadwal {
+        font-weight: 600;
+        color: var(--text-color-inverted);
+      }
+
+      .desc-lihat-jadwal {
+        font-size: 13px;
+        color: #909090;
+        font-style: italic;
+        margin-bottom: 20px;
+      }
+    }
+
+    .list-kelas {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+
+      .list-kelas-item {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        background-color: var(--blue-color);
+        padding: 8px 20px;
+        font-size: 13px;
+        color: #fff;
+        transition: all .3s ease-in-out;
+        cursor: pointer;
+
+        &:hover {
+          background-color: #8471ef;
+        }
+      }
+    }
+  }
+}

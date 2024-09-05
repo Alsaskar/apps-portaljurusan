@@ -1,0 +1,43 @@
+.rps-dua {
+  margin-top: 20px;
+  .left-header-table {
+    .body-rps-dua {
+      border-top: 1px solid black;
+      .rps-dua-flex {
+        display: flex;
+
+        .t-head-rps-dua {
+          background-color: #d5d5d5;
+          font-weight: 600;
+          font-size: 14px;
+          text-align: left;
+          width: 20%;
+          padding-left: 5px;
+          border-left: 1px solid black;
+          border-bottom: 1px solid black;
+
+          &.desc {
+            height: 80px;
+          }
+
+          &.bahan {
+            height: 200px;
+          }
+
+          &.daftar {
+            height: 200px;
+          }
+        }
+
+        .t-body-rps-dua {
+          width: 80%;
+          font-size: 14px;
+          padding-left: 5px;
+          border-left: 1px solid black;
+          border-right: 1px solid black;
+          border-bottom: 1px solid black;
+        }
+      }
+    }
+  }
+}

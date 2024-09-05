@@ -21,7 +21,6 @@ import {
 import { AiFillSchedule, AiFillMessage } from "react-icons/ai";
 import {
   MdWorkspaces,
-  MdAssignmentAdd,
   MdDocumentScanner,
 } from "react-icons/md";
 import { FaPeopleRoof } from "react-icons/fa6";
@@ -457,7 +456,7 @@ const DosenSidebar = () => {
                     <AiFillSchedule size={20} />
                   </span>
                   <div className="menu">
-                    <span className="menu-link-text">Manage Jadwal</span>
+                    <span className="menu-link-text">Jadwal</span>
                   </div>
                   <span
                     className={`submenu-arrow ${
@@ -477,32 +476,16 @@ const DosenSidebar = () => {
                 {jadwalSubmenuOpen && (
                   <ul className={`submenu ${jadwalSubmenuOpen ? "open" : ""}`}>
                     <li className="submenu-item">
-                      <div className="submenu-link">
-                        <span className="menu-link-icon">
-                          <MdAssignmentAdd size={20} />
-                        </span>
-                        <Link
-                          to="/admin-bukti-pembayaran-ukt"
-                          className={`submenu-link-text`}
-                          onClick={() => handleSubmenuClick("Data Jadwal")}
-                        >
-                          Data Jadwal
-                        </Link>
-                      </div>
-                    </li>
-                    <li className="submenu-item">
-                      <div className="submenu-link">
+                      <Link
+                        to="/dosen/jadwal"
+                        className="submenu-link"
+                        onClick={() => handleSubmenuClick("Jadwal")}
+                      >
                         <span className="menu-link-icon">
                           <RiCalendarScheduleFill size={20} />
                         </span>
-                        <Link
-                          to="/admin/jadwal"
-                          className={`submenu-link-text`}
-                          onClick={() => handleSubmenuClick("Jadwal")}
-                        >
-                          Jadwal
-                        </Link>
-                      </div>
+                        <div className={`submenu-link-text`}>Jadwal</div>
+                      </Link>
                     </li>
                   </ul>
                 )}

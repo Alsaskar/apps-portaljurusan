@@ -1,4 +1,4 @@
-.select-mahasiswa-evaluasi {
+.select-mahasiswa {
   background-color: var(--secondary-color);
   padding: 20px;
   border-radius: 10px;
@@ -24,15 +24,40 @@
       border-radius: 10px;
       padding: 10px 20px;
       cursor: pointer;
-      transition: all .3s ease-in-out;
+      transition: all 0.3s ease-in-out;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
 
       &:hover {
         transform: scale(1.04);
       }
 
       .name {
-        font-size: 13px;
+        margin-top: 20px;
+        font-size: 16px;
+        font-weight: 600;
       }
+
+      .nim {
+        font-size: 14px;
+      }
+
+      .profile-img {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        object-fit: cover;
+      }
+    }
+
+    @media (max-width: 768px) {
+      flex-direction: column;
     }
   }
 }

@@ -182,14 +182,29 @@ const halEmpat = StyleSheet.create({
     width: 52,
     textAlign: "center",
 
-    borderBottom: "1 solid black",
-    borderRight: "1 solid black",
+    
+  },
+
+  content_minggu_delapan: {
+    display: "flex",
+    flexDirection: "row",
   },
   
   content_text: {
-    
+    borderBottom: "1 solid black",
+    borderRight: "1 solid black",
     fontSize: 10,
     height: "auto",
+  },
+
+  minggu_delapan: {
+    fontSize: 10,
+    width: 728,
+    display: "flex",
+    justifyContent: "center",
+    flexDirection: "row",
+
+    borderBottom: "1 solid black",
   },
 
   isi_section_sub_cpmk: {
@@ -252,8 +267,13 @@ const halEmpat = StyleSheet.create({
   },
 
   isi_section_text: {
-    // width: 120,
+    
   },
+
+  bg_ujian: {
+    backgroundColor: "#f1f1f1",
+  },
+  
 
   content_penilaian_flex: {
     display: "flex",

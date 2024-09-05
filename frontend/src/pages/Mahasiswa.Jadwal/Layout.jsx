@@ -20,6 +20,7 @@ const Layout = () => {
       });
       const idKelas = getKelas.data.result[0]?.id;
 
+
       const jadwalSenin = await axios.get(
         `${urlApi}/jadwal/Senin?kelas=${idKelas}`,
         {
@@ -102,7 +103,7 @@ const Layout = () => {
           <p className="jadwal-name-matkul">{val.matkul.matkul}</p>
           <div className="jadwal-profile">
             <div className="jadwal-icon-profile">
-              <TiUser size={18} />
+              <TiUser size={17} />
             </div>
             <p className="jadwal-name-dosen">{val.matkul.dosenPengajar}</p>
           </div>
@@ -118,7 +119,7 @@ const Layout = () => {
 
   return (
     <>
-      <div className="title-kelas">Kelas {result?.kelas}</div>
+      <div className="kelas">Jadwal Kelas {result?.kelas}</div>
       <div className="jadwal-container">
         <table className="jadwal-table">
           <thead className="jadwal-head">

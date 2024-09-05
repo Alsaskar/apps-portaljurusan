@@ -1,0 +1,49 @@
+.content-lihat-jadwal {
+  .content-lihat-jadwal-container {
+    .text-section {
+      background-color: var(--secondary-color);
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+
+      .title-jadwal {
+        font-weight: 600;
+        font-size: 18px;
+        color: var(--text-color-inverted);
+      }
+
+      .desc-jadwal {
+        font-size: 13px;
+        color: #909090;
+      }
+    }
+
+    .list-kelas {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 10px;
+
+      .list-kelas-item {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 5px;
+        background-color: var(--blue-color);
+        padding: 8px 20px;
+        font-size: 13px;
+        color: #fff;
+        transition: all 0.3s ease-in-out;
+        cursor: pointer;
+
+        &:hover {
+          background-color: #8471ef;
+        }
+      }
+
+      @media (max-width: 768px) {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  }
+}

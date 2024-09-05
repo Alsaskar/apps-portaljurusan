@@ -1,0 +1,41 @@
+.rps {
+  background-color: #e6e6e6;
+  height: 100%;
+
+ .btn-rps {
+  display: flex;
+  justify-content: center;
+
+  padding: 20px;
+  .btn-view-rps {
+   
+    padding: 8px 20px;
+    background-color: var(--blue-color);
+    color: #fff;
+    transition: all .3s ease-in-out;
+
+    &:hover {
+      background-color: #7863ed;
+    }
+  }
+ }
+
+  .page-section { 
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    .rps-container {
+      width: 11.69in; 
+      height: 8.27in; 
+      margin: 0 auto; 
+      padding: 20px;
+      box-sizing: border-box;
+      background-color: #fff;
+      overflow: visible;
+  
+      page-break-after: always;
+      
+    }
+  }
+
+}

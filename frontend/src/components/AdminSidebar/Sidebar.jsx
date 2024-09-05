@@ -11,7 +11,7 @@ import { AiFillSchedule, AiFillMessage } from "react-icons/ai";
 import { MdAssignmentAdd, MdDocumentScanner, MdLock  } from "react-icons/md";
 import { BiSolidMessageRoundedAdd } from "react-icons/bi";
 import { FaUserFriends, FaChalkboardTeacher } from "react-icons/fa";
-import { RiCalendarScheduleFill, RiMoonClearFill, RiDashboardHorizontalFill, RiMailSendFill, RiFileList2Fill } from "react-icons/ri";
+import { RiCalendarScheduleFill, RiMoonClearFill, RiDashboardHorizontalFill, RiMailSendFill } from "react-icons/ri";
 import LogoBlue from "../../assets/images/logo_blue.png";
 import LogoWhite from "../../assets/images/logo_white.png";
 import { SidebarContext } from "../../context/SidebarContext";
@@ -495,16 +495,6 @@ const AdminSidebar = () => {
                       </span>
                       <div className={`submenu-link-text`}>
                         Gagal Login
-                      </div>
-                    </Link>
-                  </li>
-                  <li className="submenu-item">
-                    <Link to="/admin/daftar/ip" className="submenu-link" onClick={() => handleSubmenuClick("Daftar IP Di Blokir")}>
-                      <span className="menu-link-icon">
-                        <RiFileList2Fill size={20} />
-                      </span>
-                      <div className={`submenu-link-text`}>
-                        Daftar IP
                       </div>
                     </Link>
                   </li>

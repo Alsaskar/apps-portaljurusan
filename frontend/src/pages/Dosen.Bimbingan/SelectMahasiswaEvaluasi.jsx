@@ -1,11 +1,12 @@
 import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { urlApi } from "../../config";
+import { urlApi, urlStaticAssets } from "../../config";
 import { DosenContext } from "../../context/DosenContext";
+import ProfileNoImage from "../../assets/images/profile_no_image.png";
 import "./SelectMahasiswaEvaluasi.scss";
 
-const SelectMahasiswaEvaluasi = () => {
+const SelectMahasiswa = () => {
   const { result } = useContext(DosenContext) || {};
   const navigate = useNavigate();
   const [mahasiswaList, setMahasiswaList] = useState([]);
@@ -46,7 +47,7 @@ const SelectMahasiswaEvaluasi = () => {
     fetchDosenWithMahasiswa();
   }, [result?.id]);
 
-  const handleSelectMahasiswaEvaluasi = (mahasiswaId) => {
+  const handleSelectMahasiswa = (mahasiswaId) => {
     navigate(`/dosen/bimbingan/${mahasiswaId}`);
   };
 
@@ -55,10 +56,10 @@ const SelectMahasiswaEvaluasi = () => {
   }
 
   return (
-    <div className="select-mahasiswa-evaluasi">
+    <div className="select-mahasiswa">
       <p className="title">Mahasiswa Bimbingan</p>
       <p className="desc">
-        Silahkan pilih mahasiswa untuk bimbingan melalui chat.
+        Dibawah adalah list mahasiswa bimbingan anda. Silahkan pilih mahasiswa untuk melihat data evaluasi.
       </p>
       {error && <div className="error">{error}</div>}
       <div className="select-mahasiswa-list">
@@ -67,13 +68,22 @@ const SelectMahasiswaEvaluasi = () => {
             mahasiswa ? (
               <div
                 key={mahasiswa.id}
-                onClick={() => handleSelectMahasiswaEvaluasi(mahasiswa.id)}
+                onClick={() => handleSelectMahasiswa(mahasiswa.id)}
                 className="select-mahasiswa-item"
               >
+                <img
+                  className="profile-img"
+                  src={
+                    mahasiswa.foto
+                      ? `${urlStaticAssets}/${mahasiswa.foto}`
+                      : ProfileNoImage
+                  }
+                  alt="Area Profile"
+                />
                 <p className="name">
-                  {mahasiswa.fullname || "No Fullname"} (
-                  {mahasiswa.nim || "No NIM"})
+                  {mahasiswa.fullname || "No Fullname"} 
                 </p>
+                <p className="nim">{mahasiswa.nim || "No NIM"}</p>
               </div>
             ) : null
           )
@@ -85,4 +95,4 @@ const SelectMahasiswaEvaluasi = () => {
   );
 };
 
-export default SelectMahasiswaEvaluasi;
+export default SelectMahasiswa;

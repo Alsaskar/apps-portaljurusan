@@ -59,7 +59,7 @@ const SelectMahasiswa = () => {
     <div className="select-mahasiswa">
       <p className="title">Mahasiswa Bimbingan</p>
       <p className="desc">
-        Silahkan pilih mahasiswa untuk bimbingan melalui chat.
+        Dibawah adalah list mahasiswa bimbingan anda. Silahkan pilih mahasiswa untuk bimbingan melalui chat.
       </p>
       {error && <div className="error">{error}</div>}
       <div className="select-mahasiswa-list">

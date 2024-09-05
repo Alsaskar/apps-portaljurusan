@@ -1,6 +1,5 @@
 import "./style.scss";
 import { BsDatabaseAdd } from "react-icons/bs";
-import { MdOutlineCancelScheduleSend } from "react-icons/md";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import Swal from "sweetalert2";
@@ -82,6 +81,9 @@ const Layout = () => {
 
         setLoading(false);
         resetForm();
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500);
       } catch (err) {
         setLoading(false);
         Swal.fire({
@@ -133,7 +135,11 @@ const Layout = () => {
                         ) : null}
                         <option value="">...</option>
                         {matkul.map((val, key) => {
-                          return <option key={key} value={val.id}>{val.matkul}</option>;
+                          return (
+                            <option key={key} value={val.id}>
+                              {val.matkul}
+                            </option>
+                          );
                         })}
                       </select>
                       {touched.idMatkul && errors.idMatkul ? (
@@ -144,13 +150,21 @@ const Layout = () => {
                       <label htmlFor="idKelas">
                         Kelas <span className="important">*</span>
                       </label>
-                      <select id="idKelas" name="idKelas" onChange={handleChange}>
+                      <select
+                        id="idKelas"
+                        name="idKelas"
+                        onChange={handleChange}
+                      >
                         {touched.idKelas && errors.idKelas ? (
                           <div className="error-form">{errors.idKelas}</div>
                         ) : null}
                         <option value="">...</option>
                         {kelas.map((val, key) => {
-                          return <option key={key} value={val.id}>{val.namaKelas}</option>;
+                          return (
+                            <option key={key} value={val.id}>
+                              {val.namaKelas}
+                            </option>
+                          );
                         })}
                       </select>
                       {touched.idKelas && errors.idKelas ? (
@@ -227,18 +241,13 @@ const Layout = () => {
                     </div>
                   </div>
                   <div className="button-dua">
-                    <div className="button-batal-rps">
-                      <MdOutlineCancelScheduleSend size={16} />
-                      <span>Batal</span>
-                    </div>
-
                     {loading ? (
                       <button disabled className="btn-loading">
                         <BsDatabaseAdd size={16} />
                         <span>Loading...</span>
                       </button>
                     ) : (
-                      <button type="submit" className="button-simpan-rps">
+                      <button type="submit" className="button-simpan-jadwal">
                         <BsDatabaseAdd size={16} />
                         <span>Simpan</span>
                       </button>

@@ -59,6 +59,18 @@ const Login = () => {
         sessionStorage.setItem("prodiAdmin", res.data.prodiAdmin);
         sessionStorage.setItem("isLoggedIn", true);
 
+         // const { role, prodiAdmin } = res.data;
+
+        // if (role === "admin") {
+        //   if (prodiAdmin === "Not Prodi") {
+        //     navigate("/admin/jurusan");
+        //   } else {
+        //     navigate(`${res.data.role}`);
+        //   }
+        // } else {
+        //   navigate(`${res.data.role}`);
+        // }
+
         navigate(`${res.data.role}`)
       }
     } catch (err) {

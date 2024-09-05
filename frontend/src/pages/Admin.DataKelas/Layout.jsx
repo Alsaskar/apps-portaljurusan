@@ -6,13 +6,11 @@ import Swal from "sweetalert2";
 import { HiTrash } from "react-icons/hi2";
 import { MdAddCircle } from "react-icons/md";
 import ModalAddKelas from "./ModalAddKelas";
-import useFormatDate from "../../hooks/useFormatDateHooks";
 
 const Layout = () => {
   const [kelas, setKelas] = useState([]);
   const [showModal, setShowModal] = useState(false);
 
-  const { formatDate } = useFormatDate();
 
   const handleCloseModal = () => {
     setShowModal(false);
@@ -30,10 +28,37 @@ const Layout = () => {
         },
       });
 
-      setKelas(res.data.result);
+      const sortedKelas = res.data.result.sort((a, b) => {
+        return compareKelas(a.namaKelas, b.namaKelas);
+      });
+
+      setKelas(sortedKelas);
     } catch (err) {
       console.log(err);
     }
+  };
+
+  const compareKelas = (kelasA, kelasB) => {
+    // Mengurai nama kelas
+    const parseKelas = (kelas) => {
+      const parts = kelas.split(" ");
+      return {
+        angka1: parseInt(parts[0], 10),
+        jurusan: parts[1],
+        angka2: parseInt(parts[2], 10),
+      };
+    };
+
+    const parsedA = parseKelas(kelasA);
+    const parsedB = parseKelas(kelasB);
+
+    if (parsedA.angka1 !== parsedB.angka1) {
+      return parsedA.angka1 - parsedB.angka1;
+    }
+    if (parsedA.jurusan !== parsedB.jurusan) {
+      return parsedA.jurusan.localeCompare(parsedB.jurusan);
+    }
+    return parsedA.angka2 - parsedB.angka2;
   };
 
   useEffect(() => {
@@ -80,7 +105,6 @@ const Layout = () => {
             <thead>
               <tr>
                 <th>Kelas</th>
-                <th>Tanggal Create</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -90,8 +114,6 @@ const Layout = () => {
                   return (
                     <tr key={key}>
                       <td>{val.namaKelas}</td>
-                      <td>{formatDate(val.tglCreate)}</td>
-
                       <td className="dt-cell-action">
                         <button
                           className="btn-hapus-data-kelas"
