@@ -18,6 +18,72 @@ const getClientIp = (req) => {
   );
 };
 
+// Fungsi untuk mengirim email ke admin
+const sendNotificationEmail = async (adminEmail, ip) => {
+  const mailOptions = {
+    from: process.env.EMAIL_FROM,
+    to: adminEmail,
+    subject: 'IP Address Blocked Notification',
+    html: `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <style>
+          body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+          }
+          .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+          }
+          h1 {
+            color: #5f47e8;
+            text-align: center;
+          }
+          p {
+            font-size: 16px;
+            text-align: center;
+          }
+          .details {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            text-align: center;
+            margin-top: 10px;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <h1>IP Address Blocked</h1>
+          <p>Hello,</p>
+          <p>The IP address <span class="details">${ip}</span> has been blocked due to multiple failed login attempts.</p>
+          <p>This is a security measure to protect the system from unauthorized access. If you have any questions or need further assistance, please contact support.</p>
+          <p>Thank you,</p>
+          <p>Your Security Team</p>
+        </div>
+      </body>
+      </html>
+    `,
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    console.log(`Notification email sent to ${adminEmail}`);
+  } catch (error) {
+    console.error('Error sending email:', error.message);
+  }
+};
+
+
 // Fungsi untuk mencatat percobaan login gagal
 const logFailedAttempt = async (ip) => {
   try {
@@ -29,9 +95,25 @@ const logFailedAttempt = async (ip) => {
 
     if (existingAttempt) {
       attemptCount = existingAttempt.attemptCount + 1;
-      isBlocked = attemptCount >= 10; // Blokir setelah 10 percobaan
-      // Update hanya jika IP belum diblokir
-      if (!existingAttempt.isBlocked) {
+      if (attemptCount >= 10) {
+        // Hanya set isBlocked menjadi true jika belum pernah terblokir
+        if (!existingAttempt.isBlocked) {
+          isBlocked = true;
+          await existingAttempt.update({ attemptCount, isBlocked });
+          
+          // Kirim email notifikasi hanya jika status isBlocked baru berubah
+          const admins = await User.findAll({
+            where: { role: 'admin' },
+            attributes: ['email']
+          });
+
+          for (const admin of admins) {
+            if (admin.email) {
+              await sendNotificationEmail(admin.email, ip);
+            }
+          }
+        }
+      } else {
         await existingAttempt.update({ attemptCount, isBlocked });
       }
     } else {
@@ -50,54 +132,59 @@ const logFailedAttempt = async (ip) => {
   }
 };
 
+
 export const login = async (req, res) => {
   const { username, password } = req.body;
   const ip = getClientIp(req); // Ambil IP dari request
 
   try {
-    // Periksa apakah IP terblokir
-    const { isBlocked } = await logFailedAttempt(ip);
-    if (isBlocked) {
-      // Hanya untuk username tidak terdaftar
-      const { count } = await User.findAndCountAll({ where: { username } });
-      if (count === 0) {
-        return res
-          .status(403)
-          .json({
-            success: false,
-            message:
-              "IP telah diblokir karena terlalu banyak percobaan login gagal.",
-          });
-      }
-    }
-
-    // Cari user berdasarkan username
+    // Langkah 1: Cek apakah username valid
     const { count, rows } = await User.findAndCountAll({ where: { username } });
+
     if (count === 0) {
-      return res
-        .status(401)
-        .json({ success: false, message: "Username salah" });
+      // Username tidak ditemukan, periksa status IP
+      const { isBlocked: ipBlocked, attemptCount } = await FailedLoginAttempt.findOne({
+        where: { ipAddress: ip },
+      });
+
+      if (ipBlocked) {
+        return res.status(403).json({
+          success: false,
+          message: "Anda telah diblokir dari website ini.",
+        });
+      }
+
+      // Catat percobaan login gagal jika username tidak ditemukan
+      const { isBlocked: ipBlockedAfterFailedAttempt } = await logFailedAttempt(ip);
+
+      if (ipBlockedAfterFailedAttempt) {
+        return res.status(403).json({
+          success: false,
+          message: "IP telah diblokir karena terlalu banyak percobaan login gagal.",
+        });
+      }
+
+      return res.status(401).json({ success: false, message: "Username salah" });
     }
 
+    // Langkah 2: Username valid, ambil data user
     const user = rows[0];
 
-    // Periksa status lockout dan reset jika periode terkunci telah habis
+    // Langkah 3: Periksa status lockout akun
     if (user.lockout && new Date() < new Date(user.lockoutTime)) {
       return res.status(403).json({
         success: false,
-        message:
-          "Akun terkunci sementara, harap tunggu dalam 5 menit dan coba kembali",
+        message: "Akun terkunci sementara, harap tunggu dalam 5 menit dan coba kembali",
       });
     } else if (user.lockout && new Date() >= new Date(user.lockoutTime)) {
-      // Reset lockout status jika periode terkunci telah habis
       await user.update({ attempts: 0, lockout: false, lockoutTime: null });
     }
 
-    // Validasi password
+    // Langkah 4: Validasi password
     const match = await bcrypt.compare(password, user.password);
 
     if (match) {
-      // Reset attempts dan lockout
+      // Reset attempts dan lockout jika login berhasil
       await user.update({ attempts: 0, lockout: false, lockoutTime: null });
 
       // Daftarkan token
@@ -115,7 +202,7 @@ export const login = async (req, res) => {
         token: token,
       });
     } else {
-      // Tambah attempts jika username benar tapi password salah
+      // Jika password salah, perbarui attempts dan status lockout
       const attempts = user.attempts + 1;
       let lockout = user.lockout;
       let lockoutTime = user.lockoutTime;
@@ -144,6 +231,8 @@ export const login = async (req, res) => {
       .json({ message: "Terjadi kesalahan saat login", error: error.message });
   }
 };
+
+
 
 // const formatIp = (ip) => {
 //   return ip.replace(/^::ffff:/, ""); // Menghapus awalan ::ffff:
@@ -208,19 +297,63 @@ export const requestResetOtp = async (req, res) => {
     user.resetOtpExpires = Date.now() + 10 * 60 * 1000; // OTP expires in 10 minutes
     await user.save();
 
-    // Kirim OTP ke email
+    // Kirim OTP ke email dengan styling
     const mailOptions = {
       from: process.env.EMAIL_FROM,
       to: email,
       subject: "Your OTP Code for Password Reset",
-      text: `Your OTP code is ${resetOtp}. It expires in 10 minutes.`,
+      html: `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <style>
+            body {
+              font-family: Arial, sans-serif;
+              background-color: #f4f4f4;
+              color: #333;
+              margin: 0;
+              padding: 0;
+            }
+            .container {
+              max-width: 600px;
+              margin: 20px auto;
+              background: #fff;
+              padding: 20px;
+              border-radius: 8px;
+              box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            }
+            h1 {
+              color: #007BFF;
+              text-align: center;
+            }
+            p {
+              font-size: 16px;
+              text-align: center;
+            }
+            .otp {
+              font-size: 24px;
+              font-weight: bold;
+              color: #007BFF;
+              text-align: center;
+            }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <h1>Password Reset OTP</h1>
+            <p>Your OTP code is:</p>
+            <p class="otp">${resetOtp}</p>
+            <p>This code will expire in 10 minutes.</p>
+            <p>If you did not request this, please ignore this email.</p>
+          </div>
+        </body>
+        </html>
+      `,
     };
 
     // Logging data OTP dan waktu kadaluarsa untuk debugging
     console.log(
-      `OTP Data to be Saved: resetOtp=${
-        user.resetOtp
-      }, resetOtpExpires=${new Date(user.resetOtpExpires).toISOString()}`
+      `OTP Data to be Saved: resetOtp=${user.resetOtp}, resetOtpExpires=${new Date(user.resetOtpExpires).toISOString()}`
     );
 
     await transporter.sendMail(mailOptions);
@@ -228,12 +361,10 @@ export const requestResetOtp = async (req, res) => {
     res.status(200).json({ message: "OTP telah dikirim ke email Anda." });
   } catch (error) {
     console.error("Error in requestResetOtp:", error.message);
-    res
-      .status(500)
-      .json({
-        message: "Terjadi kesalahan saat mengirim OTP",
-        error: error.message,
-      });
+    res.status(500).json({
+      message: "Terjadi kesalahan saat mengirim OTP",
+      error: error.message,
+    });
   }
 };
 
@@ -375,6 +506,7 @@ export const sendOtpUbahPassword = async (req, res) => {
   const { email } = req.body;
 
   try {
+    // Cari user berdasarkan email
     const user = await User.findOne({ where: { email } });
     if (!user) {
       return res.status(404).json({ message: "User tidak ditemukan" });
@@ -384,6 +516,7 @@ export const sendOtpUbahPassword = async (req, res) => {
     const otp = crypto.randomInt(100000, 999999).toString();
     console.log(`Generated OTP: ${otp}`);
 
+    // Simpan OTP dan waktu kadaluarsa ke database
     user.otp = otp;
     user.otpExpires = Date.now() + 10 * 60 * 1000; // OTP expires in 10 minutes
     console.log(
@@ -393,25 +526,69 @@ export const sendOtpUbahPassword = async (req, res) => {
     await user.save();
     console.log("OTP successfully saved to the database");
 
-    // Kirim OTP ke email
+    // Kirim OTP ke email dengan styling
     const mailOptions = {
       from: process.env.EMAIL_FROM,
       to: email,
       subject: "Your OTP Code",
-      text: `Your OTP code is ${otp}. It expires in 10 minutes.`,
+      html: `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <style>
+            body {
+              font-family: Arial, sans-serif;
+              background-color: #f4f4f4;
+              color: #333;
+              margin: 0;
+              padding: 0;
+            }
+            .container {
+              max-width: 600px;
+              margin: 20px auto;
+              background: #fff;
+              padding: 20px;
+              border-radius: 8px;
+              box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            }
+            h1 {
+              color: #007BFF;
+              text-align: center;
+            }
+            p {
+              font-size: 16px;
+              text-align: center;
+            }
+            .otp {
+              font-size: 24px;
+              font-weight: bold;
+              color: #007BFF;
+              text-align: center;
+            }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <h1>Password Reset OTP</h1>
+            <p>Your OTP code is:</p>
+            <p class="otp">${otp}</p>
+            <p>This code will expire in 10 minutes.</p>
+            <p>If you did not request this, please ignore this email.</p>
+          </div>
+        </body>
+        </html>
+      `,
     };
 
     await transporter.sendMail(mailOptions);
 
     res.status(200).json({ message: "OTP telah dikirim ke email Anda." });
   } catch (error) {
-    console.error("Error in sendOtp:", error.message);
-    res
-      .status(500)
-      .json({
-        message: "Terjadi kesalahan saat mengirim OTP",
-        error: error.message,
-      });
+    console.error("Error in sendOtpUbahPassword:", error.message);
+    res.status(500).json({
+      message: "Terjadi kesalahan saat mengirim OTP",
+      error: error.message,
+    });
   }
 };
 

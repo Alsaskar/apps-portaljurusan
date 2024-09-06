@@ -362,8 +362,8 @@ export const notifyUpcomingEvents = async () => {
     console.log("Mahasiswa with associated User data:", mahasiswaWithEmails);
 
     const emails = mahasiswaWithEmails
-      .map((mahasiswa) => mahasiswa.user && mahasiswa.user.email) // Periksa apakah user ada dan ambil emailnya
-      .filter(Boolean); // Hapus nilai falsy (undefined atau null)
+      .map((mahasiswa) => mahasiswa.user && mahasiswa.user.email) 
+      .filter(Boolean);
 
     console.log("Extracted emails:", emails);
 
