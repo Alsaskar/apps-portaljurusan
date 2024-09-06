@@ -52,6 +52,8 @@ const Layout = () => {
 
       const mahasiswaData = res.data.result;
 
+      
+
       // Fetch details for each mahasiswa to include emailWali
       for (const student of mahasiswaData) {
         await getMahasiswaWithDetails(student.id, student);
@@ -82,6 +84,7 @@ const Layout = () => {
 
       const detail = res.data.result.detailmahasiswas[0] || {};
       const file = res.data.result.uploadfileevaluasis[0] || {};
+
 
       student.emailWali = detail.emailWali || "Email Wali tidak tersedia";
       student.fileName = file.fileName || "Nama File Tidak Tersedia";
@@ -138,7 +141,7 @@ const Layout = () => {
   const handleSendEvaluasi = async (emailWali, fileUrl, id) => {
     // Cek apakah file ada
     const fileExists = await checkFileExistence(id);
-
+  
     if (!fileExists) {
       Swal.fire({
         title: "File Tidak Ditemukan",
@@ -148,14 +151,9 @@ const Layout = () => {
       });
       return; // Hentikan eksekusi jika file tidak ada
     }
-
+  
     const subject = "Evaluasi Akademik";
-    const body = `
-      INI ADALAH EVALUASI AKADEMI MAHASISWA\n\n
-      Lihat Evaluasi: ${urlStatic}${fileUrl}\n\n
-      Persentase kehadiran mahasiswa selama semester ini 80%.
-    `;
-
+    
     Swal.fire({
       title: "Kirim Evaluasi",
       text: `Yakin ingin mengirim evaluasi ke Wali dengan alamat email ${emailWali}?`,
@@ -166,14 +164,15 @@ const Layout = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         setLoading(true);
-
+  
         try {
           await axios.post(
             `${urlApi}/email/send-email`,
             {
               to: emailWali,
               subject: subject,
-              text: body,
+              text: "Evaluasi Akademik", // text bisa diabaikan jika Anda menggunakan HTML
+              fileUrl: `${urlStatic}${fileUrl}`, // Pastikan fileUrl dikirim
             },
             {
               headers: {
@@ -181,7 +180,7 @@ const Layout = () => {
               },
             }
           );
-
+  
           Swal.fire(
             "Terkirim!",
             `Evaluasi telah dikirim ke Wali dengan email ${emailWali}`,
@@ -201,7 +200,7 @@ const Layout = () => {
       }
     });
   };
-
+  
   return (
     <>
       <div className="filter">
