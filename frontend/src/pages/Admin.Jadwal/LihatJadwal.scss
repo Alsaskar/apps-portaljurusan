@@ -1,4 +1,4 @@
-.content-lihat-jadwal {
+.content-admin-lihat-jadwal {
   overflow-y: auto;
 
   &::-webkit-scrollbar {
@@ -14,14 +14,14 @@
     outline-offset: -1px;
   }
 
-  .content-lihat-jadwal-container {
-    .text-section {
-      .title-lihat-jadwal {
+  .content-admin-lihat-jadwal-container {
+    .text-admin-section {
+      .title-admin-lihat-jadwal {
         font-weight: 600;
         color: var(--text-color-inverted);
       }
 
-      .desc-lihat-jadwal {
+      .desc-admin-lihat-jadwal {
         font-size: 13px;
         color: #909090;
         font-style: italic;

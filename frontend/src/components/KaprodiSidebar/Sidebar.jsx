@@ -8,8 +8,7 @@ import { AiFillSchedule } from "react-icons/ai";
 import { MdAssignmentAdd } from "react-icons/md";
 import { FaUserFriends, FaChalkboardTeacher } from "react-icons/fa";
 import { RiCalendarScheduleFill, RiMoonClearFill, RiDashboardHorizontalFill } from "react-icons/ri";
-import LogoBlue from "../../assets/images/logo_blue.png";
-import LogoWhite from "../../assets/images/logo_white.png";
+import LogoPoli from "../../assets/images/logo_poli.png";
 import { SidebarContext } from "../../context/SidebarContext";
 import Swal from "sweetalert2";
 import "./Sidebar.scss";
@@ -130,7 +129,7 @@ const KaprodiSidebar = () => {
     <nav className={`sidebar ${isSidebarOpen ? "sidebar-show" : ""}`} ref={navbarRef}>
       <div className="sidebar-top">
         <div className="sidebar-brand">
-          <img src={theme === LIGHT_THEME ? LogoBlue : LogoWhite} alt="" />
+          <img src={LogoPoli} alt="" />
           <span className="sidebar-brand-text">Portal Jurusan</span>
         </div>
         <button className="sidebar-close-btn" onClick={closeSidebar}>
