@@ -22,36 +22,52 @@ const Layout = () => {
   const _handleSubmit = async (values) => {
     setLoading(true);
 
-    const formData = new FormData();
-    formData.append("title", values.title);
-    formData.append("deskripsi", values.deskripsi);
-    formData.append("foto", values.foto);
+    // Menampilkan dialog konfirmasi
+    const result = await Swal.fire({
+      title: "Konfirmasi",
+      text: "Apakah Anda yakin ingin menyimpan galeri ini?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Ya",
+      cancelButtonText: "Tidak",
+    });
 
-    try {
-      await axios.post(`${urlApi}/galeri`, formData, {
-        headers: {
-          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-          "Content-Type": "multipart/form-data",
-        },
-      });
+    if (result.isConfirmed) {
+      // Jika pengguna memilih 'Ya'
+      const formData = new FormData();
+      formData.append("title", values.title);
+      formData.append("deskripsi", values.deskripsi);
+      formData.append("foto", values.foto);
 
-      Swal.fire({
-        title: "Berhasil",
-        text: "Galeri berhasil dibuat",
-        icon: "success",
-        confirmButtonText: "Ok",
-      }).then(() => {
-        window.location.reload(); // Refresh halaman
-      });
-    } catch (err) {
-      console.error("Error response:", err.response);
-      Swal.fire({
-        title: "Gagal",
-        text: err.response?.data?.message || "Terjadi kesalahan",
-        icon: "error",
-        confirmButtonText: "Ok",
-      });
-    } finally {
+      try {
+        await axios.post(`${urlApi}/galeri`, formData, {
+          headers: {
+            Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+            "Content-Type": "multipart/form-data",
+          },
+        });
+
+        Swal.fire({
+          title: "Berhasil",
+          text: "Galeri berhasil dibuat",
+          icon: "success",
+          confirmButtonText: "Ok",
+        }).then(() => {
+          window.location.reload(); // Refresh halaman
+        });
+      } catch (err) {
+        console.error("Error response:", err.response);
+        Swal.fire({
+          title: "Gagal",
+          text: err.response?.data?.message || "Terjadi kesalahan",
+          icon: "error",
+          confirmButtonText: "Ok",
+        });
+      } finally {
+        setLoading(false);
+      }
+    } else {
+      // Jika pengguna memilih 'Tidak', set loading ke false
       setLoading(false);
     }
   };

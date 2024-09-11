@@ -91,6 +91,7 @@ import TVHME from "./pages/TV.HME";
 import TVJadwal from "./pages/TV.Jadwal";
 import HimajuLayoutDosen from "./layout/HimajuLayoutDosen";
 import RPSTest from "./pages/RPS";
+import NewLogin from "./pages/Login/NewLogin";
 
 // import AdminBesarLayout from "./layout/AdminBesarLayout";
 // import AdminBesarDashboard from "./pages/Admin.BesarDashboard";
@@ -430,7 +431,8 @@ const App = () => {
             <Route element={<AllGaleri />} path="/hme/all/galeri" />
             <Route element={<ProgramKerja />} path="/program/kerja/hme" />
           </Route>
-          <Route element={<Login />} path="/" />
+          <Route element={<Login />} path="/login" />
+          <Route element={<NewLogin />} path="/" />
           <Route element={<LupaPassword />} path="/lupa/password" />
           <Route element={<Surat />} path="/surat" />
           <Route element={<RpsSurat />} path="/rps-surat" />
