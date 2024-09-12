@@ -2,12 +2,14 @@ import Kelas from "../models/KelasModel";
 
 export const add = async (req, res) => {
     const namaKelas = req.body.namaKelas;
+    const prodi = req.body.prodi;
 
     if(namaKelas === ''){
         return res.status(500).json({ message: 'Kelas tidak boleh kosong', success: false })
     }else{
         await Kelas.create({
-            namaKelas: namaKelas
+            namaKelas: namaKelas,
+            prodi: prodi
         })
 
         return res.status(200).json({ message: 'Berhasil menambahkan kelas baru', success: true })
@@ -15,8 +17,14 @@ export const add = async (req, res) => {
 }
 
 export const list = async (req, res) => {
+    const prodi = req.query.prodi;
+
+    console.log(prodi)
+    
     try{
-        const dataKelas = await Kelas.findAll();
+        const dataKelas = await Kelas.findAll({
+            where: { prodi: prodi }
+        });
 
         return res.status(200).json({ result: dataKelas })
     }catch(err){

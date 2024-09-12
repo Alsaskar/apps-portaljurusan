@@ -14,6 +14,7 @@ const Jadwal = db.define(
     prodiAdmin: { type: DataTypes.INTEGER },
     idMatkul: { type: DataTypes.INTEGER },
     idKelas: { type: DataTypes.INTEGER },
+    dosenPengajar: { type: DataTypes.STRING },
     hari: { type: DataTypes.STRING },
     ruangan: { type: DataTypes.STRING },
     jamMulai: { type: DataTypes.STRING },
