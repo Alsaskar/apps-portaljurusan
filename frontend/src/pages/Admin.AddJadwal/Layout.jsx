@@ -1,6 +1,6 @@
 import "./style.scss";
 import { BsDatabaseAdd } from "react-icons/bs";
-import { Formik } from "formik";
+import { Field, Formik } from "formik";
 import * as Yup from "yup";
 import Swal from "sweetalert2";
 import { useState, useEffect } from "react";
@@ -13,13 +13,14 @@ const validationSchema = Yup.object().shape({
   hari: Yup.string().required("Hari harus diisi"),
   ruangan: Yup.string().required("Ruangan harus diisi"),
   jamMulai: Yup.string().required("Jam Mulai harus diisi"),
-  jamSelesai: Yup.string().required("Jam Mulai harus diisi"),
+  dosenPengajar: Yup.string().required("Dosen Pengajar harus diisi"),
 });
 
 const Layout = () => {
   const [loading, setLoading] = useState(false);
   const [matkul, setMatkul] = useState([]);
   const [kelas, setKelas] = useState([]);
+  const [dosen, setDosen] = useState([]);
 
   const _listData = async () => {
     try {
@@ -38,8 +39,18 @@ const Layout = () => {
         },
       });
 
+      const dataDosen = await axios.get(
+        `${urlApi}/dosen/list-all/${sessionStorage.getItem("prodiAdmin")}`,
+        {
+          headers: {
+            Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+          },
+        }
+      );
+
       setMatkul(dataMatkul.data.result);
       setKelas(dataKelas.data.result);
+      setDosen(dataDosen.data.result);
     } catch (err) {
       console.log(err);
     }
@@ -63,7 +74,7 @@ const Layout = () => {
             hari: values.hari,
             ruangan: values.ruangan,
             jamMulai: values.jamMulai,
-            jamSelesai: values.jamSelesai,
+            dosenPengajar: values.dosenPengajar,
           },
           {
             headers: {
@@ -109,7 +120,7 @@ const Layout = () => {
                 hari: "",
                 ruangan: "",
                 jamMulai: "",
-                jamSelesai: "",
+                dosenPengajar: "",
               }}
               onSubmit={_handleSubmit}
               validationSchema={validationSchema}
@@ -212,6 +223,25 @@ const Layout = () => {
                       ) : null}
                     </div>
                     <div className="form-group">
+                      <label htmlFor="dosenPengajar">
+                        Dosen Pengajar <span className="important">*</span>
+                      </label>
+                      <Field
+                        as="select"
+                        id="dosenPengajar"
+                        name="dosenPengajar"
+                        onChange={handleChange}
+                      >
+                        <option value="">...</option>
+                        {dosen.map((val, key) => {
+                          return <option key={key}>{val.fullname}</option>;
+                        })}
+                      </Field>
+                      {touched.dosenPengajar && errors.dosenPengajar ? (
+                        <div className="error-form">{errors.dosenPengajar}</div>
+                      ) : null}
+                    </div>
+                    <div className="form-group">
                       <label htmlFor="jamMulai">
                         Jam Mulai <span className="important">*</span>
                       </label>
@@ -223,20 +253,6 @@ const Layout = () => {
                       />
                       {touched.jamMulai && errors.jamMulai ? (
                         <div className="error-form">{errors.jamMulai}</div>
-                      ) : null}
-                    </div>
-                    <div className="form-group">
-                      <label htmlFor="jamSelesai">
-                        Jam Selesai <span className="important">*</span>
-                      </label>
-                      <input
-                        type="time"
-                        id="jamSelesai"
-                        name="jamSelesai"
-                        onChange={handleChange}
-                      />
-                      {touched.jamSelesai && errors.jamSelesai ? (
-                        <div className="error-form">{errors.jamSelesai}</div>
                       ) : null}
                     </div>
                   </div>

@@ -1,8 +1,8 @@
 import { Outlet } from "react-router-dom";
 import AdminSidebar from "../components/AdminSidebar/Sidebar";
-import AppBar from "../components/AppBar/AppBar"
+import AppBar from "../components/AppBar/AppBar";
 import { useUser } from "../hooks/userHooks";
-import { useLoading } from '../context/LoadingContext';
+import { useLoading } from "../context/LoadingContext";
 import LoadingAnimation from "../components/LoadingAnimation/LoadingAnimation";
 
 const AdminLayout = () => {
@@ -10,11 +10,11 @@ const AdminLayout = () => {
   const { user } = useUser();
   return (
     <main className="page-wrapper">
-       {loading && <LoadingAnimation />}
+      {loading && <LoadingAnimation />}
       <AdminSidebar />
       <div className="content-wrapper">
-      <AppBar fullname={user.fullname} email={user.email} />
-     {/*<AppBar />*/}
+        <AppBar fullname={user.fullname} email={user.email} />
+        {/*<AppBar />*/}
         <Outlet />
       </div>
     </main>

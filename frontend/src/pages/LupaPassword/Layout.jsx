@@ -93,6 +93,7 @@ const ResetPasswordPage = () => {
                 className="form-reset-password"
               >
                 <p className="title-reset-password">Request OTP</p>
+                <p className="desc-reset-password">Email yang di input merupkan email dari Portal Jurusan Anda!</p>
                 <div className="form-content">
                   <div className="form-group">
                     <Field

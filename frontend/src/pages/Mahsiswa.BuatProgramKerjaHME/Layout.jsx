@@ -24,7 +24,18 @@ const Layout = () => {
   const _handleSubmit = async (values, { resetForm }) => {
     setLoading(true);
 
-    setTimeout(async () => {
+    // Menampilkan dialog konfirmasi
+    const result = await Swal.fire({
+      title: "Konfirmasi",
+      text: "Apakah Anda yakin ingin menyimpan data ini?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Ya",
+      cancelButtonText: "Tidak",
+    });
+
+    if (result.isConfirmed) {
+      // Jika pengguna memilih 'Ya'
       try {
         const res = await axios.post(
           `${urlApi}/himaju/add-proker`,
@@ -50,10 +61,8 @@ const Layout = () => {
           confirmButtonText: "Ok",
         });
 
-        setLoading(false);
         resetForm();
       } catch (err) {
-        setLoading(false);
         Swal.fire({
           title: "Gagal",
           text: err.response.data.message,
@@ -61,7 +70,9 @@ const Layout = () => {
           confirmButtonText: "Ok",
         });
       }
-    }, 1500);
+    }
+
+    setLoading(false);
   };
 
   return (

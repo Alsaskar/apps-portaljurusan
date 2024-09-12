@@ -66,11 +66,11 @@ const ModalLihatJadwal = ({ isOpen, handleClose }) => {
               <IoIosClose size={20} />
             </button>
 
-            <div className="content-lihat-jadwal">
-              <div className="content-lihat-jadwal-container">
-                <div className="text-section">
-                  <p className="title-lihat-jadwal">Lihat Jadwal</p>
-                  <p className="desc-lihat-jadwal">
+            <div className="content-admin-lihat-jadwal">
+              <div className="content-admin-lihat-jadwal-container">
+                <div className="text-admin-section">
+                  <p className="title-admin-lihat-jadwal">Lihat Jadwal</p>
+                  <p className="desc-admin-lihat-jadwal">
                     Pilih kelas untuk melihat jadwal.
                   </p>
                 </div>

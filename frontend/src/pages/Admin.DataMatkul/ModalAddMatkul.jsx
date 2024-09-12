@@ -13,10 +13,10 @@ import { urlApi } from "../../config";
 const validationSchema = Yup.object().shape({
   matkul: Yup.string().required("Matkul harus diisi"),
   kodeMatkul: Yup.string().required("Kode Matakuliah harus diisi"),
-  dosenPengajar: Yup.string().required("Dosen Pengajar harus diisi"),
+  rentanWaktu: Yup.string().required("Rentan Waktu harus diisi"),
 });
 
-const ModalAddMatkul = ({ isOpen, handleClose, dosenPengajar }) => {
+const ModalAddMatkul = ({ isOpen, handleClose }) => {
   const [loading, setLoading] = useState(false);
 
   const _handleSubmit = async (values) => {
@@ -29,7 +29,7 @@ const ModalAddMatkul = ({ isOpen, handleClose, dosenPengajar }) => {
           {
             kodeMatkul: values.kodeMatkul,
             matkul: values.matkul,
-            dosenPengajar: values.dosenPengajar,
+            rentanWaktu: values.rentanWaktu,
             prodi: sessionStorage.getItem("prodiAdmin"),
           },
           {
@@ -79,7 +79,7 @@ const ModalAddMatkul = ({ isOpen, handleClose, dosenPengajar }) => {
                   initialValues={{
                     kodeMatkul: "",
                     matkul: "",
-                    dosenPengajar: "",
+                    rentanWaktu: "",
                   }}
                   onSubmit={_handleSubmit}
                   validationSchema={validationSchema}
@@ -123,23 +123,23 @@ const ModalAddMatkul = ({ isOpen, handleClose, dosenPengajar }) => {
                           ) : null}
                         </div>
                         <div className="form-group">
-                          <label htmlFor="dosenPengajar">
-                            Dosen Pengajar <span className="important">*</span>
+                          <label htmlFor="rentanWaktu">
+                            Rentan Waktu <span className="important">*</span>
                           </label>
                           <Field
                             as="select"
-                            id="dosenPengajar"
-                            name="dosenPengajar"
+                            id="rentanWaktu"
+                            name="rentanWaktu"
                             onChange={handleChange}
                           >
                             <option value="">...</option>
-                            {dosenPengajar.map((val, key) => {
-                              return <option key={key}>{val.fullname}</option>;
-                            })}
+                            <option value="50">50 Menit</option>
+                            <option value="100">100 Menit</option>
+                            <option value="150">150 Menit</option>
                           </Field>
-                          {touched.dosenPengajar && errors.dosenPengajar ? (
+                          {touched.rentanWaktu && errors.rentanWaktu ? (
                             <div className="error-form">
-                              {errors.dosenPengajar}
+                              {errors.rentanWaktu}
                             </div>
                           ) : null}
                         </div>

@@ -41,6 +41,7 @@ const Layout = () => {
 
       setMatkul(dataMatkul.data.result);
       setDosen(dataDosen.data.result);
+
     } catch (err) {
       console.log(err);
     }
@@ -94,8 +95,8 @@ const Layout = () => {
             <thead>
               <tr>
                 <th>Mata Kuliah</th>
+                <th>Rentan Waktu</th>
                 <th>Kode Matakuliah</th>
-                <th>Dosen Pengajar</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -105,8 +106,8 @@ const Layout = () => {
                   return (
                     <tr key={key}>
                       <td>{val.matkul}</td>
+                      <td>{val.rentanWaktu}</td>
                       <td>{val.kodeMatkul}</td>
-                      <td>{val.dosenPengajar}</td>
 
                       <td className="dt-cell-action">
                         <button

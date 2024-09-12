@@ -1,0 +1,303 @@
+.newlogin {
+  height: 100vh;
+  width: 100%;
+  background: url("../../assets/images//Welcome.jpg");
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    pointer-events: none; 
+  }
+
+  .bg_login_satu {
+    position: absolute;
+    right: 0;
+    top: 0;
+
+    @media (max-width: 768px) {
+      width: 170px;
+    }
+  }
+
+  .bg_login_dua {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+
+    @media (max-width: 768px) {
+      width: 170px;
+    }
+  }
+
+  .login-container {
+    width: 999px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    column-gap: 25px;
+    padding: 25px;
+    // border-radius: 20px;
+
+    border: 3px solid #b8b8b8;
+    border-radius: 30px;
+    backdrop-filter: blur(20px);
+
+    @media (max-height: 768px) {
+      width: 100%;
+      // height: 68vh;
+    }
+
+    .login-card {
+      position: relative;
+      width: 500px;
+      height: 60vh;
+
+      background: rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(30px);
+      border-radius: 27px 20% 20% 27px;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      // justify-content: center;
+      flex-direction: column;
+      // text-align: center;
+
+      .login-card-title {
+        margin-top: 20px;
+        font-size: 30px;
+        color: #fff;
+      }
+
+      .login-card-desc {
+        margin-top: 20px;
+        color: #fff;
+        font-size: 14px;
+      }
+
+      .login-student-img {
+        position: absolute;
+        right: 17%;
+        bottom: 0;
+        width: 270px;
+
+        @media (max-width: 1270px) {
+          right: 30px;
+          width: 250px;
+        }
+
+        @media (max-width: 1400px) {
+          right: 50px;
+          width: 250px;
+        }
+      }
+
+      @media (max-width: 1200px) {
+        display: none;
+      }
+    }
+
+    .login-content {
+      width: 500px;
+      height: 100%;
+      padding: 0px 30px 0px 30px;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      .login-head-logo {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        column-gap: 10px;
+
+        .login-img-logo {
+          width: 40px;
+        }
+
+        .login-text-logo {
+          font-weight: 600;
+          color: #fff;
+        }
+      }
+
+      .login-title {
+        margin-top: 20px;
+        text-align: center;
+        font-size: 30px;
+        color: #fff;
+      }
+
+      .login-desc {
+        text-align: center;
+        font-size: 14px;
+        color: #fff;
+        margin-bottom: 20px;
+      }
+
+      .form-group {
+        position: relative;
+        margin-bottom: 10px;
+
+        .icon {
+          position: absolute;
+          right: 17px;
+          top: 14px;
+          color: #fff;
+          z-index: 1000;
+        }
+      }
+
+      .form-group input::-ms-reveal,
+      .form-group input::-ms-clear {
+        display: none;
+      }
+
+      .login-button {
+        margin-top: 20px;
+      }
+
+      .login-form {
+        .btn-open-captcha {
+          width: 100%;
+          padding: 10px;
+          border-radius: 10px;
+          background: rgba(143, 163, 255, 0.2);
+          backdrop-filter: blur(30px);
+          border: 2px solid rgba(143, 163, 255, 0.3);
+          color: #47a0e8;
+
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+
+          &.disabled {
+            cursor: text;
+          }
+
+          &.success {
+            background: rgba(143, 255, 199, 0.2);
+            backdrop-filter: blur(30px);
+            border: 2px solid rgba(137, 255, 196, 0.3);
+          }
+
+          .shield {
+            background-color: #fff;
+            color: #47a0e8;
+            padding: 5px;
+            font-size: 12px;
+            border-radius: 50%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            &.success {
+              color: #3bc079;
+            }
+          }
+
+          .title-verify {
+            &.success {
+              color: rgb(107, 239, 173);
+            }
+          }
+        }
+      }
+
+      .login-form input {
+        border: none;
+        width: 100%;
+        height: 45px;
+        padding: 20px;
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(30px);
+        border: 2px solid #b8b8b8;
+        outline: none;
+        color: #fff;
+      }
+
+      .login-form input::placeholder {
+        color: #fff;
+      }
+
+      .btn-login {
+        width: 100%;
+        padding: 12px;
+        border: none;
+        border-radius: 10px;
+        // background: rgb(71, 91, 232);
+        // background: linear-gradient(
+        //   121deg,
+        //   rgba(71, 91, 232, 1) 0%,
+        //   rgba(71, 160, 232, 1) 50%,
+        //   rgba(0, 255, 244, 1) 100%
+        // );
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        column-gap: 5px;
+        background-color: #fff;
+        transition: all 0.3s ease-in-out;
+        font-weight: 700;
+        // color: #fff;
+        cursor: pointer;
+      }
+
+      .forgot-password {
+        text-align: end;
+        margin-top: 15px;
+
+        .text-forgot-password {
+          text-decoration: underline;
+          font-size: 14px;
+          color: #fff;
+          transition: all 0.3s ease-in-out;
+
+          &:hover {
+            color: #d4d4d4;
+          }
+        }
+      }
+
+      @media (max-width: 768px) {
+        padding: 0px;
+        width: 100%;
+      }
+
+      @media (max-width: 1200px) {
+        padding: 0px;
+        width: 100%;
+      }
+
+      @media (max-height: 600px) {
+        padding: 0px;
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 768px) {
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 768px) {
+    padding: 20px;
+  }
+}

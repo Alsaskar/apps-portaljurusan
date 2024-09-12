@@ -26,6 +26,7 @@ const ModalSolusi = ({ isOpen, handleClose }) => {
           `${urlApi}/kelas`,
           {
             namaKelas: values.namaKelas,
+            prodi: sessionStorage.getItem("prodiAdmin")
           },
           {
             headers: {
