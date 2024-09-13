@@ -105,7 +105,7 @@ const NewLogin = () => {
         <div className="login-content">
           <div className="login-head-logo">
             <img src={Logo} alt="" className="login-img-logo" />
-            <h3 className="login-text-logo">Eduvate</h3>
+            <h3 className="login-text-logo">Portal Jurusan</h3>
           </div>
           <h2 className="login-title">Login Form</h2>
           <p className="login-desc">Please login to your account</p>

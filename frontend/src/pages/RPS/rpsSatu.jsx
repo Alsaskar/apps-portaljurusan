@@ -95,6 +95,24 @@ const RPSSatu = () => {
               </div>
             </td>
           </tr>
+          <tr>
+            <td className="t-body-rps-satu"></td>
+            <td className="t-body-rps-satu">
+              <div className="cpl">
+                <div className="cpl-num">CPL-3</div>
+                <div className="cpl-text"></div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td className="t-body-rps-satu"></td>
+            <td className="t-body-rps-satu">
+              <div className="cpl">
+                <div className="cpl-num">CPL-4</div>
+                <div className="cpl-text"></div>
+              </div>
+            </td>
+          </tr>
         </tbody>
       </table>
 
@@ -125,6 +143,34 @@ const RPSSatu = () => {
             <td className="t-body-rps-satu">
               <div className="cpl">
                 <div className="cpl-num">CPMK-2</div>
+                <div className="cpl-text"></div>
+              </div>
+            </td>
+            <td className="t-body-rps-satu">
+              <div className="cpl">
+                <div className="cpl-num">KODE</div>
+                <div className="cpl-text"></div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td className="t-body-rps-satu">
+              <div className="cpl">
+                <div className="cpl-num">CPMK-3</div>
+                <div className="cpl-text"></div>
+              </div>
+            </td>
+            <td className="t-body-rps-satu">
+              <div className="cpl">
+                <div className="cpl-num">KODE</div>
+                <div className="cpl-text"></div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td className="t-body-rps-satu">
+              <div className="cpl">
+                <div className="cpl-num">CPMK-4</div>
                 <div className="cpl-text"></div>
               </div>
             </td>

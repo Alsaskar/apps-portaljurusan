@@ -21,7 +21,7 @@
           padding-top: 20px;
           position: relative;
           transition: 0.5s;
-          
+
           li {
             display: inline-table;
             text-align: center;
@@ -107,6 +107,12 @@
                 padding: 8px;
                 font-size: 13px;
                 font-weight: 500;
+              }
+
+              .nama {
+                font-size: 13px;
+                margin-top: 5px;
+                font-weight: 600;
               }
 
               &:hover {
@@ -230,6 +236,12 @@
                 font-weight: 500;
               }
 
+              .nama {
+                font-size: 13px;
+                margin-top: 5px;
+                font-weight: 600;
+              }
+
               &:hover {
                 background: #eaf5ff;
                 color: #000;
@@ -256,8 +268,8 @@
 
       // Media Queries for Responsive Design
       @media (max-width: 768px) {
-
-        .tree, .tree_dua {
+        .tree,
+        .tree_dua {
           .body-section {
             padding: 8px;
             font-size: 12px;
@@ -297,10 +309,9 @@
         }
       }
 
-
       @media (max-width: 1200px) {
-
-        .tree, .tree_dua {
+        .tree,
+        .tree_dua {
           .body-section {
             padding: 8px;
             font-size: 12px;

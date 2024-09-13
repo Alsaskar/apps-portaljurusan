@@ -273,7 +273,7 @@ const Sidebar = () => {
                           isExpanded ? "menu-list-expanded" : ""
                         }`}
                       >
-                        Bimbingan Dosen Wali
+                        Bimbingan Akademik
                       </span>
                       <span
                         className={`submenu-arrow-mahasiswa ${

@@ -27,6 +27,19 @@
           &.daftar {
             height: 200px;
           }
+
+          &.pengampu {
+            height: 40px;
+          }
+
+          &.prasyarat {
+            height: 40px;
+
+            .jika-ada {
+              font-weight: 400;
+              font-style: italic;
+            }
+          }
         }
 
         .t-body-rps-dua {

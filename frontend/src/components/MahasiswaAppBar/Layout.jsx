@@ -1,4 +1,4 @@
-import Logo from "../../assets/images/logo_white.png";
+import Logo from "../../assets/images/logo_poli.png";
 import Right from "../../assets/images/right.png";
 import ProfileNoImage from "../../assets/images/profile_no_image.png";
 import { FaUserCircle } from "react-icons/fa";
@@ -78,7 +78,7 @@ const Layout = () => {
         <div className="app-bar-head-mahasiswa">
           <div className="app-bar-mahasiswa-logo">
             <img src={Logo} alt="logo" className="logo-portal-mahasiswa" />
-            <p className="logo-title-mahasiswa">Eduvate</p>
+            <p className="logo-title-mahasiswa">Portal Elektro</p>
           </div>
           <div className="app-bar-user">
             <div className="app-bar-name">

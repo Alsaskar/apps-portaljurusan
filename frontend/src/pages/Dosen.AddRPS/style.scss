@@ -13,11 +13,86 @@
     .form-add-rps-dosen {
       .form-content {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(1, 1fr);
         column-gap: 16px;
 
         @media (max-width: 768px) {
           grid-template-columns: 1fr;
+        }
+
+        &.capaian-pembelajaran {
+          // display: flex;
+
+          input {
+            width: 100%;
+            padding: 8px;
+            border: 2px solid var(--input-form-color);
+            border-radius: 4px;
+            background-color: var(--input-form-color);
+            color: var(--text-color-inverted);
+
+            &:focus {
+              border: 2px solid var(--blue-color);
+              outline: none;
+            }
+
+            @media (max-width: 768px) {
+              width: calc(100%);
+            }
+          }
+
+          .btn-hapus {
+            padding: 4px 10px;
+            border-radius: 5px;
+            border: none;
+            margin-bottom: 20px;
+            width: 40px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            background-color: #ff0000;
+            transition: all 0.3s ease;
+
+            &:hover {
+              background-color: #ff3d3d;
+            }
+          }
+        }
+
+        .btn-section {
+          display: flex;
+          column-gap: 5px;
+
+          .btn {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 8px 30px;
+            border-radius: 12px;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+
+            &.blue {
+              background-color: var(--blue-color);
+              transition: all 0.3s ease;
+
+              &:hover {
+                background-color: #4c7cff;
+              }
+            }
+
+            &.orange {
+              background-color: #ffa500;
+              transition: all 0.3s ease;
+
+              &:hover {
+                background-color: #ffc71f;
+              }
+            }
+          }
         }
       }
 
@@ -43,9 +118,8 @@
         }
 
         input[type="text"],
-        input[type="email"],
         input[type="date"],
-        input[type="file"],
+        textarea,
         select {
           width: 100%;
           padding: 8px;
@@ -63,9 +137,16 @@
             width: calc(100%);
           }
         }
+      }
 
-        input[type="file"] {
-          cursor: pointer;
+      .capaian-pem {
+        font-size: 14px;
+        color: var(--text-color-inverted);
+        margin-bottom: 5px;
+        display: block;
+
+        .important {
+          color: var(--red-color);
         }
       }
 

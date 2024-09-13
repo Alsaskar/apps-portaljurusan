@@ -33,9 +33,24 @@
       background-color: #fff;
       overflow: visible;
   
-      page-break-after: always;
       
     }
   }
 
 }
+
+@media print {
+  .rps-container {
+    margin: 10mm; // Atur sesuai kebutuhan
+  }
+}
+
+@media print {
+  .rps-container {
+    page-break-before: always; /* Menjamin halaman baru sebelum setiap .rps-container */
+    break-before: page; /* Alternatif */
+    page-break-inside: avoid; /* Mencegah konten terputus di tengah halaman */
+    break-inside: avoid; /* Alternatif */
+  }
+}
+

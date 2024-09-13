@@ -76,7 +76,7 @@ const HalEmpatRPS = () => (
             <View>
               <View style={halEmpat.isi_section_sub_cpmk}>
                 <View style={halEmpat.isi_section_text}>
-                  <Text>test</Text>
+                  <Text>test Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aut dignissimos incidunt veniam totam debitis delectus enim doloribus, ad dolorum repellendus?</Text>
                 </View>
               </View>
               <View style={halEmpat.isi_section_sub_cpmk}>

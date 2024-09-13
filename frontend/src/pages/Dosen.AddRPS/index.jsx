@@ -15,7 +15,7 @@ const DosenAddRPS = () => {
   return (
     <div>
       <Helmet>
-        <title>Dosen Tambah RPS</title>
+        <title>Dosen Buat RPS</title>
       </Helmet>
       <Layout />
     </div>

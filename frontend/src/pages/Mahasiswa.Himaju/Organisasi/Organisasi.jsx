@@ -28,6 +28,7 @@ const Organisasi = () => {
                     <FaStar size={20} />
                   </div>
                   <p className="title-departemen">Ketua</p>
+                  <p className="nama">Oswald Tan</p>
                 </div>
                 <ul>
                   <li>
@@ -36,6 +37,7 @@ const Organisasi = () => {
                         <FaHandHoldingUsd size={20} />
                       </div>
                       <p className="title-departemen">Wakil Ketua Umum</p>
+                      <p className="nama">Oswald Tan</p>
                     </div>
                   </li>
                   <li>
@@ -44,6 +46,7 @@ const Organisasi = () => {
                         <FaFileAlt size={20} />
                       </div>
                       <p className="title-departemen">Sekretaris Umum</p>
+                      <p className="nama">Oswald Tan</p>
                     </div>
                   </li>
                   <li>
@@ -52,6 +55,7 @@ const Organisasi = () => {
                         <FaUserShield size={20} />
                       </div>
                       <p className="title-departemen">Bendahara Umum</p>
+                      <p className="nama">Oswald Tan</p>
                     </div>
                   </li>
                 </ul>
@@ -69,6 +73,7 @@ const Organisasi = () => {
                         <PiUsersThreeFill size={20} />
                       </div>
                       <p className="title-departemen">HUMAS</p>
+                      <p className="nama">Oswald Tan</p>
                     </div>
                   </li>
                   <li>
@@ -77,6 +82,7 @@ const Organisasi = () => {
                       <FaCode size={20} />
                       </div>
                       <p className="title-departemen">Kederisasi</p>
+                      <p className="nama">Oswald Tan</p>
                     </div>
                   </li>
                   <li>
@@ -85,6 +91,7 @@ const Organisasi = () => {
                       <MdOutlineAssignment size={20} />
                       </div>
                       <p className="title-departemen">Kesekretariatan</p>
+                      <p className="nama">Oswald Tan</p>
                     </div>
                   </li>
                   <li>
@@ -93,6 +100,7 @@ const Organisasi = () => {
                       <FaBookReader size={20} />
                       </div>
                       <p className="title-departemen">Kerohanian</p>
+                      <p className="nama">Oswald Tan</p>
                     </div>
                   </li>
                   <li>
@@ -101,6 +109,7 @@ const Organisasi = () => {
                       <FaPalette size={20} />
                       </div>
                       <p className="title-departemen">Minat Bakat</p>
+                      <p className="nama">Oswald Tan</p>
                     </div>
                   </li>
                   <li>
@@ -109,6 +118,7 @@ const Organisasi = () => {
                       <MdBusinessCenter size={20} />
                       </div>
                       <p className="title-departemen">Kewirausahaan</p>
+                      <p className="nama">Oswald Tan</p>
                     </div>
                   </li>
                   <li>
@@ -117,6 +127,7 @@ const Organisasi = () => {
                       <MdOutlineGroupWork size={20} />
                       </div>
                       <p className="title-departemen">Delegasi</p>
+                      <p className="nama">Oswald Tan</p>
                     </div>
                   </li>
                 </ul>

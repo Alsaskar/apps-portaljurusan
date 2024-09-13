@@ -33,7 +33,7 @@ const Layout = () => {
         }
       );
 
-      const dataKelas = await axios.get(`${urlApi}/kelas`, {
+      const dataKelas = await axios.get(`${urlApi}/kelas?prodi=${sessionStorage.getItem("prodiAdmin")}`, {
         headers: {
           Authorization: `Bearer ${sessionStorage.getItem("token")}`,
         },
@@ -48,6 +48,8 @@ const Layout = () => {
         }
       );
 
+      
+
       setMatkul(dataMatkul.data.result);
       setKelas(dataKelas.data.result);
       setDosen(dataDosen.data.result);
@@ -59,6 +61,8 @@ const Layout = () => {
   useEffect(() => {
     _listData();
   }, []);
+
+
 
   const _handleSubmit = async (values, { resetForm }) => {
     setLoading(true);
