@@ -12,6 +12,9 @@ const Kelas = db.define(
     namaKelas: {
       type: DataTypes.STRING,
     },
+    prodi: {
+      type: DataTypes.STRING,
+    },
     tglCreate: {
       type: DataTypes.STRING,
     },

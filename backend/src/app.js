@@ -28,6 +28,7 @@ import DosenSignature from "./routes/DosenSignatureRoute";
 import Kelas from "./routes/KelasRoute";
 import Matkul from "./routes/MatkulRoute";
 import Jadwal from "./routes/JadwalRoute";
+import RPS from "./routes/RPSRoute";
 
 const app = express();
 const server = http.createServer(app);
@@ -72,6 +73,7 @@ app.use("/api/v1/kelas", Kelas);
 app.use("/api/v1/dosensignature", DosenSignature);
 app.use('/api/v1/matkul', Matkul);
 app.use('/api/v1/jadwal', Jadwal);
+app.use('/api/v1/rps', RPS);
 
 // Jadwalkan notifikasi setiap 1 jam
 setInterval(notifyUpcomingEvents, 60 * 60 * 1000);
