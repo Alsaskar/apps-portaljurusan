@@ -7,6 +7,7 @@ export const RPS = db.define("rps", {
       primaryKey: true,
       autoIncrement: true,
     },
+    idDosen: { type: DataTypes.INTEGER },
     namaMatkul: { type: DataTypes.STRING },
     kodeMatkul: { type: DataTypes.STRING },
     rumpunMatkul: { type: DataTypes.STRING },
@@ -27,6 +28,7 @@ export const RPS = db.define("rps", {
     daftarPustaka: { type: DataTypes.STRING },
     dosenPengampu: { type: DataTypes.STRING },
     matkulPrasyarat: { type: DataTypes.STRING },
+    status: { type: DataTypes.STRING },
   },
   {
     freezeTableName: true,

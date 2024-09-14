@@ -132,6 +132,7 @@ export const add = async (req, res) => {
           password: password,
           role: "dosen",
           prodiAdmin: "Not Prodi", // karena dosen
+          prodiDosen: prodi
         });
 
         const dosen = await Dosen.create({
@@ -301,6 +302,7 @@ export const edit = async (req, res) => {
             email: email,
             noHp: noHp,
             prodiAdmin: prodi,
+            prodiDosen: prodi
           },
           {
             where: {
