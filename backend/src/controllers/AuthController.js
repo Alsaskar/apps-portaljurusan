@@ -198,6 +198,7 @@ export const login = async (req, res) => {
         role: user.role,
         id: user.id,
         prodiAdmin: user.prodiAdmin,
+        prodiDosen: user.prodiDosen,
         success: true,
         token: token,
       });
