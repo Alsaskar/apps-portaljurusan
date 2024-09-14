@@ -4,11 +4,11 @@ import { Op } from "sequelize";
 import transporter from "../config/email";
 import User from "../models/UserModel";
 
-// jadikan mahasiswa sebagai himaju
 export const add = async (req, res) => {
   const idMahasiswa = req.body.idMahasiswa;
   const fullname = req.body.fullname;
   const status = req.body.status;
+  const alasanDitolak = req.body.alasanDitolak || "";
 
   try {
     if (status === "dikeluarkan") {
@@ -48,6 +48,7 @@ export const add = async (req, res) => {
           idMahasiswa: idMahasiswa,
           fullname: fullname,
           status: status,
+          alasanDitolak: alasanDitolak,
         });
 
         return res.status(200).json({
@@ -307,10 +308,11 @@ export const deleteProker = async (req, res) => {
   }
 };
 
-// Notifikasi Email Satu Hari Sebelumnya
+// Notifikasi Email Tiga Hari Sebelumnya
 export const notifyUpcomingEvents = async () => {
   const now = new Date();
-  const oneDayLater = new Date(now.getTime() + 24 * 60 * 60 * 1000);
+  const oneDayLater = new Date(now.getTime() + 24 * 60 * 60 * 1000); //dalam 1 hari
+  // const threeDaysLater = new Date(now.getTime() + 3 * 24 * 60 * 60 * 1000); //dalam 3 hari
 
   try {
     const acceptedHimaju = await Himaju.findAll({
@@ -341,7 +343,7 @@ export const notifyUpcomingEvents = async () => {
     });
 
     if (events.length === 0) {
-      console.log("Tidak ada acara yang akan datang dalam 1 hari.");
+      console.log("Tidak ada acara yang akan datang dalam 3 hari.");
       return;
     }
 
@@ -362,7 +364,7 @@ export const notifyUpcomingEvents = async () => {
     console.log("Mahasiswa with associated User data:", mahasiswaWithEmails);
 
     const emails = mahasiswaWithEmails
-      .map((mahasiswa) => mahasiswa.user && mahasiswa.user.email) 
+      .map((mahasiswa) => mahasiswa.user && mahasiswa.user.email)
       .filter(Boolean);
 
     console.log("Extracted emails:", emails);
@@ -377,8 +379,8 @@ export const notifyUpcomingEvents = async () => {
         const mailOptions = {
           from: process.env.EMAIL_FROM,
           to: email,
-          subject: `Pengingat: ${event.namaKegiatan} akan dimulai dalam 1 hari`,
-          text: `Halo,\n\nIni adalah pengingat bahwa acara "${event.namaKegiatan}" akan dimulai dalam 1 hari.\n\nDetail:\nDeskripsi: ${event.description}\nTanggal: ${event.tglPelaksanaan}\nJam Mulai: ${event.jamMulai}\nJam Selesai: ${event.jamSelesai}\nLokasi: ${event.lokasi}`,
+          subject: `Pengingat: ${event.namaKegiatan} akan dimulai dalam 3 hari`,
+          text: `Halo,\n\nIni adalah pengingat bahwa acara "${event.namaKegiatan}" akan dimulai dalam 3 hari.\n\nDetail:\nDeskripsi: ${event.description}\nTanggal: ${event.tglPelaksanaan}\nJam Mulai: ${event.jamMulai}\nJam Selesai: ${event.jamSelesai}\nLokasi: ${event.lokasi}`,
         };
 
         try {
@@ -401,5 +403,3 @@ export const notifyUpcomingEvents = async () => {
     console.error("Error saat mengambil data acara:", err);
   }
 };
-
-

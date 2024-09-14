@@ -6,7 +6,7 @@ import morgan from "morgan";
 import dotenv from "dotenv";
 import path from "path";
 import requestIp from "request-ip";
-import { notifyUpcomingEvents } from "./controllers/HimajuController";
+import { notifyUpcomingEvents } from "./controllers/HimajuController.js";
 import { deleteOldMessages } from "./controllers/ChatController.js";
 import setupSocket from "./config/socket";
 import cron from "node-cron";
@@ -29,6 +29,7 @@ import Kelas from "./routes/KelasRoute";
 import Matkul from "./routes/MatkulRoute";
 import Jadwal from "./routes/JadwalRoute";
 import RPS from "./routes/RPSRoute";
+import Qrcode from "./routes/QRCodeLoginRoute";
 
 const app = express();
 const server = http.createServer(app);
@@ -74,6 +75,7 @@ app.use("/api/v1/dosensignature", DosenSignature);
 app.use('/api/v1/matkul', Matkul);
 app.use('/api/v1/jadwal', Jadwal);
 app.use('/api/v1/rps', RPS);
+app.use('/api/v1/qrcode', Qrcode);
 
 // Jadwalkan notifikasi setiap 1 jam
 setInterval(notifyUpcomingEvents, 60 * 60 * 1000);
