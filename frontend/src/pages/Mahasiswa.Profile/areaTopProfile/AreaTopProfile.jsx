@@ -20,7 +20,7 @@ const AreaTopProfile = () => {
   const [selectedData, setSelectedData] = useState([]);
   const [selectedDataUser, setSelectedDataUser] = useState([]);
   const [hasFoto, setHasFoto] = useState(false);
-  
+
   const handleUpload = (data, dataUser) => {
     setSelectedData(data);
     setSelectedDataUser(dataUser);
@@ -44,11 +44,14 @@ const AreaTopProfile = () => {
       });
 
       if (result.isConfirmed) {
-        await axios.delete(`${urlApi}/mahasiswa/${dataMahasiswa.result.id}/foto`, {
-          headers: {
-            Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-          },
-        });
+        await axios.delete(
+          `${urlApi}/mahasiswa/${dataMahasiswa.result.id}/foto`,
+          {
+            headers: {
+              Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+            },
+          }
+        );
 
         // Update state dan UI setelah penghapusan
         setTimeout(() => {
@@ -105,26 +108,29 @@ const AreaTopProfile = () => {
                 </div>
               </div>
 
-              {hasFoto ? (
-                <button
-                  type="button"
-                  className="btn-details-mahasiswa red"
-                  onClick={handleDeleteFoto}
-                >
-                  <HiTrash size={16} />
-                  Hapus Foto
-                </button>
-              ) : (
-                <button
-                  type="button"
-                  className="btn-details-mahasiswa blue"
-                  onClick={() => handleUpload(detailMahasiswa, user)}
-                >
-                  <RiImageAddFill size={16} />
-                  Upload Foto
-                </button>
-              )}
+              <div className="area-button">
+                {hasFoto ? (
+                  <button
+                    type="button"
+                    className="btn-details-mahasiswa red"
+                    onClick={handleDeleteFoto}
+                  >
+                    <HiTrash size={16} />
+                    Hapus Foto
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    className="btn-details-mahasiswa blue"
+                    onClick={() => handleUpload(detailMahasiswa, user)}
+                  >
+                    <RiImageAddFill size={16} />
+                    Upload Foto
+                  </button>
+                )}
+              </div>
             </div>
+
             <div className="area-profile-details">
               <AreaDetailsProfile />
               <AreaDetailsProfileOrangtua />

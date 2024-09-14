@@ -37,10 +37,16 @@ const Layout = () => {
 
   const _listBimbingan = async () => {
     try {
-      const res = await axios.get(`${urlApi}/bimbingan?search=${keyword}&page=${page}&limit=${limit}&adminProdi=${sessionStorage.getItem("prodiAdmin")}`, {
-        headers: { Authorization: `Bearer ${sessionStorage.getItem("token")}` },
-      });
-
+      const res = await axios.get(
+        `${urlApi}/bimbingan?search=${keyword}&page=${page}&limit=${limit}&adminProdi=${sessionStorage.getItem(
+          "prodiAdmin"
+        )}`,
+        {
+          headers: {
+            Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+          },
+        }
+      );
 
       setBimbingan(res.data.result);
       setPages(res.data.totalPage);
@@ -68,16 +74,17 @@ const Layout = () => {
       if (result.isConfirmed) {
         try {
           const res = await axios.delete(`${urlApi}/bimbingan/${id}`, {
-            headers: { Authorization: `Bearer ${sessionStorage.getItem("token")}` },
+            headers: {
+              Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+            },
           });
 
-          if(res.data.success){
+          if (res.data.success) {
             Swal.fire("Berhasil!", `${res.data.message}`, "success");
           }
 
           // Reload Table
           _listBimbingan();
-
         } catch (err) {
           Swal.fire("Error!", err.response.data.message, "error");
         }
@@ -87,18 +94,25 @@ const Layout = () => {
 
   return (
     <>
-    <div className="info-section">
-      {/* <p className="text-info">Bimbingan Mahasiswa</p> */}
-      <p className="text-info-desc">Berikut adalah nama mahasiswa dengan dosen pembimbingnya. 
-        Jika ingin mengganti dosen pembimbing, silahkan
-        hapus data mahasiswa kemudian silahkan buat dosen pembimbing baru pada menu Add Bimbingan.
-      </p>
-    </div>
+      <div className="info-section">
+        {/* <p className="text-info">Bimbingan Mahasiswa</p> */}
+        <p className="text-info-desc">
+          Berikut adalah nama mahasiswa dengan dosen pembimbingnya. Jika ingin
+          mengganti dosen pembimbing, silahkan hapus data mahasiswa kemudian
+          silahkan buat dosen pembimbing baru pada menu Add Bimbingan.
+        </p>
+      </div>
       <div className="filter">
         {/*search filter*/}
         <form onSubmit={searchData}>
           <div className="search-form">
-            <input type="text" className="filter-input" placeholder="Cari Nama Mahasiswa" value={query} onChange={(e) => setQuery(e.target.value)} />
+            <input
+              type="text"
+              className="filter-input"
+              placeholder="Cari Nama Mahasiswa"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+            />
             <MdSearch size={20} className="search-icon" />
           </div>
         </form>
@@ -144,14 +158,30 @@ const Layout = () => {
                       <td>{val.mahasiswa.fullname}</td>
                       <td>{val.mahasiswa.nim}</td>
                       <td>
-                      {val.mahasiswa.foto === undefined ? "Loading..." : <img src={val.mahasiswa.foto === "" || val.mahasiswa.foto === null ? ProfilNoImage : `${urlStaticAssets}/${val.mahasiswa.foto}`} alt="profile-mahasiswa" className="img-mahasiswa" />}
+                        {val.mahasiswa.foto === undefined ? (
+                          "Loading..."
+                        ) : (
+                          <img
+                            src={
+                              val.mahasiswa.foto === "" ||
+                              val.mahasiswa.foto === null
+                                ? ProfilNoImage
+                                : `${urlStaticAssets}/${val.mahasiswa.foto}`
+                            }
+                            alt="profile-mahasiswa"
+                            className="img-mahasiswa"
+                          />
+                        )}
                       </td>
                       <td>{val.dosen.fullname}</td>
                       <td>{val.dosen.nip}</td>
                       <td className="dt-cell-action trash">
-                        <button className="action-button red" onClick={() => {
-                          _handleDelete(val.id, val.mahasiswa.fullname)
-                        }}>
+                        <button
+                          className="action-button red"
+                          onClick={() => {
+                            _handleDelete(val.id, val.mahasiswa.fullname);
+                          }}
+                        >
                           <HiTrash size={18} />
                         </button>
                       </td>

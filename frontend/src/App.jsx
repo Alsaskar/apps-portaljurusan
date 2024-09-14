@@ -92,6 +92,7 @@ import TVJadwal from "./pages/TV.Jadwal";
 import HimajuLayoutDosen from "./layout/HimajuLayoutDosen";
 import RPSTest from "./pages/RPS";
 import NewLogin from "./pages/Login/NewLogin";
+import LoginWithQRCode from "./pages/TV.Login/TVLogin";
 
 // import AdminBesarLayout from "./layout/AdminBesarLayout";
 // import AdminBesarDashboard from "./pages/Admin.BesarDashboard";
@@ -446,6 +447,7 @@ const App = () => {
             <Route element={<TVAbsensi />} path="/tv/absensi" />
             <Route element={<TVHME />} path="/tv/hme" />
             <Route element={<TVJadwal />} path="/tv/jadwal" />
+            <Route element={<LoginWithQRCode />} path="/tv/login" />
           </Route>
         </Routes>
       </Router>

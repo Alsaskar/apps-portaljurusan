@@ -1,8 +1,9 @@
 import { Outlet } from "react-router-dom";
 import MahasiswaAppBar from "../components/MahasiswaAppBar";
 import MahasiswaSidebar from "../components/MahasiswaSidebar/Sidebar";
-import { useLoading } from '../context/LoadingContext';
+import { useLoading } from "../context/LoadingContext";
 import LoadingAnimation from "../components/LoadingAnimation/LoadingAnimation";
+import GenerateQRCode from "../components/Qrcode/GenerateQr";
 
 const currentYear = new Date().getFullYear();
 
@@ -22,8 +23,14 @@ const MahasiswaLayout = () => {
       </div>
 
       <footer className="footer-mahasiswa">
-        <p className="text-footer-mahasiswa">© {currentYear} - Teknik Elektro.</p>
+        <p className="text-footer-mahasiswa">
+          © {currentYear} - Teknik Elektro.
+        </p>
       </footer>
+
+      <div className="qr-code">
+        <GenerateQRCode />
+      </div>
     </main>
   );
 };

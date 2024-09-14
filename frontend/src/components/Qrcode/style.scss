@@ -1,0 +1,22 @@
+.btn-show-qr {
+  padding: 8px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  column-gap: 5px;
+  font-size: 12px;
+  color: #fff;
+  background-color: var(--red-color);
+  transition: all 0.3s ease-in-out;
+}
+
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0); }
+}
+
+.btn-show-qr {
+  animation: float 3s ease-in-out infinite; /* animasi mengambang */
+}

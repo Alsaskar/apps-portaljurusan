@@ -60,7 +60,7 @@ const Sidebar = () => {
 
   useEffect(() => {
     if (dataMahasiswa !== null) {
-      // console.log(dataMahasiswa.result.statusHimaju)
+      console.log(dataMahasiswa.result.statusHimaju)
       setStatusHimaju(dataMahasiswa.result.statusHimaju);
     }
 

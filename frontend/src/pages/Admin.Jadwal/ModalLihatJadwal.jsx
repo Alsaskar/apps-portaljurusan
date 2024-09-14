@@ -37,7 +37,7 @@ const ModalLihatJadwal = ({ isOpen, handleClose }) => {
 
   const _listDataKelas = async () => {
     try {
-      const res = await axios.get(`${urlApi}/kelas`, {
+      const res = await axios.get(`${urlApi}/kelas?prodi=${sessionStorage.getItem("prodiAdmin")}`, {
         headers: {
           Authorization: `Bearer ${sessionStorage.getItem("token")}`,
         },

@@ -145,6 +145,17 @@
           object-fit: cover;
         }
       }
+
+      .area-button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 5px;
+
+        @media (max-width: 768px) {
+          flex-direction: column;
+        }
+      }
     }
   }
 }
