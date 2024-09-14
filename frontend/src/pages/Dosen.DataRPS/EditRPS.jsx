@@ -9,6 +9,7 @@ import { HiTrash } from "react-icons/hi";
 import { MdAddCircle } from "react-icons/md";
 import Swal from "sweetalert2";
 import { DosenContext } from "../../context/DosenContext";
+import { useParams } from "react-router-dom";
 
 const validationSchema = Yup.object().shape({
   capaianPembelajaran: Yup.array()
@@ -40,10 +41,12 @@ const validationSchema = Yup.object().shape({
   deskripsiMk: Yup.string().required("Deskripsi MK harus diisi"),
 });
 
-const Layout = () => {
+const EditRPS = () => {
   const [matkul, setMatkul] = useState([]);
+  const [detailRps, setDetailRps] = useState([]);
   const [loading, setLoading] = useState(false);
   const { result } = useContext(DosenContext) || {};
+  const { id } = useParams();
 
   const _listData = async () => {
     try {
@@ -62,8 +65,24 @@ const Layout = () => {
     }
   };
 
+  const _detailData = async () => {
+    try {
+      const res = await axios.get(`${urlApi}/rps/${id}`, {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+        },
+      });
+
+      setDetailRps(res.data.result);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   useEffect(() => {
+    _detailData();
     _listData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const _handleSubmit = async (values, { resetForm }) => {
@@ -136,29 +155,29 @@ const Layout = () => {
   return (
     <div className="form-add">
       <div className="form-add-container">
-        <h3>Tambah RPS</h3>
+        <h3>Edit RPS</h3>
 
         <Formik
           initialValues={{
-            kodeMatkul: "",
-            rumpunMatkul: "",
-            bobot: "",
-            semester: "",
-            tanggalPenyusunan: "",
-            otorisasi: "",
+            kodeMatkul: detailRps.kodeMatkul || "",
+            rumpunMatkul: detailRps.rumpunMatkul || "",
+            bobot: detailRps.bobot || "",
+            semester: detailRps.semester || "",
+            tanggalPenyusunan: detailRps.tanggalPenyusunan || "",
+            otorisasi: detailRps.otorisasi || "",
             pembuatRp: result?.fullname || "",
-            pengampuMatkul: "",
-            kordinatorMatkul: "",
-            kordinatorProdi: "",
+            pengampuMatkul: detailRps.pengampuMatkul || "",
+            kordinatorMatkul: detailRps.kordinatorMatkul || "",
+            kordinatorProdi: detailRps.kordinatorProdi || "",
             capaianPembelajaran: [""],
             cpl: [""],
             cpmk: [""],
             subCpmk: [""],
-            deskripsiMk: "",
-            bahanKajian: "",
-            daftarPustaka: "",
-            dosenPengampu: "",
-            matkulPrasyarat: "",
+            deskripsiMk: detailRps.deskripsiMk || "",
+            bahanKajian: detailRps.bahanKajian || "",
+            daftarPustaka: detailRps.daftarPustaka || "",
+            dosenPengampu: detailRps.dosenPengampu || "",
+            matkulPrasyarat: detailRps.matkulPrasyarat || "",
           }}
           onSubmit={_handleSubmit}
           validationSchema={validationSchema}
@@ -186,6 +205,7 @@ const Layout = () => {
                     id="kodeMatkul"
                     name="kodeMatkul"
                     onChange={handleChange}
+                    value={values.kodeMatkul}
                   >
                     {touched.kodeMatkul && errors.kodeMatkul ? (
                       <div className="error-form">{errors.kodeMatkul}</div>
@@ -207,7 +227,12 @@ const Layout = () => {
                   <label htmlFor="semester">
                     Semester <span className="important">*</span>
                   </label>
-                  <select id="semester" name="semester" onChange={handleChange}>
+                  <select
+                    id="semester"
+                    name="semester"
+                    onChange={handleChange}
+                    value={values.semester}
+                  >
                     {touched.semester && errors.semester ? (
                       <div className="error-form">{errors.semester}</div>
                     ) : null}
@@ -234,6 +259,7 @@ const Layout = () => {
                     id="rumpunMatkul"
                     name="rumpunMatkul"
                     onChange={handleChange}
+                    value={values.rumpunMatkul}
                   />
                   {touched.rumpunMatkul && errors.rumpunMatkul ? (
                     <div className="error-form">{errors.rumpunMatkul}</div>
@@ -248,6 +274,7 @@ const Layout = () => {
                     id="bobot"
                     name="bobot"
                     onChange={handleChange}
+                    value={values.bobot}
                   />
                   {touched.bobot && errors.bobot ? (
                     <div className="error-form">{errors.bobot}</div>
@@ -264,6 +291,7 @@ const Layout = () => {
                     rows="4"
                     cols="50"
                     style={{ resize: "none" }}
+                    value={values.tanggalPenyusunan}
                   />
                   {touched.tanggalPenyusunan && errors.tanggalPenyusunan ? (
                     <div className="error-form">{errors.tanggalPenyusunan}</div>
@@ -278,6 +306,7 @@ const Layout = () => {
                     id="otorisasi"
                     name="otorisasi"
                     onChange={handleChange}
+                    value={values.otorisasi}
                   />
                   {touched.otorisasi && errors.otorisasi ? (
                     <div className="error-form">{errors.otorisasi}</div>
@@ -308,6 +337,7 @@ const Layout = () => {
                     id="pengampuMatkul"
                     name="pengampuMatkul"
                     onChange={handleChange}
+                    value={values.pengampuMatkul}
                   />
                   {touched.pengampuMatkul && errors.pengampuMatkul ? (
                     <div className="error-form">{errors.pengampuMatkul}</div>
@@ -322,6 +352,7 @@ const Layout = () => {
                     id="kordinatorMatkul"
                     name="kordinatorMatkul"
                     onChange={handleChange}
+                    value={values.kordinatorMatkul}
                   />
                   {touched.kordinatorMatkul && errors.kordinatorMatkul ? (
                     <div className="error-form">{errors.kordinatorMatkul}</div>
@@ -336,6 +367,7 @@ const Layout = () => {
                     id="kordinatorProdi"
                     name="kordinatorProdi"
                     onChange={handleChange}
+                    value={values.kordinatorProdi}
                   />
                   {touched.kordinatorProdi && errors.kordinatorProdi ? (
                     <div className="error-form">{errors.kordinatorProdi}</div>
@@ -588,6 +620,7 @@ const Layout = () => {
                     rows="4"
                     cols="50"
                     style={{ resize: "none" }}
+                    value={values.deskripsiMk}
                   />
                   {touched.deskripsiMk && errors.deskripsiMk ? (
                     <div className="error-form">{errors.deskripsiMk}</div>
@@ -604,6 +637,7 @@ const Layout = () => {
                     rows="4"
                     cols="50"
                     style={{ resize: "none" }}
+                    value={values.bahanKajian}
                   />
                   {touched.bahanKajian && errors.bahanKajian ? (
                     <div className="error-form">{errors.bahanKajian}</div>
@@ -620,6 +654,7 @@ const Layout = () => {
                     rows="4"
                     cols="50"
                     style={{ resize: "none" }}
+                    value={values.daftarPustaka}
                   />
                   {touched.daftarPustaka && errors.daftarPustaka ? (
                     <div className="error-form">{errors.daftarPustaka}</div>
@@ -636,6 +671,7 @@ const Layout = () => {
                     rows="4"
                     cols="50"
                     style={{ resize: "none" }}
+                    value={values.dosenPengampu}
                   />
                   {touched.dosenPengampu && errors.dosenPengampu ? (
                     <div className="error-form">{errors.dosenPengampu}</div>
@@ -652,6 +688,7 @@ const Layout = () => {
                     rows="4"
                     cols="50"
                     style={{ resize: "none" }}
+                    value={values.matkulPrasyarat}
                   />
                   {touched.matkulPrasyarat && errors.matkulPrasyarat ? (
                     <div className="error-form">{errors.matkulPrasyarat}</div>
@@ -672,4 +709,4 @@ const Layout = () => {
   );
 };
 
-export default Layout;
+export default EditRPS;

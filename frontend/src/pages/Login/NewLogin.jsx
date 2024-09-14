@@ -54,10 +54,13 @@ const NewLogin = () => {
         password: password,
       });
 
+      console.log(res)
+
       if (res.data.success) {
         sessionStorage.setItem("token", res.data.token);
         sessionStorage.setItem("role", res.data.role);
         sessionStorage.setItem("prodiAdmin", res.data.prodiAdmin);
+        sessionStorage.setItem("prodiDosen", res.data.prodiDosen);
         sessionStorage.setItem("isLoggedIn", true);
 
         // const { role, prodiAdmin } = res.data;

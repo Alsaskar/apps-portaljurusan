@@ -1,6 +1,31 @@
+import axios from "axios";
 import "./rpsSatu.scss";
+import { urlApi } from "../../config";
+import { useEffect, useState } from "react";
 
 const RPSSatu = () => {
+  const [rps, setRps] = useState([]);
+
+  const _listRPS = async () => {
+    try {
+      const res = await axios.get(`${urlApi}/rps`, {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+        },
+      });
+
+      console.log(res.data.result);
+
+      setRps(res.data.result);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    _listRPS();
+  }, []);
+
   return (
     <div className="rps-satu">
       <div className="title">
@@ -18,21 +43,30 @@ const RPSSatu = () => {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td className="t-body-rps-satu width-mk"></td>
-              <td className="t-body-rps-satu width-kode"></td>
-              <td className="t-body-rps-satu width-rumpun"></td>
-              <td className="t-body-rps-satu width-bobot">
-                <div className="bobot-content">
-                  <p>T</p>
-                  <p></p>
-                  <p>P</p>
-                  <p></p>
-                </div>
-              </td>
-              <td className="t-body-rps-satu width-sem"></td>
-            </tr>
+            {rps.map((val, key) => {
+              return (
+                <tr key={key}>
+                  <td className="t-body-rps-satu width-mk">{val.otorisasi}</td>
+                  <td className="t-body-rps-satu width-kode">
+                    {val.kodeMatkul}
+                  </td>
+                  <td className="t-body-rps-satu width-rumpun">
+                    {val.rumpunMatkul}
+                  </td>
+                  <td className="t-body-rps-satu width-bobot">
+                    <div className="bobot-content">
+                      <p>T</p>
+                      <p>{val.bobot}</p>
+                      <p>P</p>
+                      <p></p>
+                    </div>
+                  </td>
+                  <td className="t-body-rps-satu width-sem">{val.semester}</td>
+                </tr>
+              );
+            })}
           </tbody>
+
           <thead>
             <tr>
               <th className="t-head-rps-satu">OTORISASI</th>
@@ -73,7 +107,9 @@ const RPSSatu = () => {
         <thead>
           <tr>
             <th className="t-head-rps-satu">CAPAIAN PEMBELAJARAN</th>
-            <th className="t-head-rps-satu">C.P.L PRODI YANG DIBERIKAN PADA M.K</th>
+            <th className="t-head-rps-satu">
+              C.P.L PRODI YANG DIBERIKAN PADA M.K
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -120,8 +156,12 @@ const RPSSatu = () => {
       <table className="table-rps-cpl-kem">
         <thead>
           <tr>
-            <th className="t-head-rps-satu">CAPAIAN PEMBELAJARAN MATA KULIAH</th>
-            <th className="t-head-rps-satu">KEMAMPUAN AKHIR TIAP TAHAPAN PEMBELAJARAN (SUB CPMK)</th>
+            <th className="t-head-rps-satu">
+              CAPAIAN PEMBELAJARAN MATA KULIAH
+            </th>
+            <th className="t-head-rps-satu">
+              KEMAMPUAN AKHIR TIAP TAHAPAN PEMBELAJARAN (SUB CPMK)
+            </th>
           </tr>
         </thead>
         <tbody>

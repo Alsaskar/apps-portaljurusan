@@ -60,7 +60,6 @@ import DosenDashboard from "./pages/Dosen.Dashboard";
 import DosenAddAbsensi from "./pages/Dosen.AddAbsensi";
 import DosenDataAbsensi from "./pages/Dosen.DataAbsensi";
 import DosenAddRPS from "./pages/Dosen.AddRPS";
-import DosenDaftarRPS from "./pages/Dosen.DaftarRPS";
 import DosenInputRPS from "./pages/Dosen.InputRPS";
 import DosenDataDosen from "./pages/Dosen.DataDosen";
 import DosenBimbinganChat from "./pages/Dosen.BimbinganChat";
@@ -93,6 +92,9 @@ import HimajuLayoutDosen from "./layout/HimajuLayoutDosen";
 import RPSTest from "./pages/RPS";
 import NewLogin from "./pages/Login/NewLogin";
 import LoginWithQRCode from "./pages/TV.Login/TVLogin";
+import DosenDataRPS from "./pages/Dosen.DataRPS";
+import DetailRps from "./pages/Dosen.DataRPS/DetailRps";
+import EditRPS from "./pages/Dosen.DataRPS/EditRPS";
 
 // import AdminBesarLayout from "./layout/AdminBesarLayout";
 // import AdminBesarDashboard from "./pages/Admin.BesarDashboard";
@@ -383,8 +385,18 @@ const App = () => {
               />
               <Route element={<DosenAddRPS />} path="/dosen/add/rps" exact />
               <Route
-                element={<DosenDaftarRPS />}
-                path="/dosen/daftar/mata/kuliah"
+                element={<DosenDataRPS />}
+                path="/dosen/data/rps"
+                exact
+              />
+              <Route
+                element={<EditRPS />}
+                path="/dosen/edit/rps/:id"
+                exact
+              />
+              <Route
+                element={<DetailRps />}
+                path="/dosen/detail/rps/:id"
                 exact
               />
               <Route

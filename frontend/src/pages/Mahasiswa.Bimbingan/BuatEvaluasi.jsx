@@ -27,7 +27,7 @@ const BuatEvaluasi = () => {
   const idMahasiswa = result ? result.id : null;
 
   const _handleSubmit = async (values, { resetForm }) => {
-    setLoading(true);
+    // setLoading(true);
 
     try {
       const dataURL = sigCanvas.current.getTrimmedCanvas().toDataURL();
