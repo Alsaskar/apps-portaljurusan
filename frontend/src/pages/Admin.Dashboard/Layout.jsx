@@ -13,6 +13,7 @@ import { urlApi } from "../../config";
 const Layout = () => {
   const [blockedIpCount, setBlockedIpCount] = useState(0);
   const [totalMahasiswa, setTotalMahasiswa] = useState(0);
+  const [totalDosen, setTotalDosen] = useState(0);
 
   useEffect(() => {
     const fetchTotalMahasiswa = async () => {
@@ -37,7 +38,30 @@ const Layout = () => {
       }
     };
 
+    const fetchTotalDosen = async () => {
+      try {
+        const prodiAdmin = sessionStorage.getItem("prodiAdmin");
+
+        if (!prodiAdmin) {
+          console.error("ProdiAdmin tidak ditemukan di sessionStorage");
+          return;
+        }
+
+        const res = await axios.get(`${urlApi}/dosen/total-dosen/${prodiAdmin}`, {
+          headers: {
+            Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+          },
+        });
+
+        setTotalDosen(res.data.totalDosen);
+        console.log(res.data);
+      } catch (error) {
+        console.error("Error fetching total mahasiswa:", error);
+      }
+    };
+
     fetchTotalMahasiswa();
+    fetchTotalDosen();
   }, []);
 
   useEffect(() => {
@@ -66,7 +90,7 @@ const Layout = () => {
           icon={<FaUsers />}
           count={totalMahasiswa}
         />
-        <Card title="Total Dosen" icon={<HiMiniUsers />} count={20} />
+        <Card title="Total Dosen" icon={<HiMiniUsers />} count={totalDosen} />
         <Card
           title="IP Diblokir"
           icon={<BsFillShieldLockFill />}

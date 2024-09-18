@@ -106,7 +106,7 @@ const Layout = () => {
                   return (
                     <tr key={key}>
                       <td>{val.matkul}</td>
-                      <td>{val.rentanWaktu}</td>
+                      <td>{val.rentanWaktu} menit</td>
                       <td>{val.kodeMatkul}</td>
 
                       <td className="dt-cell-action">

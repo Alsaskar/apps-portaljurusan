@@ -78,7 +78,10 @@ app.use('/api/v1/rps', RPS);
 app.use('/api/v1/qrcode', Qrcode);
 
 // Jadwalkan notifikasi setiap 1 jam
-setInterval(notifyUpcomingEvents, 60 * 60 * 1000);
+cron.schedule('15 19 * * *', () => {
+  console.log('Menjalankan fungsi notifikasi acara setiap hari pada jam 19:15...');
+  notifyUpcomingEvents().catch(console.error);
+});
 
 // Jadwalkan job untuk setiap tengah malam
 cron.schedule("0 0 * * *", async () => {

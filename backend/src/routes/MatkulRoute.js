@@ -8,7 +8,7 @@ import {
 } from "../controllers/MatkulController";
 
 const router = express.Router();
-x
+
 router.post("/", CekToken, add);
 router.get("/", CekToken, list);
 router.get("/total/:prodi", CekToken, getTotal);

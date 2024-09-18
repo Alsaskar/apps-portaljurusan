@@ -13,7 +13,6 @@ import "./style.scss";
 import { useLoading } from "../../context/LoadingContext";
 import LoadingAnimation from "../LoadingAnimation/LoadingAnimation";
 
-// Fungsi delay
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const Layout = () => {
@@ -23,30 +22,35 @@ const Layout = () => {
   const [detailMahasiswa, setDetailMahasiswa] = useState(null);
   const [hasFoto, setHasFoto] = useState(false);
   const { setLoading, loading } = useLoading();
+  const [totalDosen, setTotalDosen] = useState(0);
+  const [totalMatkul, setTotalMatkul] = useState(0);
 
-  const fetchMahasiswaWithDosen = useCallback(async (id) => {
-    try {
-      const res = await axios.get(
-        `${urlApi}/bimbingan/dosen-mahasiswa/${id}/dosen`,
-        {
-          headers: {
-            Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-          },
-        }
-      );
-      setDetailMahasiswa((prevState) => ({
-        ...prevState,
-        dosenWali: res.data.mahasiswa.dosenWali,
-      }));
-      setHasFoto(result?.foto); // Menggunakan optional chaining
-    } catch (error) {
-      console.error("Error fetching mahasiswa with dosen:", error);
-    }
-  }, [result?.foto]);
+  const fetchMahasiswaWithDosen = useCallback(
+    async (id) => {
+      try {
+        const res = await axios.get(
+          `${urlApi}/bimbingan/dosen-mahasiswa/${id}/dosen`,
+          {
+            headers: {
+              Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+            },
+          }
+        );
+        setDetailMahasiswa((prevState) => ({
+          ...prevState,
+          dosenWali: res.data.mahasiswa.dosenWali,
+        }));
+        setHasFoto(result?.foto);
+      } catch (error) {
+        console.error("Error fetching mahasiswa with dosen:", error);
+      }
+    },
+    [result?.foto]
+  );
 
   useEffect(() => {
     const fetchData = async () => {
-      setLoading(true); // Menandakan bahwa data sedang dimuat
+      setLoading(true);
       if (result) {
         if (result.detailmahasiswas) {
           setDetailMahasiswa(result.detailmahasiswas[0]);
@@ -55,12 +59,47 @@ const Layout = () => {
           await fetchMahasiswaWithDosen(result.id);
         }
       }
-      await delay(1500); // Tambahkan delay sebelum menyetel loading menjadi false
+      await delay(1500);
       setLoading(false);
     };
 
+    const fetchTotalDosen = async () => {
+      try {
+        const res = await axios.get(
+          `${urlApi}/dosen/total-dosen/${result?.prodi}`,
+          {
+            headers: {
+              Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+            },
+          }
+        );
+
+        setTotalDosen(res.data.totalDosen);
+        console.log(res.data);
+      } catch (error) {
+        console.error("Error fetching total mahasiswa:", error);
+      }
+    };
+
+    const fetchTotalMatkul = async () => {
+      try {
+        const res = await axios.get(`${urlApi}/matkul/total/${result?.prodi}`, {
+          headers: {
+            Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+          },
+        });
+
+        setTotalMatkul(res.data.totalMatkul);
+        console.log(res.data);
+      } catch (error) {
+        console.error("Error fetching total mahasiswa:", error);
+      }
+    };
+
+    fetchTotalDosen();
+    fetchTotalMatkul();
     fetchData();
-  }, [result, fetchMahasiswaWithDosen, setLoading]);
+  }, [result, fetchMahasiswaWithDosen, setLoading, result?.prodi]);
 
   if (loading) {
     return <LoadingAnimation />;
@@ -125,15 +164,16 @@ const Layout = () => {
             <div className="app-bar-border-left"></div>
             <div className="app-bar-info-kanan">
               <div className="app-bar-info-kanan-card">
-                {["Mata Kuliah", "Dosen", "Mahasiswa"].map((title, index) => (
+                {["Mata Kuliah", "Dosen"].map((title, index) => (
                   <div key={index} className="app-bar-card">
                     <p className="app-bar-card-title">{title}</p>
                     <p className="app-bar-card-value">
-                      {[10, 46, 1100][index]}
+                      {index === 0 ? totalMatkul : totalDosen}
                     </p>
                   </div>
                 ))}
               </div>
+
               <p className="app-bar-dosenwali">
                 Dosen Pembimbing
                 <span className="app-bar-dosenwali-name">

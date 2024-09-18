@@ -1,6 +1,6 @@
 import Hello from "../../assets/images/hello.png";
 import Calendar from "../../components/Calender";
-import CardAchiev from "../../components/CardAchiev";
+// import CardAchiev from "../../components/CardAchiev";
 import DigitalClock from "../../components/DigitalClock";
 import "./style.scss";
 
@@ -21,7 +21,7 @@ const Layout = () => {
           <DigitalClock />
           <Calendar />
         </div>
-        <CardAchiev className="card-achiev" />
+        {/* <CardAchiev className="card-achiev" /> */}
       </div>
     </div>
   );

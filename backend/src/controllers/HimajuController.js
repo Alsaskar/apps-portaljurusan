@@ -3,6 +3,7 @@ import { Himaju, ProfilHimaju, ProkerHimaju } from "../models/HimajuModel";
 import { Op } from "sequelize";
 import transporter from "../config/email";
 import User from "../models/UserModel";
+import cron from 'node-cron';
 
 export const add = async (req, res) => {
   const idMahasiswa = req.body.idMahasiswa;
@@ -308,11 +309,100 @@ export const deleteProker = async (req, res) => {
   }
 };
 
-// Notifikasi Email Tiga Hari Sebelumnya
+const sendNotificationEmail = async (event, emails) => {
+  console.log(`Mengirim email untuk acara: ${event.namaKegiatan}`);
+
+  for (const email of emails) {
+    const mailOptions = {
+      from: process.env.EMAIL_FROM,
+      to: email,
+      subject: `Pengingat: ${event.namaKegiatan} akan dimulai`,
+      html: `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <style>
+            body {
+              font-family: Arial, sans-serif;
+              background-color: #f4f4f4;
+              color: #333;
+              margin: 0;
+              padding: 0;
+            }
+            .container {
+              max-width: 600px;
+              margin: 20px auto;
+              background: #fff;
+              padding: 20px;
+              border-radius: 8px;
+              box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            }
+            h2 {
+              color: #007BFF;
+              text-align: center;
+            }
+            p {
+              font-size: 16px;
+              text-align: left;
+            }
+            ul {
+              font-size: 16px;
+              line-height: 1.6;
+            }
+            li {
+              margin-bottom: 10px;
+            }
+            .footer {
+              font-size: 14px;
+              text-align: center;
+              margin-top: 20px;
+            }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <h2>Pengingat: ${event.namaKegiatan}</h2>
+            <p>Halo,</p>
+            <p>Ini adalah pengingat bahwa acara <strong>"${event.namaKegiatan}"</strong> akan dimulai.</p>
+            <h3>Detail Acara:</h3>
+            <ul>
+              <li><strong>Deskripsi:</strong> ${event.description}</li>
+              <li><strong>Tanggal:</strong> ${event.tglPelaksanaan}</li>
+              <li><strong>Jam Mulai:</strong> ${event.jamMulai}</li>
+              <li><strong>Jam Selesai:</strong> ${event.jamSelesai}</li>
+              <li><strong>Lokasi:</strong> ${event.lokasi}</li>
+            </ul>
+            <p>Terima kasih,</p>
+            <p>Tim Kami</p>
+            <div class="footer">
+              <p>Jika Anda tidak meminta pengingat ini, harap abaikan email ini.</p>
+            </div>
+          </div>
+        </body>
+        </html>
+      `,
+    };
+
+    try {
+      await transporter.sendMail(mailOptions);
+      console.log(`Email berhasil dikirim ke ${email} untuk acara ${event.namaKegiatan}`);
+
+      // Update field notifikasiDikirim setelah email terkirim
+      await ProkerHimaju.update(
+        { notifikasiDikirim: true },
+        { where: { id: event.id } }
+      );
+      console.log(`Status notifikasi untuk acara ${event.namaKegiatan} diperbarui.`);
+    } catch (error) {
+      console.error(`Error saat mengirim email ke ${email}:`, error);
+    }
+  }
+};
+
+
 export const notifyUpcomingEvents = async () => {
   const now = new Date();
-  const oneDayLater = new Date(now.getTime() + 24 * 60 * 60 * 1000); //dalam 1 hari
-  // const threeDaysLater = new Date(now.getTime() + 3 * 24 * 60 * 60 * 1000); //dalam 3 hari
+  const threeDaysLater = new Date(now.getTime() + 3 * 24 * 60 * 60 * 1000); // Tanggal 3 hari ke depan
 
   try {
     const acceptedHimaju = await Himaju.findAll({
@@ -330,15 +420,9 @@ export const notifyUpcomingEvents = async () => {
     const events = await ProkerHimaju.findAll({
       where: {
         tglPelaksanaan: {
-          [Op.eq]: oneDayLater.toISOString().split("T")[0],
+          [Op.eq]: threeDaysLater.toISOString().split("T")[0],
         },
-        jamMulai: {
-          [Op.between]: [
-            "00:00", // Mulai dari tengah malam
-            "23:59", // Sampai akhir hari
-          ],
-        },
-        notifikasiDikirim: false, // Hanya ambil acara yang belum dikirim notifikasinya
+        notifikasiDikirim: false,
       },
     });
 
@@ -361,44 +445,34 @@ export const notifyUpcomingEvents = async () => {
       ],
     });
 
-    console.log("Mahasiswa with associated User data:", mahasiswaWithEmails);
-
     const emails = mahasiswaWithEmails
       .map((mahasiswa) => mahasiswa.user && mahasiswa.user.email)
       .filter(Boolean);
-
-    console.log("Extracted emails:", emails);
 
     if (emails.length === 0) {
       console.log("Tidak ada email yang ditemukan.");
       return;
     }
 
-    events.forEach(async (event) => {
-      emails.forEach(async (email) => {
-        const mailOptions = {
-          from: process.env.EMAIL_FROM,
-          to: email,
-          subject: `Pengingat: ${event.namaKegiatan} akan dimulai dalam 3 hari`,
-          text: `Halo,\n\nIni adalah pengingat bahwa acara "${event.namaKegiatan}" akan dimulai dalam 3 hari.\n\nDetail:\nDeskripsi: ${event.description}\nTanggal: ${event.tglPelaksanaan}\nJam Mulai: ${event.jamMulai}\nJam Selesai: ${event.jamSelesai}\nLokasi: ${event.lokasi}`,
-        };
+    for (const event of events) {
+      const eventDateTime = new Date(`${event.tglPelaksanaan}T${event.jamMulai}`);
+      const notificationDateTime = new Date(eventDateTime.getTime() - 3 * 24 * 60 * 60 * 1000); // 3 hari sebelum acara pada jamMulai
 
-        try {
-          await transporter.sendMail(mailOptions);
-          console.log(
-            `Email terkirim ke ${email} untuk acara ${event.namaKegiatan}`
-          );
+      console.log(`Jadwal pengiriman email untuk acara ${event.namaKegiatan} pada ${notificationDateTime.toISOString()}`);
 
-          // Update field notifikasiDikirim setelah email terkirim
-          await ProkerHimaju.update(
-            { notifikasiDikirim: true },
-            { where: { id: event.id } }
-          );
-        } catch (error) {
-          console.error(`Error saat mengirim email ke ${email}:`, error);
-        }
+      const cronMinute = eventDateTime.getMinutes();
+      const cronHour = eventDateTime.getHours();
+      const cronDay = notificationDateTime.getDate();
+      const cronMonth = notificationDateTime.getMonth() + 1; // Cron bulan mulai dari 1
+
+      const cronExpression = `0 ${cronMinute} ${cronHour} ${cronDay} ${cronMonth} *`;
+      console.log(`Menjadwalkan cron dengan ekspresi: ${cronExpression}`);
+
+      cron.schedule(cronExpression, () => {
+        console.log(`Menjalankan pengiriman email untuk acara ${event.namaKegiatan}`);
+        sendNotificationEmail(event, emails).catch(console.error);
       });
-    });
+    }
   } catch (err) {
     console.error("Error saat mengambil data acara:", err);
   }
