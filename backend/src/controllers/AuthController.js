@@ -190,7 +190,7 @@ export const login = async (req, res) => {
       // Daftarkan token
       const payload = { username: user.username };
       const token = jwt.sign(payload, process.env.TOKEN_JWT, {
-        expiresIn: "1d",
+        expiresIn: "7d",
       });
 
       return res.status(200).json({
@@ -232,8 +232,6 @@ export const login = async (req, res) => {
       .json({ message: "Terjadi kesalahan saat login", error: error.message });
   }
 };
-
-
 
 // const formatIp = (ip) => {
 //   return ip.replace(/^::ffff:/, ""); // Menghapus awalan ::ffff:

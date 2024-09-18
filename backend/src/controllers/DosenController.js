@@ -593,3 +593,74 @@ export const listAll = async (req, res) => {
     return res.status(500).json({ message: err.message })
   }
 }
+
+export const createKaprodi = async (req, res) => {
+  const id = req.params.id;
+  const asKaprodi = req.body.asKaprodi;
+
+  const cekData = await Dosen.count({ where: { asKaprodi: asKaprodi } })
+
+  if(cekData > 0){
+    return res.status(500).json({ message: 'Kaprodi sudah ada', success: false })
+  }else{
+    try{
+      await Dosen.update({
+        asKaprodi: asKaprodi
+      }, {
+          where: { id: id }
+      })
+  
+      return res.status(200).json({ message: 'Berhasil jadikan Kaprodi', success: true })
+    }catch(err){
+      return res.status(500).json({ message: err.message })
+    }
+  }
+}
+
+export const removeKaprodi = async (req, res) => {
+  const id = req.params.id;
+  const asKaprodi = req.body.asKaprodi;
+
+  try{
+    await Dosen.update({
+      asKaprodi: asKaprodi
+    }, {
+        where: { id: id }
+    })
+
+    return res.status(200).json({ message: 'Jabatan Kaprodi telah dicabut', success: true })
+  }catch(err){
+    return res.status(500).json({ message: err.message })
+  }
+}
+
+export const searchData = async (req, res) => {
+  const search = req.query.search;
+
+  try{
+    const result = await Dosen.findAll({
+      where: {
+        [Op.or]: [
+          { fullname: { [Op.like]: `%${search}%` } },
+          { nip: { [Op.like]: `%${search}%` } },
+        ]
+      }
+    })
+
+    return res.status(200).json({ result: result })
+  }catch(err){
+    return res.status(500).json({ message: err.message })
+  }
+}
+
+export const getTotalDosen = async (req, res) => {
+  const prodi = req.params.prodi;
+
+  try{
+    const result = await Dosen.count({ where: { prodi: prodi } })
+
+    return res.status(200).json({ totalDosen: result })
+  }catch(err){
+    return res.status(500).json({ message: err.message })
+  }
+}

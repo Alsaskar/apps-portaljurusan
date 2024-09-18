@@ -29,6 +29,7 @@ export const RPS = db.define("rps", {
     dosenPengampu: { type: DataTypes.STRING },
     matkulPrasyarat: { type: DataTypes.STRING },
     status: { type: DataTypes.STRING },
+    ketTolak: { type: DataTypes.STRING },
   },
   {
     freezeTableName: true,
@@ -58,3 +59,7 @@ export const DetailRPS = db.define("rpsdetail", {
     timestamps: false,
   }
 );
+
+// Join table - mahasiswa to user
+RPS.hasMany(DetailRPS, { foreignKey: "id" });
+DetailRPS.belongsTo(RPS, { foreignKey: "idRps" });

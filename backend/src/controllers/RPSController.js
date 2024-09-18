@@ -1,5 +1,5 @@
 import Matkul from "../models/MatkulModels";
-import { RPS } from "../models/RPSModel";
+import { DetailRPS, RPS } from "../models/RPSModel";
 
 export const add = async (req, res) => {
     const idDosen = req.body.idDosen;
@@ -24,38 +24,42 @@ export const add = async (req, res) => {
     const matkulPrasyarat = req.body.matkulPrasyarat;
 
     // get nama matkul berdasarkan kode matkul
-    const matkul = await Matkul.findOne({ where: { kodeMatkul: kodeMatkul }, attributes: ['matkul'] })
+    const matkul = await Matkul.findOne({ where: { kodeMatkul: kodeMatkul }, attributes: ['matkul', 'kodeMatkul'] })
     const namaMatkul = matkul.dataValues.matkul;
 
-    try{
+    if(kodeMatkul === matkul.dataValues.kodeMatkul){ // jika matkul sudah ada rps, maka tidak bisa
+        return res.status(500).json({ message: 'RPS pada Matkul yang Anda pilih sudah ada sebelumnya', success: false })
+    }else{
+        try{
 
-        await RPS.create({
-            idDosen: idDosen,
-            namaMatkul: namaMatkul,
-            kodeMatkul: kodeMatkul,
-            rumpunMatkul: rumpunMatkul,
-            bobot: bobot,
-            semester: semester,
-            tanggalPenyusunan: tanggalPenyusunan,
-            otorisasi: otorisasi,
-            pembuatRp: pembuatRp,
-            pengampuMatkul: pengampuMatkul,
-            kordinatorMatkul: kordinatorMatkul,
-            kordinatorProdi: kordinatorProdi,
-            capaianPembelajaran: capaianPembelajaran,
-            cpl: cpl,
-            cpmk: cpmk,
-            subCpmk: subCpmk,
-            deskripsiMk: deskripsiMk,
-            bahanKajian: bahanKajian,
-            daftarPustaka: daftarPustaka,
-            dosenPengampu: dosenPengampu,
-            matkulPrasyarat: matkulPrasyarat,
-        })
-
-        return res.status(200).json({ message: 'Berhasil menambahkan RPS', success: true })
-    }catch(err){
-        return res.status(500).json({ message: err })
+            await RPS.create({
+                idDosen: idDosen,
+                namaMatkul: namaMatkul,
+                kodeMatkul: kodeMatkul,
+                rumpunMatkul: rumpunMatkul,
+                bobot: bobot,
+                semester: semester,
+                tanggalPenyusunan: tanggalPenyusunan,
+                otorisasi: otorisasi,
+                pembuatRp: pembuatRp,
+                pengampuMatkul: pengampuMatkul,
+                kordinatorMatkul: kordinatorMatkul,
+                kordinatorProdi: kordinatorProdi,
+                capaianPembelajaran: capaianPembelajaran,
+                cpl: cpl,
+                cpmk: cpmk,
+                subCpmk: subCpmk,
+                deskripsiMk: deskripsiMk,
+                bahanKajian: bahanKajian,
+                daftarPustaka: daftarPustaka,
+                dosenPengampu: dosenPengampu,
+                matkulPrasyarat: matkulPrasyarat,
+            })
+    
+            return res.status(200).json({ message: 'Berhasil menambahkan RPS', success: true })
+        }catch(err){
+            return res.status(500).json({ message: err })
+        }
     }
 }
 
@@ -144,10 +148,143 @@ export const detail = async (req, res) => {
     const id = req.params.id;
 
     try{
-        const rps = await RPS.findOne({ where: { id: id } })
+        const rps = await RPS.findOne({
+            where: { id: id } 
+        })
 
         return res.status(200).json({ result: rps })
     }catch(err){
         return res.status(500).json({ message: err })
+    }
+}
+
+/* Detail RPS */
+
+export const addDetail = async (req, res) => {
+    const idRps = req.body.idRps;
+    const mingguKe = req.body.mingguKe;
+    const subCpmk = req.body.subCpmk;
+    const bahanKajian = req.body.bahanKajian;
+    const bentukMetode = req.body.bentukMetode;
+    const estimasiWaktu = req.body.estimasiWaktu;
+    const pengalamanBelajar = req.body.pengalamanBelajar;
+    const kriteriaBentuk = req.body.kriteriaBentuk;
+    const indikator = req.body.indikator;
+    const bobot = req.body.bobot;
+
+    try{
+        await DetailRPS.create({
+            idRps: idRps,
+            mingguKe: mingguKe,
+            subCpmk: subCpmk,
+            bahanKajian: bahanKajian,
+            bentukMetode: bentukMetode,
+            estimasiWaktu: estimasiWaktu,
+            pengalamanBelajar: pengalamanBelajar,
+            kriteriaBentuk: kriteriaBentuk,
+            indikator: indikator,
+            bobot: bobot,
+        })
+
+        return res.status(200).json({ message: 'RPS Mingguan berhasil ditambahkan', success: true })
+    }catch(err){
+        return res.status(500).json({ message: err })
+    }
+}
+
+export const editDetail = async (req, res) => {
+    const id = req.params.id;
+
+    const mingguKe = req.body.mingguKe;
+    const subCpmk = req.body.subCpmk;
+    const bahanKajian = req.body.bahanKajian;
+    const bentukMetode = req.body.bentukMetode;
+    const estimasiWaktu = req.body.estimasiWaktu;
+    const pengalamanBelajar = req.body.pengalamanBelajar;
+    const kriteriaBentuk = req.body.kriteriaBentuk;
+    const indikator = req.body.indikator;
+    const bobot = req.body.bobot;
+
+    try{
+        await DetailRPS.update({
+            mingguKe: mingguKe,
+            subCpmk: subCpmk,
+            bahanKajian: bahanKajian,
+            bentukMetode: bentukMetode,
+            estimasiWaktu: estimasiWaktu,
+            pengalamanBelajar: pengalamanBelajar,
+            kriteriaBentuk: kriteriaBentuk,
+            indikator: indikator,
+            bobot: bobot,
+        }, { where: { id: id } })
+
+        return res.status(200).json({ message: 'RPS Mingguan berhasil di edit', success: true })
+    }catch(err){
+        return res.status(500).json({ message: err })
+    }
+}
+
+export const removeDetail = async (req, res) => {
+    const id = req.params.id;
+
+    try{
+        await DetailRPS.destroy({
+            where: { id: id }
+        })
+
+        return res.status(200).json({ message: 'RPS Mingguan berhasil di hapus', success: true })
+    }catch(err){
+        return res.status(500).json({ message: err })
+    }
+}
+
+export const detailMingguan = async (req, res) => {
+    const idRps = req.params.idRps;
+
+    try{
+        const rps = await DetailRPS.findAll({
+            where: { idRps: idRps } 
+        })
+
+        return res.status(200).json({ result: rps })
+    }catch(err){
+        return res.status(500).json({ message: err })
+    }
+}
+
+/* Approve & Reject */
+export const approve = async (req, res) => {
+    const id = req.params.id; // id rps
+    const status = req.body.status;
+    
+    try{
+        await RPS.update({
+            status: status
+        }, {
+            where: { id: id }
+        })
+
+        return res.status(200).json({ message: 'RPS berhasil di setujui', success: true })
+    }catch(err){
+        return res.status(500).json({ message: err })
+    }
+}
+
+export const reject = async (req, res) => {
+    const id = req.params.id; // id rps
+    const ketTolak = req.body.ketTolak;
+    const status = req.body.status;
+    
+    try{
+        await RPS.update({
+            status: status,
+            ketTolak: ketTolak
+        }, {
+            where: { id: id }
+        })
+
+        return res.status(200).json({ message: 'RPS di tolak', success: true })
+    }catch(err){
+        return res.status(500).json({ message: err.message })
     }
 }

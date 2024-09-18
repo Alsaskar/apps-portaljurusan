@@ -13,7 +13,7 @@ const Matkul = db.define(
     dosenPengajar: { type: DataTypes.STRING },
     prodi: { type: DataTypes.STRING },
     kodeMatkul: { type: DataTypes.STRING },
-    rentanWaktu: { type: DataTypes.STRING },
+    rentanWaktu: { type: DataTypes.INTEGER },
   },
   {
     freezeTableName: true,

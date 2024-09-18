@@ -23,6 +23,7 @@ const Dosen = db.define(
     jurusan: { type: DataTypes.STRING },
     prodi: { type: DataTypes.STRING },
     foto: { type: DataTypes.STRING },
+    asKaprodi: { type: DataTypes.STRING },
   },
   {
     freezeTableName: true,

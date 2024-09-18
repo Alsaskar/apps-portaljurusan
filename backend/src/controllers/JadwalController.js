@@ -13,9 +13,6 @@ export const add = async (req, res) => {
     const jamMulai = req.body.jamMulai;
     const dosenPengajar = req.body.dosenPengajar;
 
-    const start = moment(jamMulai, 'HH:mm')
-    const end = start.clone().add(60, 'minutes')
-
     if(idMatkul === ''){
         return res.status(500).json({ message: 'Mata kuliah tidak boleh kosong', success: false })
     }else if(idKelas === ''){
@@ -36,6 +33,11 @@ export const add = async (req, res) => {
         const cekRuangan = await Jadwal.count({ where: { ruangan: ruangan } })
         const cekDosenPengajar = await Jadwal.count({ where: { dosenPengajar: dosenPengajar } })
         const cekJamMulai = await Jadwal.count({ where: { jamMulai: jamMulai } })
+
+        const dataMatkul = await Matkul.findOne({ where: { id: idMatkul } })
+
+        const start = moment(jamMulai, 'HH:mm')
+        const end = start.clone().add(dataMatkul.rentanWaktu, 'minutes')
 
         if(cekMatkul > 0 && cekKelas > 0 && cekHari > 0 && cekRuangan > 0 && cekDosenPengajar > 0){
             return res.status(500).json({ message: 'Jadwal sudah ada', success: false })
@@ -119,5 +121,53 @@ export const getByDay = async (req, res) => {
         return res.status(200).json({ result: result })
     }catch (err) {
         return res.status(500).json({ message: err.message });
+    }
+}
+
+// list jadwal berdasarkan dosen
+export const listDosen = async (req, res) => {
+    const dosenPengajar = req.query.dosenPengajar;
+    const hari = req.query.hari;
+
+    try{
+        const result = await Jadwal.findAll({
+            where: { dosenPengajar: dosenPengajar, hari: hari },
+            include: [
+                {
+                  model: Matkul,
+                },
+                {
+                    model: Kelas
+                }
+            ],
+        })
+
+        return res.status(200).json({ result: result })
+    }catch(err){
+        return res.status(500).json({ message: err.message })
+    }
+}
+
+// tampilkan jadwal pada dosen berdasarkan lab
+export const listDosenByLab = async (req, res) => {
+    const hari = req.query.hari;
+    const lab = req.query.lab;
+
+    try{
+        const result = await Jadwal.findAll({
+            where: { hari: hari, ruangan: lab },
+            include: [
+                {
+                  model: Matkul,
+                },
+                {
+                    model: Kelas
+                }
+            ],
+        })
+
+        return res.status(200).json({ result: result })
+    }catch(err){
+        return res.status(500).json({ message: err.message })
     }
 }
