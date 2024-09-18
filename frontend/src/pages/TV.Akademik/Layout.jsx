@@ -4,25 +4,26 @@ import { Link } from "react-router-dom";
 import { RiHomeOfficeFill } from "react-icons/ri";
 import poli1 from "../../assets/images/poli_1.jpg";
 import poli3 from "../../assets/images/poli_3.jpeg";
+
 const Layout = () => {
+  const role = sessionStorage.getItem("role");
+
   const cardData = [
     {
       title: "Jadwal",
-      link:
-        sessionStorage.getItem("role") === "mahasiswa"
-          ? "/tv/jadwal/mahasiswa"
-          : "/tv/jadwal/dosen",
+      link: role === "mahasiswa" ? "/tv/jadwal/mahasiswa" : "/tv/jadwal/dosen",
       backgroundImage: poli1,
     },
-    {
-      title: "DataDosen",
-      link:
-        sessionStorage.getItem("role") === "mahasiswa"
-          ? "/tv/data/dosen"
-          : "/tv/data/mahasiswa",
-      backgroundImage: poli3,
-    },
   ];
+
+  // Jika role adalah mahasiswa, tambahkan menu DataDosen
+  if (role === "mahasiswa") {
+    cardData.push({
+      title: "DataDosen",
+      link: "/tv/data/dosen",
+      backgroundImage: poli3,
+    });
+  }
 
   return (
     <>

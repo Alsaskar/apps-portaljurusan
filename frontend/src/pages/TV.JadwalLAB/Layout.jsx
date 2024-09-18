@@ -102,7 +102,7 @@ const Jadwal = () => {
             <div className="jadwal-icon-profile-tv">
               <TiUser size={17} />
             </div>
-            <p className="jadwal-name-dosen-tv">{val.matkul.dosenPengajar}</p>
+            <p className="jadwal-name-dosen-tv">{val.dosenPengajar}</p>
           </div>
           <div className="jadwal-lab-tv">
             <p className="jadwal-text-lab-tv">{val.ruangan}</p>

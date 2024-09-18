@@ -1,7 +1,7 @@
 import "./DataDosen.scss";
 import { IoSearch } from "react-icons/io5";
-import ImgDosen from "../../assets/images/profile_no_image.png"; // Image fallback
-import { urlApi, urlStaticAssetsDosen } from "../../config"; // Pastikan urlStaticAssetsDosen didefinisikan di config
+import ImgDosen from "../../assets/images/profile_no_image.png";
+import { urlApi, urlStaticAssetsDosen } from "../../config";
 import axios from "axios";
 import { useState } from "react";
 
