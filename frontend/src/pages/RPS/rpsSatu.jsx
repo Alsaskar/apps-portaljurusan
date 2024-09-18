@@ -1,31 +1,13 @@
-import axios from "axios";
 import "./rpsSatu.scss";
-import { urlApi } from "../../config";
-import { useEffect, useState } from "react";
+import PropTypes from "prop-types";
 
-const RPSSatu = () => {
-  const [rps, setRps] = useState([]);
+const RPSSatu = ({ data }) => {
+  const cplArray = data.cpl ? data.cpl.split(",") : [];
+  const capaianPembelajaranArray = data.capaianPembelajaran ? data.capaianPembelajaran.split(",") : [];
+  const cpmkArray = data.cpmk ? data.cpmk.split(",") : [];
+  const subCpmkArray = data.subCpmk ? data.subCpmk.split(",") : [];
 
-  const _listRPS = async () => {
-    try {
-      const res = await axios.get(`${urlApi}/rps`, {
-        headers: {
-          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-        },
-      });
-
-      console.log(res.data.result);
-
-      setRps(res.data.result);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  useEffect(() => {
-    _listRPS();
-  }, []);
-
+  const maxRows = Math.max(cplArray.length, capaianPembelajaranArray.length);
   return (
     <div className="rps-satu">
       <div className="title">
@@ -43,28 +25,22 @@ const RPSSatu = () => {
             </tr>
           </thead>
           <tbody>
-            {rps.map((val, key) => {
-              return (
-                <tr key={key}>
-                  <td className="t-body-rps-satu width-mk">{val.otorisasi}</td>
-                  <td className="t-body-rps-satu width-kode">
-                    {val.kodeMatkul}
-                  </td>
-                  <td className="t-body-rps-satu width-rumpun">
-                    {val.rumpunMatkul}
-                  </td>
-                  <td className="t-body-rps-satu width-bobot">
-                    <div className="bobot-content">
-                      <p>T</p>
-                      <p>{val.bobot}</p>
-                      <p>P</p>
-                      <p></p>
-                    </div>
-                  </td>
-                  <td className="t-body-rps-satu width-sem">{val.semester}</td>
-                </tr>
-              );
-            })}
+            <tr>
+              <td className="t-body-rps-satu width-mk">{data.otorisasi}</td>
+              <td className="t-body-rps-satu width-kode">{data.kodeMatkul}</td>
+              <td className="t-body-rps-satu width-rumpun">
+                {data.rumpunMatkul}
+              </td>
+              <td className="t-body-rps-satu width-bobot">
+                <div className="bobot-content">
+                  <p>T</p>
+                  <p>{data.bobot}</p>
+                  <p>P</p>
+                  <p></p>
+                </div>
+              </td>
+              <td className="t-body-rps-satu width-sem">{data.semester}</td>
+            </tr>
           </tbody>
 
           <thead>
@@ -78,11 +54,11 @@ const RPSSatu = () => {
           </thead>
           <tbody>
             <tr>
-              <td className="t-body-rps-satu width-mk"></td>
-              <td className="t-body-rps-satu width-kode"></td>
-              <td className="t-body-rps-satu width-rumpun"></td>
-              <td className="t-body-rps-satu width-bobot"></td>
-              <td className="t-body-rps-satu width-sem"></td>
+              <td className="t-body-rps-satu width-mk">{data.otorisasi}</td>
+              <td className="t-body-rps-satu width-kode">{data.pembuatRp}</td>
+              <td className="t-body-rps-satu width-rumpun">{data.dosenPengampu}</td>
+              <td className="t-body-rps-satu width-bobot">{data.kordinatorMatkul}</td>
+              <td className="t-body-rps-satu width-sem">{data.kordinatorProdi}</td>
             </tr>
           </tbody>
         </table>
@@ -96,7 +72,7 @@ const RPSSatu = () => {
           </thead>
           <tbody>
             <tr>
-              <td className="t-body-rps-satu width-tgl"></td>
+              <td className="t-body-rps-satu width-tgl">{data.tanggalPenyusunan}</td>
             </tr>
           </tbody>
         </table>
@@ -113,42 +89,25 @@ const RPSSatu = () => {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td className="t-body-rps-satu"></td>
-            <td className="t-body-rps-satu">
-              <div className="cpl">
-                <div className="cpl-num">CPL-1</div>
-                <div className="cpl-text"></div>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td className="t-body-rps-satu"></td>
-            <td className="t-body-rps-satu">
-              <div className="cpl">
-                <div className="cpl-num">CPL-2</div>
-                <div className="cpl-text"></div>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td className="t-body-rps-satu"></td>
-            <td className="t-body-rps-satu">
-              <div className="cpl">
-                <div className="cpl-num">CPL-3</div>
-                <div className="cpl-text"></div>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td className="t-body-rps-satu"></td>
-            <td className="t-body-rps-satu">
-              <div className="cpl">
-                <div className="cpl-num">CPL-4</div>
-                <div className="cpl-text"></div>
-              </div>
-            </td>
-          </tr>
+        {Array.from({ length: maxRows }).map((_, index) => (
+            <tr key={index}>
+              <td className="t-body-rps-satu">
+                {/* Menampilkan capaian pembelajaran sesuai dengan indeks */}
+                {capaianPembelajaranArray[index] ? capaianPembelajaranArray[index].trim() : ""}
+              </td>
+              <td className="t-body-rps-satu">
+                <div className="cpl">
+                  <div className="cpl-num">
+                    {/* Menampilkan CPL, hanya ada satu jika lebih sedikit dari capaian */}
+                    {index < cplArray.length ? `CPL-${index + 1}` : ""}
+                  </div>
+                  <div className="cpl-text">
+                    {index < cplArray.length ? cplArray[index].trim() : ""}
+                  </div>
+                </div>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
 
@@ -165,66 +124,40 @@ const RPSSatu = () => {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td className="t-body-rps-satu">
-              <div className="cpl">
-                <div className="cpl-num">CPMK-1</div>
-                <div className="cpl-text"></div>
-              </div>
-            </td>
-            <td className="t-body-rps-satu">
-              <div className="cpl">
-                <div className="cpl-num">KODE</div>
-                <div className="cpl-text"></div>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td className="t-body-rps-satu">
-              <div className="cpl">
-                <div className="cpl-num">CPMK-2</div>
-                <div className="cpl-text"></div>
-              </div>
-            </td>
-            <td className="t-body-rps-satu">
-              <div className="cpl">
-                <div className="cpl-num">KODE</div>
-                <div className="cpl-text"></div>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td className="t-body-rps-satu">
-              <div className="cpl">
-                <div className="cpl-num">CPMK-3</div>
-                <div className="cpl-text"></div>
-              </div>
-            </td>
-            <td className="t-body-rps-satu">
-              <div className="cpl">
-                <div className="cpl-num">KODE</div>
-                <div className="cpl-text"></div>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td className="t-body-rps-satu">
-              <div className="cpl">
-                <div className="cpl-num">CPMK-4</div>
-                <div className="cpl-text"></div>
-              </div>
-            </td>
-            <td className="t-body-rps-satu">
-              <div className="cpl">
-                <div className="cpl-num">KODE</div>
-                <div className="cpl-text"></div>
-              </div>
-            </td>
-          </tr>
+          {Array.from({ length: Math.max(cpmkArray.length, subCpmkArray.length) }).map((_, index) => (
+            <tr key={index}>
+              <td className="t-body-rps-satu">
+                <div className="cpl">
+                  <div className="cpl-num">
+                    {/* Menampilkan CPMK, hanya ada satu jika lebih sedikit dari sub CPMK */}
+                    {index < cpmkArray.length ? `CPMK-${index + 1}` : ""}
+                  </div>
+                  <div className="cpl-text">
+                    {index < cpmkArray.length ? cpmkArray[index].trim() : ""}
+                  </div>
+                </div>
+              </td>
+              <td className="t-body-rps-satu">
+                <div className="cpl">
+                  <div className="cpl-num">
+                    {/* Menampilkan KODE, hanya ada satu jika lebih sedikit dari CPMK */}
+                    {index < subCpmkArray.length ? `KODE` : ""}
+                  </div>
+                  <div className="cpl-text">
+                    {index < subCpmkArray.length ? subCpmkArray[index].trim() : ""}
+                  </div>
+                </div>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>
   );
+};
+
+RPSSatu.propTypes = {
+  data: PropTypes.object.isRequired,
 };
 
 export default RPSSatu;

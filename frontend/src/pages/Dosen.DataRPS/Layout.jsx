@@ -4,6 +4,7 @@ import axios from "axios";
 import { urlApi } from "../../config";
 import { HiTrash } from "react-icons/hi2";
 import { MdRemoveRedEye, MdEditSquare } from "react-icons/md";
+import { FaCalendarWeek } from "react-icons/fa";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
 
@@ -68,6 +69,7 @@ const Layout = () => {
                 <th>Semester</th>
                 <th>Tanggal Penyusunan</th>
                 <th>Pembuat RP</th>
+                <th>Status</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -81,9 +83,25 @@ const Layout = () => {
                       <td>{val.semester}</td>
                       <td>{val.tanggalPenyusunan}</td>
                       <td>{val.pembuatRp}</td>
+                      <td className="status-badge">
+                        {val.status === "reject" && (
+                          <span className="badge badge-reject">
+                            Ditolak. Lihat Alasan
+                          </span>
+                        )}
+                        {val.status === "approve" && (
+                          <span className="badge badge-approve">
+                            Disetujui
+                          </span>
+                        )}
+                        {val.status !== "reject" &&
+                          val.status !== "approve" && (
+                            <span className="badge badge-proses">Proses</span>
+                          )}
+                      </td>
                       <td className="dt-cell-action-rps">
                         <Link
-                          to={`dosen/detail/rps/${val.id}`}
+                          to={`/rps/${val.id}`}
                           type="button"
                           className="btn-section-rps view-rps"
                         >
@@ -95,6 +113,14 @@ const Layout = () => {
                           className="btn-section-rps edit-rps"
                         >
                           <MdEditSquare size={18} />
+                        </Link>
+                        <Link
+                          to={`/dosen/tambah/rps/minggu/${val.id}`}
+                          type="button"
+                          className="btn-section-rps mingguan-rps"
+                          title="rps minggu"
+                        >
+                          <FaCalendarWeek size={18} />
                         </Link>
                         <button
                           type="button"

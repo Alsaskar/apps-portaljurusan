@@ -55,6 +55,33 @@
           font-size: 14px;
           padding: 12px 10px;
         }
+
+        &.status-badge {
+          .badge {
+            padding: 0.25em 0.5em;
+            font-size: 13px;
+            font-weight: 700;
+            color: #fff;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: baseline;
+            border-radius: 5px;
+
+            &.badge-reject {
+              background-color: var(--red-color); /* Grey */
+            }
+
+            /* Anggota Aktif Badge */
+            &.badge-approve {
+              background-color: var(--green-color); /* Green */
+            }
+
+            /* Ketua Badge */
+            &.badge-proses {
+              background-color: var(--blue-color); /* Blue */
+            }
+          }
+        }
       }
 
       thead {
@@ -101,6 +128,15 @@
 
             &:hover {
               background-color: #e7a14b;
+            }
+          }
+
+          &.mingguan-rps {
+            background-color: var(--purple-color);
+            transition: all 0.3s ease;
+
+            &:hover {
+              background-color: #e76afa;
             }
           }
 

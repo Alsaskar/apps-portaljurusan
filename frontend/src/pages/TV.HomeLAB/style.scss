@@ -1,0 +1,79 @@
+.tv-home-lab {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 20px;
+  height: 100vh;
+
+  .tv-home-container {
+    width: 900px;
+
+    .img-section {
+      .slick-slide {
+        overflow: hidden;
+        border-radius: 0px;
+        .img-slider {
+          width: 900px;
+          height: 500px;
+          object-fit: cover;
+          background-position: center;
+          border-radius: 20px;
+        }
+      }
+
+      .slick-dots {
+        bottom: 10px;
+        li {
+          button:before {
+            font-size: 10px;
+            color: #fff;
+          }
+          &.slick-active button:before {
+            color: var(--blue-color);
+          }
+        }
+      }
+    }
+
+    .btn-link {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+
+      .text-section {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #fff;
+        border-radius: 20px;
+        padding: 10px 40px;
+        width: 160px;
+        transition: all 0.3s ease-in-out;
+        animation: scaleUpDown 2s infinite;
+
+        &:hover {
+          transform: scale(1.05);
+        }
+
+        .text {
+          font-size: 20;
+          font-weight: 600;
+          color: var(--blue-color);
+        }
+      }
+    }
+  }
+}
+
+@keyframes scaleUpDown {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1); /* Membesar 10% */
+  }
+  100% {
+    transform: scale(1);
+  }
+}

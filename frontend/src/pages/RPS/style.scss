@@ -2,41 +2,77 @@
   background-color: #e6e6e6;
   height: 100%;
 
- .btn-rps {
-  display: flex;
-  justify-content: center;
+  .btn-rps {
+    display: flex;
+    justify-content: center;
 
-  padding: 20px;
-  .btn-view-rps {
-   
-    padding: 8px 20px;
-    background-color: var(--blue-color);
-    color: #fff;
-    transition: all .3s ease-in-out;
+    padding: 20px;
+    .btn-view-rps {
+      padding: 8px 20px;
+      background-color: var(--blue-color);
+      color: #fff;
+      transition: all 0.3s ease-in-out;
 
-    &:hover {
-      background-color: #7863ed;
+      &:hover {
+        background-color: #7863ed;
+      }
     }
   }
- }
 
-  .page-section { 
+  .page-section {
     display: flex;
     flex-direction: column;
     gap: 20px;
     .rps-container {
-      width: 11.69in; 
-      height: 8.27in; 
-      margin: 0 auto; 
+      width: 11.69in;
+      height: 8.27in;
+      margin: 0 auto;
       padding: 20px;
       box-sizing: border-box;
       background-color: #fff;
       overflow: visible;
-  
-      
+    }
+
+    .btn-section {
+      display: flex;
+      justify-content: center;
+      margin-top: 40px;
+      .btn-rps {
+        padding: 8px 20px;
+        border-radius: 10px;
+        transition: all 0.3s ease-in-out;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 13px;
+        gap: 5px;
+
+        &.back {
+          background-color: var(--blue-color);
+
+          &:hover {
+            background-color: #836efb;
+          }
+        }
+        &.terima {
+          background-color: var(--green-color);
+
+          &:hover {
+            background-color: #49de85;
+          }
+        }
+        &.tolak {
+          background-color: var(--red-color);
+
+          &:hover {
+            background-color: #f76868;
+          }
+        }
+      }
     }
   }
-
 }
 
 @media print {
@@ -52,5 +88,8 @@
     page-break-inside: avoid; /* Mencegah konten terputus di tengah halaman */
     break-inside: avoid; /* Alternatif */
   }
-}
 
+  .btn-section {
+    display: none;
+  }
+}

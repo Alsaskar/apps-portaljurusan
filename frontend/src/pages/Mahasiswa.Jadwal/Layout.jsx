@@ -105,7 +105,7 @@ const Layout = () => {
             <div className="jadwal-icon-profile">
               <TiUser size={17} />
             </div>
-            <p className="jadwal-name-dosen">{val.matkul.dosenPengajar}</p>
+            <p className="jadwal-name-dosen">{val.dosenPengajar}</p>
           </div>
           <div className="jadwal-lab">
             <p className="jadwal-text-lab">{val.ruangan}</p>

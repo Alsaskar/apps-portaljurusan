@@ -54,7 +54,6 @@ const NewLogin = () => {
         password: password,
       });
 
-      console.log(res)
 
       if (res.data.success) {
         sessionStorage.setItem("token", res.data.token);
@@ -90,7 +89,10 @@ const NewLogin = () => {
 
   useEffect(() => {
     const auth = sessionStorage.getItem("isLoggedIn");
-    if (auth) navigate("/admin");
+
+    if (auth === true){ 
+      navigate("/admin");
+    }
   });
 
   return (

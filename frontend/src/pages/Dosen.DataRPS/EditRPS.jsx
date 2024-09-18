@@ -92,13 +92,13 @@ const EditRPS = () => {
     const concatenatedCapaianPembelajaran =
       values.capaianPembelajaran.join(", ");
     const concatenatedCPL = values.cpl.join(", ");
-    const concatenatedCapaianMK = values.cpmk.join(", "); // Perbaiki nama variabel
+    const concatenatedCapaianMK = values.cpmk.join(", "); 
     const concatenatedKemampuanAkhir = values.subCpmk.join(", ");
 
     setTimeout(async () => {
       try {
-        const res = await axios.post(
-          `${urlApi}/rps`,
+        const res = await axios.put(
+          `${urlApi}/rps/${id}`,
           {
             idDosen: result.id,
             kodeMatkul: values.kodeMatkul,
@@ -169,10 +169,12 @@ const EditRPS = () => {
             pengampuMatkul: detailRps.pengampuMatkul || "",
             kordinatorMatkul: detailRps.kordinatorMatkul || "",
             kordinatorProdi: detailRps.kordinatorProdi || "",
-            capaianPembelajaran: [""],
-            cpl: [""],
-            cpmk: [""],
-            subCpmk: [""],
+            capaianPembelajaran: detailRps.capaianPembelajaran 
+            ? detailRps.capaianPembelajaran.split(",") 
+            : [""],
+            cpl: detailRps.cpl ? detailRps.cpl.split(",") : [""],
+            cpmk: detailRps.cpmk ? detailRps.cpmk.split(",") : [""],
+            subCpmk: detailRps.subCpmk ? detailRps.subCpmk.split(",") : [""],
             deskripsiMk: detailRps.deskripsiMk || "",
             bahanKajian: detailRps.bahanKajian || "",
             daftarPustaka: detailRps.daftarPustaka || "",

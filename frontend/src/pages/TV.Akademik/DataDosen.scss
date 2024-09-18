@@ -1,0 +1,108 @@
+.data-dosen-tv {
+  .container {
+    .content {
+      .title-cari-dosen {
+        color: #fff;
+        font-weight: 600;
+        font-size: 25px;
+        margin-bottom: 20px;
+        text-align: center;
+      }
+      .form-data-dosen {
+        display: flex;
+        align-items: center;
+        column-gap: 5px;
+
+
+        .input-data-dosen {
+          padding: 8px 12px;
+          border: 1px solid var(--border-color);
+          background-color: #fff;
+          color: var(--text-color-inverted);
+          border-radius: 5px;
+          border-width: 2px;
+          font-size: 12px;
+          flex-grow: 1;
+          width: 400px;
+
+          &:focus {
+            outline: none;
+            border-color: var(--blue-color);
+            border-width: 2px;
+          }
+        }
+
+        .btn-cari-data {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 9px 20px;
+          border-radius: 5px;
+          background-color: var(--purple-color);
+          color: #fff;
+          transition: all 0.3s ease-in-out;
+
+          &:hover {
+            background-color: #e761fc;
+          }
+        }
+      }
+
+      .show-data {
+        margin-top: 20px;
+        padding: 20px;
+        border-radius: 5px;
+        width: 600px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        .img-dosen {
+          width: 100px;
+          height: 100px;
+          background-size: cover;
+          object-fit: cover;
+          background-position: center;
+          border-radius: 50%;
+          margin-bottom: 40px;
+        }
+
+        .content {
+          display: grid;
+          grid-template-columns: repeat(1, 1fr);
+          gap: 20px;
+
+          .grid-data {
+            background-color: #fff;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 20px;
+
+            .data {
+              display: grid;
+              grid-template-columns: repeat(3, 1fr);
+              gap: 20px;
+
+              .data-section {
+
+                .title {
+                  font-size: 13px;
+                  font-weight: 600;
+                  color: #909090;
+                }
+
+                .data {
+                  font-size: 13px;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
