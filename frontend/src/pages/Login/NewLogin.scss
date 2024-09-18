@@ -1,7 +1,7 @@
 .newlogin {
   height: 100vh;
   width: 100%;
-  background: url("../../assets/images//Welcome.jpg");
+  background: url("../../assets/images/poli_3.jpeg");
   background-position: center;
   background-size: cover;
   background-attachment: fixed;
@@ -90,7 +90,9 @@
 
       .login-student-img {
         position: absolute;
-        right: 17%;
+        right: 50%;
+        left: 50%;
+        transform: translateX(-50%);
         bottom: 0;
         width: 270px;
 

@@ -6,17 +6,171 @@
   justify-content: center;
   flex-direction: column;
 
+  background-color: #251871;
+  position: relative;
+  z-index: 1;
+
+  .absolute {
+    position: absolute;
+    top: 50px;
+    inset: 0;
+    justify-content: center;
+    display: inline-flex;
+    flex-direction: row;
+    z-index: -1;
+  }
+
+  .justify-center {
+    justify-content: center;
+  }
+
+  .bg-shape1 {
+    width: 400px;
+    height: 400px;
+    border-radius: 50%;
+    position: relative;
+    animation: one 10s infinite;
+  }
+
+  .bg-shape2 {
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    position: relative;
+    animation: two 10s infinite;
+  }
+
+  .bg-shape3 {
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    position: relative;
+    animation: three 10s infinite;
+  }
+
+  @keyframes one {
+    0% {
+      left: 0px;
+      top: 0px;
+    }
+    25% {
+      left: -100px;
+      top: 70px;
+    }
+    50% {
+      left: 20px;
+      top: 150px;
+    }
+    75% {
+      left: 50px;
+      top: 100px;
+    }
+    100% {
+      left: 0px;
+      top: 0px;
+    }
+  }
+
+  @keyframes two {
+    0% {
+      left: 0px;
+      top: 0px;
+    }
+    25% {
+      left: 50px;
+      top: 10px;
+    }
+    50% {
+      left: 100px;
+      top: 50px;
+    }
+    75% {
+      left: 50px;
+      top: 100px;
+    }
+    100% {
+      left: 0px;
+      top: 0px;
+    }
+  }
+
+  @keyframes three {
+    0% {
+      left: 0px;
+      bottom: 0px;
+    }
+    25% {
+      left: -100px;
+      bottom: -200px;
+    }
+    50% {
+      left: 20px;
+      bottom: 150px;
+    }
+    75% {
+      left: 50px;
+      bottom: -100px;
+    }
+    100% {
+      left: 0px;
+      bottom: 0px;
+    }
+  }
+
+  .opacity-50 {
+    opacity: 0.7;
+  }
+
+  .bg-blur {
+    filter: blur(90px);
+  }
+
+  .bg-primary {
+    background-color: var(--blue-color);
+  }
+
+  .bg-pink {
+    background-color: var(--pink-color);
+  }
+
+  .bg-purple {
+    background-color: var(--purple-color);
+  }
+  .tv-content-wrapper {
+    .tv-container-wrapper {
+      .tv-home-menu-toggle-theme {
+        bottom: 20px;
+        right: 50px;
+        position: absolute;
+      }
+
+     
+    }
+  }
+
   .login-qr-button {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #fff;
+    gap: 5px;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 2555, 255, 0.1),
+      rgba(255, 255, 255, 0)
+    );
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 2px solid #fff;
     border-radius: 20px;
-    padding: 10px 40px;
+    padding: 20px;
     transition: all 0.3s ease-in-out;
-    font-size: 20;
+    font-size: 13;
     font-weight: 600;
-    color: var(--blue-color);
+    color: #fff;
+    cursor: pointer;
+    height: 100px;
+    width: 250px;
+    animation: scaleUpDown 2s infinite;
 
     &:hover {
       transform: scale(1.05);
@@ -64,5 +218,17 @@
     100% {
       opacity: 1;
     }
+  }
+}
+
+@keyframes scaleUpDown {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1); /* Membesar 10% */
+  }
+  100% {
+    transform: scale(1);
   }
 }

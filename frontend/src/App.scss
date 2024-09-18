@@ -154,6 +154,46 @@ ul {
   }
 }
 
+.dosen-page-wrapper {
+  background-color: var(--background-color);
+  min-height: 100vh;
+  overflow: hidden;
+
+  .dosen-content-wrapper {
+    background-color: var(--background-color);
+    min-height: 100vh;
+    padding: 20px 20px;
+    margin-left: 260px;
+  
+    @media (max-width: 1400px) {
+      padding: 20px;
+    }
+  
+    @media (max-width: 1200px) {
+      margin-left: 0px;
+    }
+  
+    @media (max-width: 768px) {
+      margin-left: 0;
+      padding: 20px;
+    }
+  
+    @media (max-width: 576px) {
+      margin-left: 0;
+      padding: 16px;
+    }
+  }
+
+  .qr-code {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999;
+  }
+}
+
+
+
 .mahasiswa-page-wrapper {
   position: relative;
   background-color: #eef0f4;
@@ -186,8 +226,6 @@ ul {
     right: 20px;
     z-index: 9999;
   }
-
-  
 }
 
 // .ornament_dua {
@@ -289,7 +327,7 @@ ul {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: var(--bg-tv);
+  background-color: #251871;
   position: relative;
   z-index: 1;
   width: 100%;
@@ -415,12 +453,13 @@ ul {
   }
 
   .bg-pink {
-    background-color: var(--pink-color);
+    background-color: #14144d;
   }
 
   .bg-purple {
-    background-color: var(--purple-color);
+    background-color: rgb(35, 85, 160);
   }
+
   .tv-content-wrapper {
     .tv-container-wrapper {
       .tv-home-menu-toggle-theme {

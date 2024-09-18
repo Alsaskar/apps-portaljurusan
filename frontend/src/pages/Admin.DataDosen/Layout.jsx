@@ -9,6 +9,8 @@ import ModalEdit from "./ModalEdit";
 import Swal from "sweetalert2";
 import { GrPowerReset } from "react-icons/gr";
 import useFormatDate from "../../hooks/useFormatDateHooks";
+import { FaUserGear } from "react-icons/fa6";
+import { TbTrashXFilled } from "react-icons/tb";
 
 const Layout = () => {
   const [dosen, setDosen] = useState([]);
@@ -66,7 +68,7 @@ const Layout = () => {
       );
 
       setDosen(res.data.result);
-      console.log(res.data.result)
+      console.log(res.data.result);
       setPages(res.data.totalPage);
       setRows(res.data.totalRows);
       setPage(res.data.page);
@@ -139,6 +141,92 @@ const Layout = () => {
     });
   };
 
+  const handleKaprodi = async (idDosen, fullname) => {
+    Swal.fire({
+      title: "Jadikan Kaprodi",
+      text: `Yakin ingin jadikan ${fullname} kaprodi?`,
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Ya",
+      cancelButtonText: "Tidak",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const res = await axios.put(
+            `${urlApi}/dosen/create-kaprodi/${idDosen}`,
+            {
+              asKaprodi: "yes ",
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+              },
+            }
+          );
+
+          if (res.data.success) {
+            Swal.fire(
+              "Berhasil!",
+              `${fullname} telah menjadi kaprodi`,
+              "success"
+            );
+
+            setTimeout(() => {
+              window.location.reload();
+            }, 1000);
+          } else {
+            Swal.fire("Oppsss...!", `${res.data.message}`, "error");
+          }
+        } catch (err) {
+          Swal.fire("Error!", err.response.data.message, "error");
+        }
+      }
+    });
+  };
+
+  const handleRemoveKaprodi = async (idDosen, fullname) => {
+    Swal.fire({
+      title: "Hapus Kaprodi",
+      text: `Yakin ingin hapus ${fullname} dari kaprodi?`,
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Ya",
+      cancelButtonText: "Tidak",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const res = await axios.put(
+            `${urlApi}/dosen/remove-kaprodi/${idDosen}`,
+            {
+              asKaprodi: "no",
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+              },
+            }
+          );
+
+          if (res.data.success) {
+            Swal.fire(
+              "Berhasil!",
+              `${fullname} telah dihapus dari kaprodi`,
+              "success"
+            );
+
+            setTimeout(() => {
+              window.location.reload();
+            }, 1000);
+          } else {
+            Swal.fire("Oppsss...!", `${res.data.message}`, "error");
+          }
+        } catch (err) {
+          Swal.fire("Error!", err.response.data.message, "error");
+        }
+      }
+    });
+  };
+
   return (
     <>
       {/* Modal */}
@@ -196,6 +284,7 @@ const Layout = () => {
                 <th>Prodi</th>
                 <th>Jenis Kelamin</th>
                 <th>Tempat Tanggal Lahir</th>
+                <th>Jabatan</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -213,6 +302,7 @@ const Layout = () => {
                       <td>
                         {val.tempatLahir}, {formatDate(val.tglLahir)}
                       </td>
+                      <td>{val.asKaprodi === "yes" ? "Kaprodi" : "Dosen"}</td>
                       <td className="dt-cell-action-data-dosen ada-reset">
                         <TableAction
                           _onClickEdit={() => handleEditClick(val, val.user)}
@@ -229,6 +319,28 @@ const Layout = () => {
                         >
                           <GrPowerReset size={18} />
                         </button>
+                        {val.asKaprodi === "no" && (
+                          <button
+                            onClick={() => {
+                              handleKaprodi(val.id, val.fullname);
+                            }}
+                            className="set-role-kaprodi black"
+                            title="Jadikan kaprodi"
+                          >
+                            <FaUserGear size={18} />
+                          </button>
+                        )}
+                        {val.asKaprodi === "yes" && (
+                          <button
+                            onClick={() => {
+                              handleRemoveKaprodi(val.id, val.fullname);
+                            }}
+                            className="hapus-kaprodi purple"
+                            title="Hapus kaprodi"
+                          >
+                            <TbTrashXFilled size={18} />
+                          </button>
+                        )}
                       </td>
                     </tr>
                   );

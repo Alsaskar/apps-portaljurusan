@@ -1,6 +1,7 @@
 import "./rpsTiga.scss";
+import PropTypes from "prop-types";
 
-const RPSTiga = () => {
+const RPSTiga = ({ data }) => {
   return (
     <div className="rps-tiga">
       <div className="table-flex">
@@ -53,103 +54,23 @@ const RPSTiga = () => {
           </thead>
           <tbody>
             {/*Minggu 1*/}
-            <tr>
-              <td className="t-body-rps-tiga width-minggu">I</td>
-              <td className="t-body-rps-tiga width-sub"></td>
-              <td className="t-body-rps-tiga width-bahan"></td>
-              <td className="t-body-rps-tiga width-bentuk"></td>
-              <td className="t-body-rps-tiga width-estimasi"></td>
-              <td className="t-body-rps-tiga width-pengalaman"></td>
-              <tr>
-                <td className="t-body-rps-tiga width-kriteria"></td>
-                <td className="t-body-rps-tiga width-indikator"></td>
-                <td className="t-body-rps-tiga width-bobot"></td>
-              </tr>
-            </tr>
-            {/*Minggu 2*/}
-            <tr>
-              <td className="t-body-rps-tiga width-minggu">II</td>
-              <td className="t-body-rps-tiga width-sub"></td>
-              <td className="t-body-rps-tiga width-bahan"></td>
-              <td className="t-body-rps-tiga width-bentuk"></td>
-              <td className="t-body-rps-tiga width-estimasi"></td>
-              <td className="t-body-rps-tiga width-pengalaman"></td>
-              <tr>
-                <td className="t-body-rps-tiga width-kriteria"></td>
-                <td className="t-body-rps-tiga width-indikator"></td>
-                <td className="t-body-rps-tiga width-bobot"></td>
-              </tr>
-            </tr>
-            {/*Minggu 3*/}
-            <tr>
-              <td className="t-body-rps-tiga width-minggu">III</td>
-              <td className="t-body-rps-tiga width-sub"></td>
-              <td className="t-body-rps-tiga width-bahan"></td>
-              <td className="t-body-rps-tiga width-bentuk"></td>
-              <td className="t-body-rps-tiga width-estimasi"></td>
-              <td className="t-body-rps-tiga width-pengalaman"></td>
-              <tr>
-                <td className="t-body-rps-tiga width-kriteria"></td>
-                <td className="t-body-rps-tiga width-indikator"></td>
-                <td className="t-body-rps-tiga width-bobot"></td>
-              </tr>
-            </tr>
-            {/*Minggu 4*/}
-            <tr>
-              <td className="t-body-rps-tiga width-minggu">IV</td>
-              <td className="t-body-rps-tiga width-sub"></td>
-              <td className="t-body-rps-tiga width-bahan"></td>
-              <td className="t-body-rps-tiga width-bentuk"></td>
-              <td className="t-body-rps-tiga width-estimasi"></td>
-              <td className="t-body-rps-tiga width-pengalaman"></td>
-              <tr>
-                <td className="t-body-rps-tiga width-kriteria"></td>
-                <td className="t-body-rps-tiga width-indikator"></td>
-                <td className="t-body-rps-tiga width-bobot"></td>
-              </tr>
-            </tr>
-            {/*Minggu 5*/}
-            <tr>
-              <td className="t-body-rps-tiga width-minggu">V</td>
-              <td className="t-body-rps-tiga width-sub"></td>
-              <td className="t-body-rps-tiga width-bahan"></td>
-              <td className="t-body-rps-tiga width-bentuk"></td>
-              <td className="t-body-rps-tiga width-estimasi"></td>
-              <td className="t-body-rps-tiga width-pengalaman"></td>
-              <tr>
-                <td className="t-body-rps-tiga width-kriteria"></td>
-                <td className="t-body-rps-tiga width-indikator"></td>
-                <td className="t-body-rps-tiga width-bobot"></td>
-              </tr>
-            </tr>
-            {/*Minggu 6*/}
-            <tr>
-              <td className="t-body-rps-tiga width-minggu">VI</td>
-              <td className="t-body-rps-tiga width-sub"></td>
-              <td className="t-body-rps-tiga width-bahan"></td>
-              <td className="t-body-rps-tiga width-bentuk"></td>
-              <td className="t-body-rps-tiga width-estimasi"></td>
-              <td className="t-body-rps-tiga width-pengalaman"></td>
-              <tr>
-                <td className="t-body-rps-tiga width-kriteria"></td>
-                <td className="t-body-rps-tiga width-indikator"></td>
-                <td className="t-body-rps-tiga width-bobot"></td>
-              </tr>
-            </tr>
-            {/*Minggu 7*/}
-            <tr>
-              <td className="t-body-rps-tiga width-minggu">VII</td>
-              <td className="t-body-rps-tiga width-sub"></td>
-              <td className="t-body-rps-tiga width-bahan"></td>
-              <td className="t-body-rps-tiga width-bentuk"></td>
-              <td className="t-body-rps-tiga width-estimasi"></td>
-              <td className="t-body-rps-tiga width-pengalaman"></td>
-              <tr>
-                <td className="t-body-rps-tiga width-kriteria"></td>
-                <td className="t-body-rps-tiga width-indikator"></td>
-                <td className="t-body-rps-tiga width-bobot"></td>
-              </tr>
-            </tr>
+            {data.map((val, key) => {
+              return (
+                <tr key={key}>
+                  <td className="t-body-rps-tiga width-minggu">{val.mingguKe}</td>
+                  <td className="t-body-rps-tiga width-sub">{val.subCpmk}</td>
+                  <td className="t-body-rps-tiga width-bahan">{val.bahanKajian}</td>
+                  <td className="t-body-rps-tiga width-bentuk">{val.bentukMetode}</td>
+                  <td className="t-body-rps-tiga width-estimasi">{val.estimasiWaktu}</td>
+                  <td className="t-body-rps-tiga width-pengalaman">{val.pengalamanBelajar}</td>
+                  <tr>
+                    <td className="t-body-rps-tiga width-kriteria">{val.kriteriaBentuk}</td>
+                    <td className="t-body-rps-tiga width-indikator">{val.indikator}</td>
+                    <td className="t-body-rps-tiga width-bobot">{val.bobot}</td>
+                  </tr>
+                </tr>
+              );
+            })}
             <tr>
               <td className="t-body-rps-tiga" style={{ textAlign: "center" }}>
                 VIII
@@ -163,6 +84,10 @@ const RPSTiga = () => {
       </div>
     </div>
   );
+};
+
+RPSTiga.propTypes = {
+  data: PropTypes.array.isRequired,
 };
 
 export default RPSTiga;

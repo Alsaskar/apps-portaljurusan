@@ -26,7 +26,7 @@ const PrivateRoutes = () => {
       </RoleBasedProvider>
     </UserProvider>
   ) : (
-    <Navigate to="/" />
+     <Navigate to={'/'} />
   );
 };
 

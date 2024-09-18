@@ -1,0 +1,26 @@
+.tv-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 20px 0;
+  z-index: 10000;
+  transition: background-color 0.3s ease;
+  background-color: transparent;
+
+  .content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    width: 90%;
+    margin: 0 auto;
+
+    .name {
+      display: flex;
+      align-items: center;
+      column-gap: 5px;
+      color: #fff;
+    }
+  }
+}

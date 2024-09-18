@@ -384,7 +384,7 @@ const DosenSidebar = () => {
                     </li>
                     <li className="submenu-item">
                       <Link
-                        to="/dosen/daftar/mata/kuliah"
+                        to="/dosen/data/rps"
                         className="submenu-link"
                         onClick={() => handleSubmenuClick("RPS")}
                       >
@@ -392,7 +392,7 @@ const DosenSidebar = () => {
                           <IoDocumentText size={20} />
                         </span>
                         <div className={`submenu-link-text`}>
-                          Daftar Mata Kuliah
+                          Data RPS
                         </div>
                       </Link>
                     </li>

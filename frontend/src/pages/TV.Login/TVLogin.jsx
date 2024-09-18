@@ -1,17 +1,27 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { urlApi } from "../../config";
 import "./style.scss";
 import { BiQrScan } from "react-icons/bi";
+import { useNavigate } from "react-router-dom";
+import { MdTouchApp } from "react-icons/md";
 
 const LoginWithQRCode = () => {
   const [error, setError] = useState("");
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [scanning, setScanning] = useState(false); 
+  const [scanning, setScanning] = useState(false);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (sessionStorage.getItem("token")) {
+      navigate(`/tv/home/menu`);
+    }
+  }, [navigate]);
 
   const handleQRCodeScan = () => {
-    setScanning(true); 
+    setScanning(true);
 
     const inputElement = document.createElement("input");
     inputElement.style.position = "absolute";
@@ -48,12 +58,21 @@ const LoginWithQRCode = () => {
 
       const data = res.data;
 
+      // return;
+
       if (data.success) {
         setTimeout(() => {
-          localStorage.setItem("token", data.token);
-          setUser(data.user);
+          sessionStorage.setItem("token", data.token);
+          sessionStorage.setItem("role", data.user.role);
+          sessionStorage.setItem("prodiAdmin", data.user.prodiAdmin);
+          sessionStorage.setItem("prodiDosen", data.user.prodiDosen);
+          sessionStorage.setItem("isLoggedIn", true);
+          sessionStorage.setItem("username", data.user.username);
+
           setLoading(false);
           setScanning(false);
+
+          navigate("/tv/home/menu");
         }, 1500);
       } else {
         setError(data.message);
@@ -72,22 +91,35 @@ const LoginWithQRCode = () => {
 
   return (
     <div className="login-qr">
-      <button
-        onClick={handleQRCodeScan}
-        disabled={loading}
-        className="login-qr-button"
-      >
-        {loading ? "Memproses..." : "Scan QR Code"}
-      </button>
+      <div className="absolute">
+        <div className="absolute inset-0 justify-center">
+          <div className="bg-shape1 bg-primary opacity-50 bg-blur"></div>
+          <div className="bg-shape2 bg-pink opacity-50 bg-blur"></div>
+          <div className="bg-shape3 bg-purple opacity-50 bg-blur"></div>
+        </div>
+      </div>
+      {loading ? (
+        <div disabled={loading} className="login-qr-button">
+          <p>Memproses...</p>
+        </div>
+      ) : (
+        <div
+          onClick={handleQRCodeScan}
+          disabled={loading}
+          className="login-qr-button"
+        >
+          <MdTouchApp size={30} />
+          <p>Scan QR Code</p>
+        </div>
+      )}
       {scanning && (
         <div className="scanning-animation">
           <div className="scanning-section">
             <BiQrScan size={85} />
-            Scanning
+            Scan QR Code
           </div>
         </div>
       )}{" "}
-      {loading && <p className="loading">Loading...</p>}
       {error && <p style={{ color: "red" }}>{error}</p>}
       {user && !loading && (
         <div className="detail">

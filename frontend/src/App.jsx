@@ -60,8 +60,11 @@ import DosenDashboard from "./pages/Dosen.Dashboard";
 import DosenAddAbsensi from "./pages/Dosen.AddAbsensi";
 import DosenDataAbsensi from "./pages/Dosen.DataAbsensi";
 import DosenAddRPS from "./pages/Dosen.AddRPS";
-import DosenDaftarRPS from "./pages/Dosen.DaftarRPS";
 import DosenInputRPS from "./pages/Dosen.InputRPS";
+import EditRPS from "./pages/Dosen.DataRPS/EditRPS";
+import DosenDataRPS from "./pages/Dosen.DataRPS";
+import DetailRps from "./pages/Dosen.DataRPS/DetailRps";
+import RPSMinggu from "./pages/Dosen.AddRPS/RPSMinggu";
 import DosenDataDosen from "./pages/Dosen.DataDosen";
 import DosenBimbinganChat from "./pages/Dosen.BimbinganChat";
 import DosenBimbingan from "./pages/Dosen.Bimbingan";
@@ -81,18 +84,31 @@ import Surat from "./components/RPSDoc";
 import RpsSurat from "./components/RPS/RpsSurat";
 import "./App.scss";
 import HimajuLayout from "./layout/HimajuLayout";
-import TVLayout from "./layout/TVLayout";
-import TVHome from "./pages/TV.Home";
-import TVHomeMenu from "./pages/TV.HomeMenu";
+
 import { LoadingProvider } from "./context/LoadingContext";
 import TVProfile from "./pages/TV.Profile";
 import TVAbsensi from "./pages/TV.Absensi";
 import TVHME from "./pages/TV.HME";
-import TVJadwal from "./pages/TV.Jadwal";
+
 import HimajuLayoutDosen from "./layout/HimajuLayoutDosen";
 import RPSTest from "./pages/RPS";
 import NewLogin from "./pages/Login/NewLogin";
 import LoginWithQRCode from "./pages/TV.Login/TVLogin";
+
+import TVLayout from "./layout/TVLayout";
+import TVHome from "./pages/TV.Home";
+import TVHomeMenu from "./pages/TV.HomeMenu";
+
+import RPSSurat from "./pages/RPSSurat";
+import TVAkademik from "./pages/TV.Akademik";
+import TVProfileDosen from "./pages/TV.ProfileDosen";
+import DataDosen from "./pages/TV.Akademik/DataDosen";
+import TVJadwalMahasiswa from "./pages/TV.Akademik/Jadwal";
+import TVJadwalDosen from "./pages/TV.Akademik/JadwalDosen";
+import TVLayoutLAB from "./layout/TVLayoutLAB";
+import TVHomeLAB from "./pages/TV.HomeLAB";
+import TVHomeMenuLAB from "./pages/TV.HomeMenuLAB";
+import TVJadwalLAB from "./pages/TV.JadwalLAB";
 
 // import AdminBesarLayout from "./layout/AdminBesarLayout";
 // import AdminBesarDashboard from "./pages/Admin.BesarDashboard";
@@ -382,11 +398,19 @@ const App = () => {
                 exact
               />
               <Route element={<DosenAddRPS />} path="/dosen/add/rps" exact />
+              <Route element={<DosenDataRPS />} path="/dosen/data/rps" exact />
+              <Route element={<EditRPS />} path="/dosen/edit/rps/:id" exact />
               <Route
-                element={<DosenDaftarRPS />}
-                path="/dosen/daftar/mata/kuliah"
+                element={<RPSMinggu />}
+                path="/dosen/tambah/rps/minggu/:id"
                 exact
               />
+              <Route
+                element={<DetailRps />}
+                path="/dosen/detail/rps/:id"
+                exact
+              />
+              <Route element={<RPSTest />} path="/rps/:id" exact />
               <Route
                 element={<DosenInputRPS />}
                 path="/dosen/input/rps"
@@ -431,24 +455,44 @@ const App = () => {
             <Route element={<Galeri />} path="/hme/galeri" />
             <Route element={<AllGaleri />} path="/hme/all/galeri" />
             <Route element={<ProgramKerja />} path="/program/kerja/hme" />
+
+            {/*TV Layout Lobby*/}
+            <Route element={<TVLayout />}>
+              <Route element={<TVHomeMenu />} path="/tv/home/menu" />
+              <Route element={<TVProfile />} path="/tv/profile/mahasiswa" />
+              <Route element={<TVProfileDosen />} path="/tv/profile/dosen" />
+              <Route element={<TVAbsensi />} path="/tv/absensi" />
+              <Route element={<TVHME />} path="/tv/hme" />
+              <Route element={<TVAkademik />} path="/tv/akademik" />
+              <Route element={<DataDosen />} path="/tv/data/dosen" />
+              <Route
+                element={<TVJadwalMahasiswa />}
+                path="/tv/jadwal/mahasiswa"
+              />
+              <Route element={<TVJadwalDosen />} path="/tv/jadwal/dosen" />
+            </Route>
           </Route>
           <Route element={<Login />} path="/login" />
           <Route element={<NewLogin />} path="/" />
           <Route element={<LupaPassword />} path="/lupa/password" />
           <Route element={<Surat />} path="/surat" />
           <Route element={<RpsSurat />} path="/rps-surat" />
-          <Route element={<RPSTest />} path="/rps" />
+          <Route element={<RPSSurat />} path="/rps-surat-test" />
 
-          {/*TV Layout*/}
-          <Route element={<TVLayout />}>
-            <Route element={<TVHome />} path="/tv/home" />
-            <Route element={<TVHomeMenu />} path="/tv/home/menu" />
-            <Route element={<TVProfile />} path="/tv/profile" />
-            <Route element={<TVAbsensi />} path="/tv/absensi" />
-            <Route element={<TVHME />} path="/tv/hme" />
-            <Route element={<TVJadwal />} path="/tv/jadwal" />
-            <Route element={<LoginWithQRCode />} path="/tv/login" />
+          {/*TV Layout LAB*/}
+          <Route element={<TVLayoutLAB />}>
+            <Route element={<TVHomeLAB />} path="/tv/home/lab" />
+            <Route element={<TVHomeMenuLAB />} path="/tv/home/menu/lab" />
+            <Route element={<TVJadwalLAB />} path="/tv/jadwal/lab" />
+            <Route
+              element={<TVJadwalMahasiswa />}
+              path="/tv/jadwal/mahasiswa"
+            />
+            <Route element={<TVJadwalDosen />} path="/tv/jadwal/dosen" />
           </Route>
+
+          <Route element={<LoginWithQRCode />} path="/tv/login" />
+          <Route element={<TVHome />} path="/tv/home" />
         </Routes>
       </Router>
     </LoadingProvider>

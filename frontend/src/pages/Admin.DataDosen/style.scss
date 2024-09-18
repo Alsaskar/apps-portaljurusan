@@ -173,6 +173,50 @@
             }
           }
         }
+
+        .set-role-kaprodi {
+          padding: 4px;
+          border-radius: 5px;
+          border: none;
+          cursor: pointer;
+          margin-left: 8px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          text-decoration: none;
+          color: #fff;
+
+          &.black {
+            background-color: #232323;
+            transition: all 0.3s ease;
+
+            &:hover {
+              background-color: #3a3a3a;
+            }
+          }
+        }
+
+        .hapus-kaprodi {
+          padding: 4px;
+          border-radius: 5px;
+          border: none;
+          cursor: pointer;
+          margin-left: 8px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          text-decoration: none;
+          color: #fff;
+
+          &.purple {
+            background-color: var(--purple-color);
+            transition: all 0.3s ease;
+
+            &:hover {
+              background-color: #e664fa;
+            }
+          }
+        }
       }
     }
   }

@@ -34,7 +34,7 @@ const Layout = () => {
 
   const _listDataKelas = async () => {
     try {
-      const res = await axios.get(`${urlApi}/kelas`, {
+      const res = await axios.get(`${urlApi}/kelas?prodi=${sessionStorage.getItem("prodiDosen")}`, {
         headers: {
           Authorization: `Bearer ${sessionStorage.getItem("token")}`,
         },

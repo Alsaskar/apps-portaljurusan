@@ -1,0 +1,218 @@
+// .search-kelas {
+//     display: flex;
+//     align-items: center;
+//     column-gap: 5px;
+
+//     .input-cari-kelas {
+//       padding: 8px 12px;
+//       border: 1px solid var(--border-color);
+//       background-color: #fff;
+//       color: var(--text-color-inverted);
+//       border-radius: 5px;
+//       border-width: 2px;
+//       font-size: 12px;
+//       flex-grow: 1;
+
+//       &:focus {
+//         outline: none;
+//         border-color: var(--blue-color);
+//         border-width: 2px;
+//       }
+//     }
+
+//     .btn-cari-kelas {
+//       display: flex;
+//       align-items: center;
+//       justify-content: center;
+//       padding: 9px 20px;
+//       border-radius: 5px;
+//       background-color: var(--purple-color);
+//       color: #fff;
+//       transition: all 0.3s ease-in-out;
+
+//       &:hover {
+//         background-color: #e761fc;
+//       }
+//     }
+//   }
+
+.kelas-tv {
+  border-radius: 10px;
+  text-align: center;
+  font-size: 25px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #fff;
+  margin-bottom: 20px;
+}
+
+.jadwal-container-tv {
+  background-color: #fff;
+  border-radius: 10px;
+  // border: 1px solid #d9d9d9;
+  position: relative;
+  width: 100%;
+  overflow-x: auto;
+
+  &::-webkit-scrollbar {
+    height: 7px;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: var(--scroll-track-bg-color);
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 100vh !important;
+    background-color: var(--scroll-thumb-bg-color);
+    outline: 1px solid rgba(0, 0, 0, 0.02);
+    outline-offset: -1px;
+  }
+}
+
+.jadwal-table-tv {
+  width: 100%;
+  min-width: 100%;
+  border-collapse: collapse;
+
+  .jadwal-head-tv {
+    .jadwal-days-tv {
+      .jadwal-day-tv {
+        background-color: var(--purple-color);
+        // border-left: 1px solid #D9D9D9;
+        border-bottom: 1px solid #d9d9d9;
+        padding: 10px;
+        text-align: center;
+        font-weight: 600;
+        font-size: 16px;
+        color: #fff;
+
+        min-width: 200px;
+      }
+    }
+  }
+
+  .jadwal-body-tv {
+    .jadwal-contents-tv {
+      .jadwal-content-tv {
+        border-right: 1px solid #d9d9d9;
+        border-top: 1px solid #d9d9d9;
+        border-radius: 10px;
+        // padding: 10px;
+        text-align: center;
+
+        &:nth-child(5) {
+          border-right: none;
+        }
+
+        min-width: 240px;
+
+        .matkul-tv {
+          display: flex;
+          flex-direction: column;
+          border-bottom: 1px solid #d9d9d9;
+
+          padding: 15px;
+
+          &:last-child {
+            border-bottom: none;
+          }
+          .jadwal-time-tv {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+
+            .jadwal-dot-tv {
+              width: 7px;
+              height: 7px;
+              background-color: #5f47e8;
+              border-radius: 50%;
+            }
+            .jadwal-text-time-tv {
+              color: #909090;
+              font-size: 12px;
+            }
+          }
+
+          .jadwal-name-matkul-tv {
+            margin-top: 5px;
+            font-size: 14px;
+            font-weight: 600;
+            align-self: flex-start;
+            text-align: left;
+          }
+
+          .jadwal-profile-tv {
+            margin-top: 2px;
+            display: flex;
+            align-items: center;
+
+            .jadwal-icon-profile-tv {
+              width: 22px;
+              height: 22px;
+              color: #f34141;
+            }
+
+            .jadwal-name-dosen-tv {
+              font-size: 12px;
+            }
+          }
+
+          .jadwal-lab-tv {
+            margin-top: 10px;
+            background-color: #eef0f4;
+            border-radius: 5px;
+            padding: 1px 10px 1px 10px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 5px;
+
+            .jadwal-text-lab-tv {
+              font-size: 11px;
+              color: #909090;
+              text-align: start;
+            }
+
+            // .jadwal-lab-icon {
+            //   background-color: #5f47e8;
+            //   border-radius: 50%;
+            //   padding: 3px;
+            //   color: #fff;
+
+            //   display: flex;
+            //   align-items: center;
+            //   justify-content: center;
+            // }
+          }
+        }
+
+        .no-jadwal-tv {
+          font-size: 13px;
+          color: #909090;
+          font-style: italic;
+          padding: 20px;
+        }
+      }
+    }
+
+    .jadwal-contents-istirahat-tv {
+      .jadwal-content-istirahat-tv {
+        border-top: 1px solid #d9d9d9;
+        padding: 10px;
+        text-align: center;
+
+        min-width: 200px;
+
+        .jadwal-istirahat-tv {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 15px;
+          // color: #909090;
+          font-weight: 600;
+          font-size: 12px;
+        }
+      }
+    }
+  }
+}

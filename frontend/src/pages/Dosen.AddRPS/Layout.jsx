@@ -2,12 +2,13 @@ import "./style.scss";
 import { BsDatabaseAdd } from "react-icons/bs";
 import { Formik, FieldArray } from "formik";
 import * as Yup from "yup";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { urlApi } from "../../config";
 import { HiTrash } from "react-icons/hi";
 import { MdAddCircle } from "react-icons/md";
 import Swal from "sweetalert2";
+import { DosenContext } from "../../context/DosenContext";
 
 const validationSchema = Yup.object().shape({
   capaianPembelajaran: Yup.array()
@@ -22,32 +23,32 @@ const validationSchema = Yup.object().shape({
   subCpmk: Yup.array()
     .of(Yup.string().required("Kemampuan Akhir harus diisi"))
     .min(1, "At least one SubCPMK is required"),
-  idMatkul: Yup.string().required("Mata Kuliah harus diisi"),
+  kodeMatkul: Yup.string().required("Mata Kuliah harus diisi"),
   semester: Yup.string().required("Semester harus diisi"),
-  rumpunMK: Yup.string().required("Rumpun MK harus diisi"),
+  rumpunMatkul: Yup.string().required("Rumpun MK harus diisi"),
   bobot: Yup.string().required("Bobot MK harus diisi"),
   dosenPengampu: Yup.string().required("Dosen Pengampu harus diisi"),
   matkulPrasyarat: Yup.string().required("Matkul Prasyarat harus diisi"),
   bahanKajian: Yup.string().required("Bahan Kajian harus diisi"),
-  koordinatorProdi: Yup.string().required("Koordinator Prodi harus diisi"),
-  koordinatorMatkul: Yup.string().required("Koordinator MK harus diisi"),
+  kordinatorProdi: Yup.string().required("Koordinator Prodi harus diisi"),
+  kordinatorMatkul: Yup.string().required("Koordinator MK harus diisi"),
   tanggalPenyusunan: Yup.string().required("Tanggal Penysunan harus diisi"),
   pengampuMatkul: Yup.string().required("Pengampu Matkul harus diisi"),
   pembuatRp: Yup.string().required("Pembuat Rp harus diisi"),
   otorisasi: Yup.string().required("Otorisasi harus diisi"),
   daftarPustaka: Yup.string().required("Daftar Pustaka harus diisi"),
   deskripsiMk: Yup.string().required("Deskripsi MK harus diisi"),
-  rumpunMatkul: Yup.string().required("Rumpun MK harus diisi"),
 });
 
 const Layout = () => {
   const [matkul, setMatkul] = useState([]);
   const [loading, setLoading] = useState(false);
+  const { result } = useContext(DosenContext) || {};
 
   const _listData = async () => {
     try {
       const dataMatkul = await axios.get(
-        `${urlApi}/matkul?prodi=${sessionStorage.getItem("prodiAdmin")}`,
+        `${urlApi}/matkul?prodi=${sessionStorage.getItem("prodiDosen")}`,
         {
           headers: {
             Authorization: `Bearer ${sessionStorage.getItem("token")}`,
@@ -56,8 +57,6 @@ const Layout = () => {
       );
 
       setMatkul(dataMatkul.data.result);
-      console.log(dataMatkul.data.result);
-      console.log(sessionStorage.getItem("prodiAdmin"));
     } catch (err) {
       console.log(err);
     }
@@ -73,18 +72,17 @@ const Layout = () => {
     // Gabungkan array menjadi string tunggal
     const concatenatedCapaianPembelajaran =
       values.capaianPembelajaran.join(", ");
-
     const concatenatedCPL = values.cpl.join(", ");
-
-    const concatenatedCapaianMK = values.capaianMK.join(", ");
-    const concatenatedKemampuanAkhir = values.kemampuanAkhir.join(", ");
+    const concatenatedCapaianMK = values.cpmk.join(", "); // Perbaiki nama variabel
+    const concatenatedKemampuanAkhir = values.subCpmk.join(", ");
 
     setTimeout(async () => {
       try {
         const res = await axios.post(
-          `${urlApi}/mahasiswa`,
+          `${urlApi}/rps`,
           {
-            idMatkul: values.idMatkul,
+            idDosen: result.id,
+            kodeMatkul: values.kodeMatkul,
             rumpunMatkul: values.rumpunMatkul,
             bobot: values.bobot,
             semester: values.semester,
@@ -93,10 +91,10 @@ const Layout = () => {
             dosenPengampu: values.dosenPengampu,
             tanggalPenyusunan: values.tanggalPenyusunan,
             matkulPrasyarat: values.matkulPrasyarat,
-            koordinatorProdi: values.koordinatorProdi,
+            kordinatorProdi: values.kordinatorProdi,
             otorisasi: values.otorisasi,
             daftarPustaka: values.daftarPustaka,
-            koordinatorMatkul: values.koordinatorMatkul,
+            kordinatorMatkul: values.kordinatorMatkul,
             pengampuMatkul: values.pengampuMatkul,
             pembuatRp: values.pembuatRp,
             capaianPembelajaran: concatenatedCapaianPembelajaran,
@@ -120,6 +118,9 @@ const Layout = () => {
 
         setLoading(false);
         resetForm();
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500);
       } catch (err) {
         setLoading(false);
         Swal.fire({
@@ -139,16 +140,16 @@ const Layout = () => {
 
         <Formik
           initialValues={{
-            idMatkul: "",
+            kodeMatkul: "",
             rumpunMatkul: "",
             bobot: "",
             semester: "",
             tanggalPenyusunan: "",
             otorisasi: "",
-            pembuatRp: "",
+            pembuatRp: result?.fullname || "",
             pengampuMatkul: "",
-            koordinatorMatkul: "",
-            koordinatorProdi: "",
+            kordinatorMatkul: "",
+            kordinatorProdi: "",
             capaianPembelajaran: [""],
             cpl: [""],
             cpmk: [""],
@@ -161,6 +162,7 @@ const Layout = () => {
           }}
           onSubmit={_handleSubmit}
           validationSchema={validationSchema}
+          enableReinitialize={true}
         >
           {({
             errors,
@@ -172,32 +174,33 @@ const Layout = () => {
           }) => (
             <form
               method="post"
-              onSubmit={(event) => {
-                event.preventDefault();
-                handleSubmit();
-              }}
+              onSubmit={handleSubmit}
               className="form-add-rps-dosen"
             >
               <div className="form-content">
                 <div className="form-group">
-                  <label htmlFor="idMatkul">
+                  <label htmlFor="kodeMatkul">
                     Mata Kuliah <span className="important">*</span>
                   </label>
-                  <select id="idMatkul" name="idMatkul" onChange={handleChange}>
-                    {touched.idMatkul && errors.idMatkul ? (
-                      <div className="error-form">{errors.idMatkul}</div>
+                  <select
+                    id="kodeMatkul"
+                    name="kodeMatkul"
+                    onChange={handleChange}
+                  >
+                    {touched.kodeMatkul && errors.kodeMatkul ? (
+                      <div className="error-form">{errors.kodeMatkul}</div>
                     ) : null}
                     <option value="">...</option>
                     {matkul.map((val, key) => {
                       return (
-                        <option key={key} value={val.id}>
+                        <option key={key} value={val.kodeMatkul}>
                           {val.matkul}
                         </option>
                       );
                     })}
                   </select>
-                  {touched.idMatkul && errors.idMatkul ? (
-                    <div className="error-form">{errors.idMatkul}</div>
+                  {touched.kodeMatkul && errors.kodeMatkul ? (
+                    <div className="error-form">{errors.kodeMatkul}</div>
                   ) : null}
                 </div>
                 <div className="form-group">
@@ -289,6 +292,8 @@ const Layout = () => {
                     id="pembuatRp"
                     name="pembuatRp"
                     onChange={handleChange}
+                    value={values.pembuatRp}
+                    readOnly
                   />
                   {touched.pembuatRp && errors.pembuatRp ? (
                     <div className="error-form">{errors.pembuatRp}</div>
@@ -309,31 +314,31 @@ const Layout = () => {
                   ) : null}
                 </div>
                 <div className="form-group">
-                  <label htmlFor="koordinatorMatkul">
+                  <label htmlFor="kordinatorMatkul">
                     Koordinator MK <span className="important">*</span>
                   </label>
                   <input
                     type="text"
-                    id="koordinatorMatkul"
-                    name="koordinatorMatkul"
+                    id="kordinatorMatkul"
+                    name="kordinatorMatkul"
                     onChange={handleChange}
                   />
-                  {touched.koordinatorMatkul && errors.koordinatorMatkul ? (
-                    <div className="error-form">{errors.koordinatorMatkul}</div>
+                  {touched.kordinatorMatkul && errors.kordinatorMatkul ? (
+                    <div className="error-form">{errors.kordinatorMatkul}</div>
                   ) : null}
                 </div>
                 <div className="form-group">
-                  <label htmlFor="koordinatorProdi">
+                  <label htmlFor="kordinatorProdi">
                     Koor Prodi <span className="important">*</span>
                   </label>
                   <input
                     type="text"
-                    id="koordinatorProdi"
-                    name="koordinatorProdi"
+                    id="kordinatorProdi"
+                    name="kordinatorProdi"
                     onChange={handleChange}
                   />
-                  {touched.koordinatorProdi && errors.koordinatorProdi ? (
-                    <div className="error-form">{errors.koordinatorProdi}</div>
+                  {touched.kordinatorProdi && errors.kordinatorProdi ? (
+                    <div className="error-form">{errors.kordinatorProdi}</div>
                   ) : null}
                 </div>
 
@@ -637,19 +642,19 @@ const Layout = () => {
                   ) : null}
                 </div>
                 <div className="form-group">
-                  <label htmlFor="daftarPustaka">
+                  <label htmlFor="matkulPrasyarat">
                     Mata Kuliha Prasyarat <span className="important">*</span>
                   </label>
                   <textarea
-                    id="daftarPustaka"
-                    name="daftarPustaka"
+                    id="matkulPrasyarat"
+                    name="matkulPrasyarat"
                     onChange={handleChange}
                     rows="4"
                     cols="50"
                     style={{ resize: "none" }}
                   />
-                  {touched.daftarPustaka && errors.daftarPustaka ? (
-                    <div className="error-form">{errors.daftarPustaka}</div>
+                  {touched.matkulPrasyarat && errors.matkulPrasyarat ? (
+                    <div className="error-form">{errors.matkulPrasyarat}</div>
                   ) : null}
                 </div>
               </div>

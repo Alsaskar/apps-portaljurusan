@@ -1,9 +1,11 @@
 import Layout from "./Layout"
 
-const TVJadwal = () => {
+const TVHomeLAB = () => {
+  
+
   return (
     <div><Layout /></div>
   )
 }
 
-export default TVJadwal
+export default TVHomeLAB

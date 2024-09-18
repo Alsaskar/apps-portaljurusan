@@ -1,11 +1,22 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "./style.scss";
 import Image from "../../assets/images/profile_no_image.png";
 import { Link } from "react-router-dom";
 import { RiHomeOfficeFill } from "react-icons/ri";
+import { useUser } from "../../hooks/userHooks";
+import { MahasiswaContext } from "../../context/MahasiswaContext";
 
 const Layout = () => {
-  const [activeProfile, setActiveProfile] = useState("myProfile");
+  const { user } = useUser();
+  const { result } = useContext(MahasiswaContext) || {};
+  const [detailMahasiswa, setDetailMahasiswa] = useState([])
+  
+  useEffect(() => {
+    if(result && result.detailmahasiswas){
+      setDetailMahasiswa(result.detailmahasiswas[0])
+    }
+    
+  }, [result, user])
 
   return (
     <div>
@@ -16,79 +27,40 @@ const Layout = () => {
               <img src={Image} alt="" className="profile-image" />
             </div>
 
-            <div className="profile-buttons">
-              <button
-                className={activeProfile === "myProfile" ? "active" : ""}
-                onClick={() => setActiveProfile("myProfile")}
-              >
-                My Profile
-              </button>
-              <button
-                className={activeProfile === "profileWali" ? "active" : ""}
-                onClick={() => setActiveProfile("profileWali")}
-              >
-                Profile Wali
-              </button>
-            </div>
 
-            {activeProfile === "myProfile" && (
               <div className="text-section">
                 <div className="name-section">
                   <div className="title">Name</div>
-                  <div className="name">Oswald Tanlee Pongayow</div>
+                  <div className="name">{user.fullname}</div>
                 </div>
 
                 <div className="name-section">
                   <div className="title">Email</div>
-                  <div className="name">oswaldtanladasdsa44@gmail.com</div>
+                  <div className="name">{user.email}</div>
                 </div>
 
                 <div className="name-section">
                   <div className="title">NIM</div>
-                  <div className="name">20024038</div>
+                  <div className="name">{user.username}</div>
                 </div>
 
                 <div className="name-section">
                   <div className="title">No Hp.</div>
-                  <div className="name">+62 82154926917</div>
+                  <div className="name">{user.noHp}</div>
                 </div>
 
                 <div className="name-section">
                   <div className="title">Prodi</div>
-                  <div className="name">D4 Teknik Informatika</div>
+                  <div className="name">{result?.prodi}</div>
                 </div>
 
                 <div className="name-section">
                   <div className="title">Status</div>
-                  <div className="name">Aktif</div>
+                  <div className="name">{detailMahasiswa.statusMahasiswa}</div>
                 </div>
               </div>
-            )}
-            {activeProfile === "profileWali" && (
-              <div className="profile-content-wali">
-                <div className="text-section">
-                  <div className="name-section">
-                    <div className="title">Name Wali</div>
-                    <div className="name">Oswald Tanlee Pongayow</div>
-                  </div>
-
-                  <div className="name-section">
-                    <div className="title">Email Wali</div>
-                    <div className="name">oswaldtanlee44@gmail.com</div>
-                  </div>
-
-                  <div className="name-section">
-                    <div className="title">Alamat Wali</div>
-                    <div className="name">Matungkas</div>
-                  </div>
-
-                  <div className="name-section">
-                    <div className="title">No Hp. Wali</div>
-                    <div className="name">+62 82154926917</div>
-                  </div>
-                </div>
-              </div>
-            )}
+          
+            
           </div>
         </div>
       </div>

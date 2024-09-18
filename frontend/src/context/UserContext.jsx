@@ -10,11 +10,18 @@ export const UserProvider = ({ children }) => {
 
   // data user yang sedang login
   const _dataUser = async () => {
-    const res = await axios.get(`${urlApi}/auth`, {
-      headers: { Authorization: `Bearer ${sessionStorage.getItem("token")}` },
-    });
 
-    setUser(res.data);
+    try{
+      const res = await axios.get(`${urlApi}/auth`, {
+        headers: { Authorization: `Bearer ${sessionStorage.getItem("token")}` },
+      });
+  
+      setUser(res.data);
+    }catch(err){
+      sessionStorage.setItem('isLoggedIn', false);
+      window.location.href = '/tv/login'
+    }
+    
   };
 
   useEffect(() => {
