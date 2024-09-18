@@ -35,6 +35,7 @@ export const add = async (req, res) => {
           dosenPengajar: dosenPengajar,
           prodi: prodi,
           kodeMatkul: kodeMatkul,
+          rentanWaktu: rentanWaktu
         });
 
         return res
@@ -76,3 +77,15 @@ export const remove = async (req, res) => {
     return res.status(500).json({ message: err.message });
   }
 };
+
+export const getTotal = async (req, res) => {
+  const prodi = req.params.prodi;
+
+  try{
+    const result = await Matkul.count({ where: { prodi: prodi } })
+
+    return res.status(200).json({ totalMatkul: result })
+  }catch(err){
+    return res.status(500).json({ message: err.message })
+  }
+}

@@ -15,7 +15,7 @@ router.post("/", CekToken, add);
 
 router.get("/", CekToken, list);
 router.get("/list-dosen", CekToken, listDosen);
-router.get("/list-dosen-lab", CekToken, listDosenByLab);
+router.get("/list-dosen-lab", listDosenByLab);
 router.get('/:hari', CekToken, getByDay)
 
 router.delete("/:id", CekToken, remove);

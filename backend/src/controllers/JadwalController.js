@@ -13,9 +13,6 @@ export const add = async (req, res) => {
     const jamMulai = req.body.jamMulai;
     const dosenPengajar = req.body.dosenPengajar;
 
-    const start = moment(jamMulai, 'HH:mm')
-    const end = start.clone().add(60, 'minutes')
-
     if(idMatkul === ''){
         return res.status(500).json({ message: 'Mata kuliah tidak boleh kosong', success: false })
     }else if(idKelas === ''){
@@ -36,6 +33,11 @@ export const add = async (req, res) => {
         const cekRuangan = await Jadwal.count({ where: { ruangan: ruangan } })
         const cekDosenPengajar = await Jadwal.count({ where: { dosenPengajar: dosenPengajar } })
         const cekJamMulai = await Jadwal.count({ where: { jamMulai: jamMulai } })
+
+        const dataMatkul = await Matkul.findOne({ where: { id: idMatkul } })
+
+        const start = moment(jamMulai, 'HH:mm')
+        const end = start.clone().add(dataMatkul.rentanWaktu, 'minutes')
 
         if(cekMatkul > 0 && cekKelas > 0 && cekHari > 0 && cekRuangan > 0 && cekDosenPengajar > 0){
             return res.status(500).json({ message: 'Jadwal sudah ada', success: false })

@@ -13,6 +13,7 @@ import {
     createKaprodi,
     removeKaprodi,
     searchData,
+    getTotalDosen,
 } from '../controllers/DosenController';
 
 const router = express.Router();
@@ -23,6 +24,7 @@ router.post('/upload-foto', CekToken, uploadFoto);
 router.get('/', CekToken, list);
 router.get('/search-data', CekToken, searchData);
 router.get('/:id', CekToken, getById);
+router.get('/total-dosen/:prodi', CekToken, getTotalDosen);
 router.get('/list-all/:prodi', CekToken, listAll);
 
 router.put('/:userId', CekToken, edit);

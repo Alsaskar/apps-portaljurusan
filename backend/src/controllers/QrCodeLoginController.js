@@ -19,7 +19,7 @@ export const generateQRCode = async (req, res) => {
     // Buat payload untuk token QR Code
     const qrPayload = { userId: user.id };
     const qrToken = jwt.sign(qrPayload, process.env.QR_CODE_SECRET, {
-      expiresIn: "1h",
+      expiresIn: "7d",
     });
 
     QRCode.toDataURL(qrToken, (err, url) => {

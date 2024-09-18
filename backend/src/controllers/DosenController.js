@@ -652,3 +652,15 @@ export const searchData = async (req, res) => {
     return res.status(500).json({ message: err.message })
   }
 }
+
+export const getTotalDosen = async (req, res) => {
+  const prodi = req.params.prodi;
+
+  try{
+    const result = await Dosen.count({ where: { prodi: prodi } })
+
+    return res.status(200).json({ totalDosen: result })
+  }catch(err){
+    return res.status(500).json({ message: err.message })
+  }
+}
