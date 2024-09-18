@@ -30,7 +30,7 @@ export const generateQRCode = async (req, res) => {
           error: err.message,
         });
       }
-
+      
       res.status(200).json({ success: true, qrCode: url });
     });
   } catch (error) {
@@ -47,9 +47,9 @@ export const loginWithQRCode = async (req, res) => {
   try {
     const { qrCodeToken } = req.body;
 
+
     // Verifikasi QR code token
     const decoded = jwt.verify(qrCodeToken, process.env.QR_CODE_SECRET);
-    console.log("Decoded Token:", decoded);
 
     if (!decoded || !decoded.userId) {
       return res.status(400).json({
@@ -73,7 +73,7 @@ export const loginWithQRCode = async (req, res) => {
       { expiresIn: "1h" }
     );
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       token,
       user: {
@@ -81,6 +81,9 @@ export const loginWithQRCode = async (req, res) => {
         fullname: user.fullname,
         username: user.username,
         email: user.email,
+        role: user.role,
+        prodiAdmin: user.prodiAdmin,
+        prodiDosen: user.prodiDosen
       },
     });
   } catch (error) {

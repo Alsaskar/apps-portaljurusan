@@ -50,7 +50,7 @@ export const remove = async (req, res) => {
     const id = req.params.id;
 
     try{
-        const result = await Kelas.destroy({
+        await Kelas.destroy({
             where: {
                 id: id
             }

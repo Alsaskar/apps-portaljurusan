@@ -121,3 +121,51 @@ export const getByDay = async (req, res) => {
         return res.status(500).json({ message: err.message });
     }
 }
+
+// list jadwal berdasarkan dosen
+export const listDosen = async (req, res) => {
+    const dosenPengajar = req.query.dosenPengajar;
+    const hari = req.query.hari;
+
+    try{
+        const result = await Jadwal.findAll({
+            where: { dosenPengajar: dosenPengajar, hari: hari },
+            include: [
+                {
+                  model: Matkul,
+                },
+                {
+                    model: Kelas
+                }
+            ],
+        })
+
+        return res.status(200).json({ result: result })
+    }catch(err){
+        return res.status(500).json({ message: err.message })
+    }
+}
+
+// tampilkan jadwal pada dosen berdasarkan lab
+export const listDosenByLab = async (req, res) => {
+    const hari = req.query.hari;
+    const lab = req.query.lab;
+
+    try{
+        const result = await Jadwal.findAll({
+            where: { hari: hari, ruangan: lab },
+            include: [
+                {
+                  model: Matkul,
+                },
+                {
+                    model: Kelas
+                }
+            ],
+        })
+
+        return res.status(200).json({ result: result })
+    }catch(err){
+        return res.status(500).json({ message: err.message })
+    }
+}
